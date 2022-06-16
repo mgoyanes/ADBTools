@@ -23,7 +23,7 @@ val pluginName: String by project
 val pluginVersion: String by project
 val pluginSinceBuild: String by project
 val pluginUntilBuild: String by project
-
+val androidStudioPath: String by project
 val platformType: String by project
 val platformVersion: String by project
 val platformDownloadSources: String by project
@@ -49,8 +49,7 @@ intellij {
     type = platformType
     downloadSources = platformDownloadSources.toBoolean()
     updateSinceUntilBuild = true
-    alternativeIdePath =
-        "/Users/ahmedwahdan/Library/Application Support/JetBrains/Toolbox/apps/AndroidStudio/ch-0/201.7199119/Android Studio.app"
+    alternativeIdePath = androidStudioPath
 
 //  Plugin Dependencies:
 //  https://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_dependencies.html
@@ -76,7 +75,9 @@ tasks {
         }
     }
 
-
+    runIde {
+        setIdeDirectory(androidStudioPath)
+    }
 
     patchPluginXml {
         version(pluginVersion)
