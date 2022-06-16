@@ -49,6 +49,7 @@ fun IDevice.getDefaultActivityForApplication(packageName: String?): String {
 
 fun IDevice.isMarshmallow() = this.version.apiLevel >= 23
 fun IDevice.isNougatOrAbove() = this.version.apiLevel >= 24
+fun IDevice.isAndroid12OrAbove() = this.version.apiLevel >= 31
 
 fun IDevice.areDontKeepActivitiesEnabled(): DontKeepActivitiesState {
     val outputReceiver = ShellOutputReceiver()
@@ -94,10 +95,10 @@ fun IDevice.getAnimatorDurationScale(): String {
     return shellOutputReceiver.toString()
 }
 
-fun IDevice.isAppInForeground(applicationID: String?):Boolean{
+fun IDevice.isAppInForeground(applicationID: String?): Boolean {
     val shellOutputReceiver = ShellOutputReceiver()
-    executeShellCommand("dumpsys activity recents | grep 'Recent #0' | cut -d= -f2 | sed 's| .*||' | cut -d '/' -f1", shellOutputReceiver, 15L, TimeUnit.SECONDS)
-    return shellOutputReceiver.toString().equals(applicationID, true)
+    executeShellCommand("dumpsys activity recents | grep 'Recent #0'", shellOutputReceiver, 15L, TimeUnit.SECONDS)
+    return shellOutputReceiver.toString().contains(applicationID.toString(), true)
 }
 
 fun IDevice.getNetworkState(network: Network): NetworkState {
