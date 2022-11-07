@@ -17,6 +17,7 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
         private const val DELIMITER_ADDED_FRAGMENTS = "Added Fragments:"
         private const val DELIMITER_BACK_STACK = "Back Stack"
         private const val DELIMITER_CLOSE_BRACKET = "}"
+        private const val DELIMITER_FRAGMENTS_CREATED_MENUS = "Fragments Created Menus:"
         private const val DELIMITER_M_PARENT = "mParent="
         private const val DELIMITER_NAV_HOST_FRAGMENT = "NavHostFragment"
         private const val DELIMITER_OPEN_BRACKET = "{"
@@ -71,7 +72,7 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
             ?: EMPTY
     }
 
-    private fun getCurrentFragmentsFromLog(log: String): List<FragmentData> {
+    fun getCurrentFragmentsFromLog(log: String): List<FragmentData> {
         val bulkTaskDetails = log.substringAfter(DELIMITER_TASK, EMPTY)
         val bulkAddedFragmentsDetails: String
         val addedFragments: List<FragmentData>
@@ -121,6 +122,7 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
         bulkTaskDetails
             .substringAfterLast(DELIMITER_ADDED_FRAGMENTS, EMPTY)
             .substringBefore(DELIMITER_BACK_STACK, EMPTY)
+            .substringBefore(DELIMITER_FRAGMENTS_CREATED_MENUS)
 
     private fun getAddedFragments(bulkAddedFragmentsDetails: String): List<FragmentData> =
         bulkAddedFragmentsDetails
