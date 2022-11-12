@@ -22,6 +22,10 @@ class AdbControllerImp(
     private val debugBridge: AndroidDebugBridge?
 ) : AdbController, AndroidDebugBridge.IDeviceChangeListener {
 
+    companion object {
+        private const val INDENT = "\t\t\t\t"
+    }
+
     private var updateDeviceList: ((List<IDevice>) -> Unit)? = null
 
     init {
@@ -76,17 +80,35 @@ class AdbControllerImp(
 
     override fun currentApplicationBackStack(device: IDevice) {
         val applicationID = getApplicationID(device)
-        val activitiesList: MutableList<String>
-        val activitiesClass: List<ActivityData> =
-            GetApplicationBackStackCommand().execute(applicationID, project, device)
-        activitiesList = activitiesClass.map { listOf(it.activity) + it.fragment }.flatten().toMutableList()
-        val list = JBList(activitiesList)
+        val backStackList = mutableListOf<String>()
+
+        val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(applicationID, project, device)
+
+        backStackData.forEach { activityData ->
+            backStackList.add(activityData.activity)
+
+            activityData.fragment.forEach { fragmentData ->
+                backStackList.add(fragmentData.fragment)
+
+                addInnerFragmentsToList(fragmentData = fragmentData, fragmentsList = backStackList, indent = INDENT, includeIndex = false)
+            }
+        }
+
+        val list = JBList(backStackList)
+        var index: Int
         list.installCellRenderer { o: Any ->
             var title = o.toString()
-            title = if (!o.toString().contains('.'))
-                "  |--$title (Fragment)"
-            else
+            title = if (o.toString().contains('.')) {
                 (title.split('.').lastOrNull() ?: "") + "(Activity)"
+            } else {
+                index = title.indexOfLast { char -> char == '\t' }
+                if (index >= 0) {
+                    StringBuilder(title).insert(index, "  |--").append(" (Fragment)").toString()
+                } else {
+                    "  |--$title (Fragment)"
+                }
+            }
+
             val label = JBLabel(title)
             label.border = EmptyBorder(5, 10, 5, 20)
             label
@@ -94,12 +116,12 @@ class AdbControllerImp(
         PopupChooserBuilder(list).apply {
             this.setTitle("Activities")
             this.setItemChoosenCallback {
-                val current = activitiesList.getOrNull(list.selectedIndex)
+                val current = backStackList.getOrNull(list.selectedIndex)
                 current?.let {
                     if (it.contains('.'))
-                        it.psiClassByNameFromProjct(project)?.openIn(project)
+                        it.trim().psiClassByNameFromProjct(project)?.openIn(project)
                     else
-                        it.psiClassByNameFromCache(project)?.openIn(project)
+                        it.trim().psiClassByNameFromCache(project)?.openIn(project)
                 }
             }
             this.createPopup().showCenteredInCurrentWindow(project)
@@ -134,7 +156,7 @@ class AdbControllerImp(
                 fragmentsClass.forEachIndexed { index, fragmentData ->
                     fragmentsList.add("\t$index-${fragmentData.fragment}")
 
-                    addInnerFragmentsToList(fragmentData, fragmentsList)
+                    addInnerFragmentsToList(fragmentData = fragmentData, fragmentsList = fragmentsList, indent = INDENT, includeIndex = true)
                 }
 
                 val list = JBList(fragmentsList)
@@ -388,11 +410,18 @@ class AdbControllerImp(
     private fun addInnerFragmentsToList(
         fragmentData: FragmentData,
         fragmentsList: MutableList<String>,
-        indent: String = "\t\t\t\t"
+        indent: String,
+        includeIndex: Boolean,
     ) {
         fragmentData.innerFragments.forEachIndexed { fragmentIndex, innerFragmentData ->
-            fragmentsList.add("$indent$fragmentIndex-${innerFragmentData.fragment}")
-            addInnerFragmentsToList(innerFragmentData, fragmentsList, "\t\t\t\t$indent")
+            fragmentsList.add(
+                if (includeIndex) {
+                    "$indent$fragmentIndex-${innerFragmentData.fragment}"
+                } else {
+                    "$indent${innerFragmentData.fragment}"
+                }
+            )
+            addInnerFragmentsToList(innerFragmentData, fragmentsList, "$INDENT$indent", includeIndex)
         }
     }
 
