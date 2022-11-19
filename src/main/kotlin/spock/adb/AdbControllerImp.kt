@@ -15,6 +15,7 @@ import spock.adb.models.FragmentData
 import spock.adb.notification.CommonNotifier
 import spock.adb.premission.ListItem
 import javax.swing.border.EmptyBorder
+import kotlin.math.max
 
 
 class AdbControllerImp(
@@ -80,43 +81,41 @@ class AdbControllerImp(
 
     override fun currentApplicationBackStack(device: IDevice) {
         val applicationID = getApplicationID(device)
-        val backStackList = mutableListOf<String>()
+        val backStackList = mutableMapOf<String, Int>()
 
         val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(applicationID, project, device)
 
-        backStackData.forEach { activityData ->
-            backStackList.add(activityData.activity)
+        backStackData.forEachIndexed { index, activityData ->
+            backStackList[activityData.activity] = index
 
-            activityData.fragment.forEach { fragmentData ->
-                backStackList.add(fragmentData.fragment)
+            activityData.fragment.forEachIndexed { fragmentIndex, fragmentData ->
+                backStackList[fragmentData.fragment] = fragmentIndex
 
                 addInnerFragmentsToList(fragmentData = fragmentData, fragmentsList = backStackList, indent = INDENT, includeIndex = false)
             }
         }
 
-        val list = JBList(backStackList)
-        var index: Int
+        val list = JBList(backStackList.keys.toList())
+        var margin: Int
         list.installCellRenderer { o: Any ->
-            var title = o.toString()
-            title = if (o.toString().contains('.')) {
-                (title.split('.').lastOrNull() ?: "") + "(Activity)"
+            val displayTitle: String
+            val title = o.toString()
+            displayTitle = if (title.contains('.')) {
+                margin = 10
+                StringBuilder().insert(0, "${backStackList[title]} - ").append((title.split('.').lastOrNull() ?: "") + " [Activity]").toString()
             } else {
-                index = title.indexOfLast { char -> char == '\t' }
-                if (index >= 0) {
-                    StringBuilder(title).insert(index, "  |--").append(" (Fragment)").toString()
-                } else {
-                    "  |--$title (Fragment)"
-                }
+                margin = 20
+                StringBuilder(title).insert(max(0, title.indexOfLast { char -> char == '\t' }), "|-- ${backStackList[title]} - ").append(" [Fragment]").toString()
             }
 
-            val label = JBLabel(title)
-            label.border = EmptyBorder(5, 10, 5, 20)
+            val label = JBLabel(displayTitle)
+            label.border = EmptyBorder(5, margin, 5, 20)
             label
         }
         PopupChooserBuilder(list).apply {
             this.setTitle("Activities")
             this.setItemChoosenCallback {
-                val current = backStackList.getOrNull(list.selectedIndex)
+                val current = backStackList.keys.elementAtOrNull(list.selectedIndex)
                 current?.let {
                     if (it.contains('.'))
                         it.trim().psiClassByNameFromProjct(project)?.openIn(project)
@@ -151,19 +150,19 @@ class AdbControllerImp(
             val fragmentsClass = GetFragmentsCommand().execute(applicationID, project, device)
 
             if (fragmentsClass.size > 1) {
-                val fragmentsList = mutableListOf<String>()
+                val fragmentsList = mutableMapOf<String, Int>()
 
                 fragmentsClass.forEachIndexed { index, fragmentData ->
-                    fragmentsList.add("\t$index-${fragmentData.fragment}")
+                    fragmentsList["\t$index-${fragmentData.fragment}"] = index
 
                     addInnerFragmentsToList(fragmentData = fragmentData, fragmentsList = fragmentsList, indent = INDENT, includeIndex = true)
                 }
 
-                val list = JBList(fragmentsList)
+                val list = JBList(fragmentsList.keys.toList())
                 showClassPopup(
                     "Fragments",
                     list,
-                    fragmentsList.map { it.trim().substringAfter("-").psiClassByNameFromCache(project) }
+                    fragmentsList.map { it.key.trim().substringAfter("-").psiClassByNameFromCache(project) }
                 )
             } else {
                 fragmentsClass
@@ -409,18 +408,18 @@ class AdbControllerImp(
 
     private fun addInnerFragmentsToList(
         fragmentData: FragmentData,
-        fragmentsList: MutableList<String>,
+        fragmentsList: MutableMap<String, Int>,
         indent: String,
         includeIndex: Boolean,
     ) {
         fragmentData.innerFragments.forEachIndexed { fragmentIndex, innerFragmentData ->
-            fragmentsList.add(
-                if (includeIndex) {
-                    "$indent$fragmentIndex-${innerFragmentData.fragment}"
-                } else {
-                    "$indent${innerFragmentData.fragment}"
-                }
-            )
+            fragmentsList[
+                    if (includeIndex) {
+                        "$indent$fragmentIndex-${innerFragmentData.fragment}"
+                    } else {
+                        "$indent${innerFragmentData.fragment}"
+                    }
+            ] = fragmentIndex
             addInnerFragmentsToList(innerFragmentData, fragmentsList, "$INDENT$indent", includeIndex)
         }
     }
