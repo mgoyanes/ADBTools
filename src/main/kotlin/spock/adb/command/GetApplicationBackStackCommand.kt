@@ -7,49 +7,62 @@ import spock.adb.models.ActivityData
 import spock.adb.models.FragmentData
 import java.util.concurrent.TimeUnit
 
-class GetApplicationBackStackCommand : Command<String, List<ActivityData>> {
+class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
 
     companion object {
         private const val ACTIVITY_PREFIX_DELIMITER = "."
+        private const val DUMPSYS_ACTIVITY = "dumpsys activity"
         private const val LINE_SEPARATOR = "\n"
-        private const val GET_ALTERNATIVE_ACTIVITIES_COMMAND_FILTER = "grep [[:blank:]]Hist #"
-        val extractActivityRegex = Regex("(u0\\s[a-zA-Z.]+/)([a-zA-Z.]+)")
+        private const val MAX_TIME_TO_OUTPUT_RESPONSE = 15L
+        private const val UNKNOWN_COMMAND = "Unknown command"
+        val extractActivityRegex = Regex("(ACTIVITY\\s)([a-zA-Z.]+/[a-zA-Z.]+)")
     }
 
-    override fun execute(p: String, project: Project, device: IDevice): List<ActivityData> {
-        val shellOutputReceiver = ShellOutputReceiver()
+    override fun execute(list: List<String>, project: Project, device: IDevice): List<ActivityData> {
+        var shellOutputReceiver: ShellOutputReceiver
         var activityData: List<String>
         var topActivity: String
         var fullActivityName: String
         val activitiesData = mutableListOf<ActivityData>()
         var currentFragmentsFromLog: List<FragmentData>
 
-        device.executeShellCommand(
-            "dumpsys activity -p $p | $GET_ALTERNATIVE_ACTIVITIES_COMMAND_FILTER",
-            shellOutputReceiver,
-            15L,
-            TimeUnit.SECONDS
-        )
 
-        val activityLog = shellOutputReceiver.toString().lines()
-        activityLog.forEach { line ->
-            topActivity = getActivityName(line) ?: return mutableListOf()
-            fullActivityName = when {
-                topActivity.startsWith(ACTIVITY_PREFIX_DELIMITER) -> "$p$topActivity"
-                else -> topActivity
-            }
-
+        list.forEach { identifier ->
+            shellOutputReceiver = ShellOutputReceiver()
             device.executeShellCommand(
-                "dumpsys activity -p $p $fullActivityName",
+                "$DUMPSYS_ACTIVITY $identifier",
                 shellOutputReceiver,
-                15L,
+                MAX_TIME_TO_OUTPUT_RESPONSE,
                 TimeUnit.SECONDS
             )
 
-            activityData = shellOutputReceiver.toString().lines()
-            currentFragmentsFromLog = GetFragmentsCommand().getCurrentFragmentsFromLog(activityData.joinToString(LINE_SEPARATOR))
+            if (shellOutputReceiver.toString().startsWith(UNKNOWN_COMMAND)) {
+                return@forEach
+            }
 
-            activitiesData.add(ActivityData(activity = fullActivityName, fragment = currentFragmentsFromLog))
+            val activityLog = shellOutputReceiver.toString().lines()
+            activityLog.forEach innerLoop@{ line ->
+                topActivity = getActivityName(line) ?: return@innerLoop
+                fullActivityName = when {
+                    topActivity.startsWith(ACTIVITY_PREFIX_DELIMITER) -> "$identifier$topActivity"
+                    else -> topActivity
+                }
+
+                shellOutputReceiver = ShellOutputReceiver()
+                device.executeShellCommand(
+                    "$DUMPSYS_ACTIVITY $fullActivityName",
+                    shellOutputReceiver,
+                    MAX_TIME_TO_OUTPUT_RESPONSE,
+                    TimeUnit.SECONDS
+                )
+
+                activityData = shellOutputReceiver.toString().lines()
+                currentFragmentsFromLog = GetFragmentsCommand().getCurrentFragmentsFromLog(activityData.joinToString(LINE_SEPARATOR))
+
+                activitiesData.add(ActivityData(activity = fullActivityName, fragment = currentFragmentsFromLog))
+            }
+
+            return@forEach
         }
 
         return activitiesData

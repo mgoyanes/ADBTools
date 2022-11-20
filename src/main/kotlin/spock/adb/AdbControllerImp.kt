@@ -36,6 +36,8 @@ class AdbControllerImp(
     private fun getApplicationID(device: IDevice) =
         GetApplicationIDCommand().execute(Any(), project, device).toString()
 
+    private fun getPackageName(device: IDevice) = GetPackageNameCommand().execute(Any(), project, device).toString()
+
     override fun refresh() {
         AndroidDebugBridge.removeDeviceChangeListener(this)
         AndroidDebugBridge.addDeviceChangeListener(this)
@@ -80,10 +82,11 @@ class AdbControllerImp(
     }
 
     override fun currentApplicationBackStack(device: IDevice) {
+        val packageName = getPackageName(device)
         val applicationID = getApplicationID(device)
         val backStackList = mutableMapOf<String, Int>()
 
-        val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(applicationID, project, device)
+        val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(listOf(packageName, applicationID), project, device)
 
         backStackData.forEachIndexed { index, activityData ->
             backStackList[activityData.activity] = index
