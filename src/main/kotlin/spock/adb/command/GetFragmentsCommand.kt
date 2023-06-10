@@ -21,6 +21,7 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
         private const val DELIMITER_M_PARENT = "mParent="
         private const val DELIMITER_NAV_HOST_FRAGMENT = "NavHostFragment"
         private const val DELIMITER_OPEN_BRACKET = "{"
+        private const val DELIMITER_REQUEST_FRAGMENT = "ReportFragment"
         private const val DELIMITER_SPACE = ": "
         private const val DELIMITER_SUPPORT_REQUEST_MANAGER_FRAGMENT = "SupportRequestManagerFragment"
         private const val DELIMITER_TASK = "TASK"
@@ -102,6 +103,7 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
     private fun getNavHostAddedFragments(bulkTaskDetails: String): List<FragmentData> {
         var spaceCount: Int
         var tempLine: String
+        var fragment: String
         return bulkTaskDetails
             .lines()
             .let { list ->
@@ -109,12 +111,15 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
                 list
             }
             .filter { line -> line.indexOfFirst { char -> char != EMPTY_CHAR } == spaceCount && isValidLine(line) }
-            .map { line ->
+            .mapNotNull { line ->
                 tempLine = line.trim()
-                FragmentData(
-                    fragment = tempLine.substringBefore(DELIMITER_OPEN_BRACKET, EMPTY),
-                    fragmentIdentifier = tempLine.substringAfter(DELIMITER_OPEN_BRACKET, EMPTY).substringBefore(DELIMITER_CLOSE_BRACKET, EMPTY)
-                )
+                fragment = tempLine.substringBefore(DELIMITER_OPEN_BRACKET, EMPTY)
+
+                if (fragment.isBlank()) {
+                    return@mapNotNull null
+                }
+
+                FragmentData(fragment = fragment, fragmentIdentifier = getFragmentIdentifier(tempLine))
             }
     }
 
@@ -124,16 +129,23 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
             .substringBefore(DELIMITER_BACK_STACK, EMPTY)
             .substringBefore(DELIMITER_FRAGMENTS_CREATED_MENUS)
 
-    private fun getAddedFragments(bulkAddedFragmentsDetails: String): List<FragmentData> =
-        bulkAddedFragmentsDetails
+    private fun getAddedFragments(bulkAddedFragmentsDetails: String): List<FragmentData> {
+        var fragment: String
+        return bulkAddedFragmentsDetails
             .lines()
             .filter { line -> isValidLine(line) }
-            .map { line ->
-                FragmentData(
-                    fragment = line.substringAfter(DELIMITER_SPACE, EMPTY).substringBefore(DELIMITER_OPEN_BRACKET, EMPTY),
-                    fragmentIdentifier = line.substringAfter(DELIMITER_OPEN_BRACKET, EMPTY).substringBefore(DELIMITER_CLOSE_BRACKET, EMPTY)
-                )
+            .mapNotNull { line ->
+                fragment = line.substringAfter(DELIMITER_SPACE, EMPTY).substringBefore(DELIMITER_OPEN_BRACKET, EMPTY)
+
+                if (fragment.isBlank()) {
+                    return@mapNotNull null
+                }
+
+                FragmentData(fragment = fragment, fragmentIdentifier = getFragmentIdentifier(line))
             }
+    }
+
+    private fun getFragmentIdentifier(line: String) = line.substringAfter(DELIMITER_OPEN_BRACKET, EMPTY).substringBefore(DELIMITER_CLOSE_BRACKET, EMPTY)
 
     private fun getFragments(addedFragments: List<FragmentData>, bulkTaskDetails: String): List<FragmentData> {
         var initDelimiter: String
@@ -151,5 +163,7 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
         return addedFragments
     }
 
-    private fun isValidLine(line: String) = line.isNotBlank() && !line.contains(DELIMITER_SUPPORT_REQUEST_MANAGER_FRAGMENT)
+    private fun isValidLine(line: String): Boolean {
+        return line.isNotBlank() && !line.contains(DELIMITER_SUPPORT_REQUEST_MANAGER_FRAGMENT) && !line.contains(DELIMITER_REQUEST_FRAGMENT)
+    }
 }
