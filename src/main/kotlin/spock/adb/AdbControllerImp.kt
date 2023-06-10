@@ -120,8 +120,8 @@ class AdbControllerImp(
             this.setItemChoosenCallback {
                 val current = backStackList.keys.elementAtOrNull(list.selectedIndex)
                 current?.let {
-                    if (it.contains('.'))
-                        it.trim().psiClassByNameFromProjct(project)?.openIn(project)
+                    if (it.contains('/'))
+                        it.trim().substringAfterLast("/").psiClassByNameFromProjct(project)?.openIn(project)
                     else
                         it.trim().psiClassByNameFromCache(project)?.openIn(project)
                 }
