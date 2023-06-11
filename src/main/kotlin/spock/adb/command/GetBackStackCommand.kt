@@ -3,7 +3,7 @@ package spock.adb.command
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
 import spock.adb.ShellOutputReceiver
-import spock.adb.getApiVersion
+import spock.adb.models.ActivityData
 import spock.adb.models.BackStackData
 import java.util.concurrent.TimeUnit
 
@@ -11,71 +11,28 @@ class GetBackStackCommand : Command<Any, List<BackStackData>> {
 
     companion object {
         const val EMPTY = ""
-        const val API_VERSION_11 = 11
-        const val DELIMITER = "ActivityRecord"
         const val HIST_PREFIX = "* Hist"
         const val ACTIVITY_PREFIX_DELIMITER = "."
-        val extractAppRegex = Regex("(A=|I=|u0\\s)([a-zA-Z.]+)")
-        val extractActivityRegex = Regex("(u0\\s[a-zA-Z.]+/)([a-zA-Z.]+)")
+        private const val MAX_TIME_TO_OUTPUT_RESPONSE = 15L
+        private const val DUMPSYS_ACTIVITY = "dumpsys activity"
+        val extractAppRegex = Regex("(A=|I=|u0\\s)([a-zA-Z.\\d]+)")
+        val extractActivityRegex = Regex("(u0\\s[a-zA-Z.\\d]+/)([a-zA-Z.\\d]+)")
     }
 
     override fun execute(p: Any, project: Project, device: IDevice): List<BackStackData> {
         val shellOutputReceiver = ShellOutputReceiver()
-        val apiVersion = device.getApiVersion()
-
-        return when {
-            apiVersion == null || apiVersion < API_VERSION_11 -> {
-                device.executeShellCommand(
-                    "dumpsys activity activities | sed -En -e '/Running activities/,/Run #0/p'",
-                    shellOutputReceiver,
-                    15L,
-                    TimeUnit.SECONDS
-                )
-                getCurrentRunningActivities(shellOutputReceiver.toString())
-            }
-            else -> {
-                device.executeShellCommand(
-                    "dumpsys activity activities | grep Hist",
-                    shellOutputReceiver,
-                    15L,
-                    TimeUnit.SECONDS
-                )
-                getCurrentRunningActivitiesAboveApi11(shellOutputReceiver.toString())
-            }
-        }
+        device.executeShellCommand(
+            "dumpsys activity activities | grep Hist",
+            shellOutputReceiver,
+            MAX_TIME_TO_OUTPUT_RESPONSE,
+            TimeUnit.SECONDS
+        )
+        return getCurrentRunningActivitiesAboveApi11(device, shellOutputReceiver.toString())
     }
 
-    private fun getCurrentRunningActivities(bulkActivitiesData: String): List<BackStackData> {
+    private fun getCurrentRunningActivitiesAboveApi11(device: IDevice, bulkActivitiesData: String): List<BackStackData> {
         lateinit var appPackage: String
-        lateinit var activityName: String
-
-        return bulkActivitiesData
-            .lines()
-            .filter { line -> line.contains(DELIMITER, ignoreCase = true) }
-            .mapNotNull { bulkAppData ->
-                appPackage = extractAppRegex.find(bulkAppData)?.groups?.lastOrNull()?.value ?: return@mapNotNull null
-
-                activityName = extractActivityRegex
-                    .find(bulkAppData)
-                    ?.groups
-                    ?.lastOrNull()
-                    ?.value
-                    ?.let { activityName ->
-                        when {
-                            activityName.startsWith(ACTIVITY_PREFIX_DELIMITER) -> "$appPackage$activityName"
-                            else -> activityName
-                        }
-                    }
-                    ?: return@mapNotNull null
-
-                appPackage to activityName
-            }
-            .groupBy({ group -> group.first }, { group -> group.second })
-            .map { entry -> BackStackData(entry.key, entry.value) }
-    }
-
-    private fun getCurrentRunningActivitiesAboveApi11(bulkActivitiesData: String): List<BackStackData> {
-        lateinit var appPackage: String
+        lateinit var activity: String
 
         return bulkActivitiesData
             .lines()
@@ -86,7 +43,7 @@ class GetBackStackCommand : Command<Any, List<BackStackData>> {
                     appPackage
                 },
                 valueTransform = { bulkActivityData ->
-                    extractActivityRegex.find(bulkActivityData)?.groups?.lastOrNull()?.value
+                    activity = extractActivityRegex.find(bulkActivityData)?.groups?.lastOrNull()?.value
                         ?.let { activityName ->
                             when {
                                 activityName.startsWith(ACTIVITY_PREFIX_DELIMITER) -> "$appPackage$activityName"
@@ -94,9 +51,28 @@ class GetBackStackCommand : Command<Any, List<BackStackData>> {
                             }
                         }
                         ?: EMPTY
+
+                    ActivityData(activity = activity, isKilled = isKilled(device, activity))
                 }
             )
             .filter { entry -> entry.key.isNotBlank() }
             .map { activityData -> BackStackData(activityData.key, activityData.value) }
+    }
+
+    private fun isKilled(device: IDevice, activity: String?): Boolean {
+        activity ?: return true
+        val isKilledRegex = Regex(".*pid=(\\d+)")
+        val shellOutputReceiver = ShellOutputReceiver()
+
+        device.executeShellCommand(
+            "$DUMPSYS_ACTIVITY $activity | grep ACTIVITY",
+            shellOutputReceiver,
+            MAX_TIME_TO_OUTPUT_RESPONSE,
+            TimeUnit.SECONDS
+        )
+
+        return shellOutputReceiver
+            .toString()
+            .let { pidString -> isKilledRegex.find(pidString)?.groups?.lastOrNull()?.value == null }
     }
 }

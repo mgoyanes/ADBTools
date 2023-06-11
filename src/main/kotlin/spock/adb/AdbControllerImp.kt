@@ -8,13 +8,13 @@ import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.psi.PsiClass
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
+import com.intellij.util.ui.JBUI
 import spock.adb.command.*
 import spock.adb.models.ActivityData
 import spock.adb.models.BackStackData
 import spock.adb.models.FragmentData
 import spock.adb.notification.CommonNotifier
 import spock.adb.premission.ListItem
-import javax.swing.border.EmptyBorder
 import kotlin.math.max
 
 
@@ -25,6 +25,7 @@ class AdbControllerImp(
 
     companion object {
         private const val INDENT = "\t\t\t\t"
+        private const val ACTIVITY_KILLED = " [Killed]"
     }
 
     private var updateDeviceList: ((List<IDevice>) -> Unit)? = null
@@ -66,10 +67,10 @@ class AdbControllerImp(
         val activitiesClass: List<BackStackData> = GetBackStackCommand().execute(Any(), project, device)
 
         activitiesClass.forEachIndexed { index, activityData ->
-            activitiesList.add("\t$index-${activityData.appPackage}")
+            activitiesList.add("\t[$index]-${activityData.appPackage}")
 
-            activityData.activitiesList.forEachIndexed { activityIndex, activity ->
-                activitiesList.add("\t\t\t\t$activityIndex-${activity}")
+            activityData.activitiesList.forEachIndexed { activityIndex, activityData ->
+                activitiesList.add("\t\t\t\t[$activityIndex]-${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else ""}")
             }
         }
 
@@ -77,7 +78,7 @@ class AdbControllerImp(
         showClassPopup(
             "Activities",
             list,
-            activitiesList.map { it.trim().substringAfter("-").psiClassByNameFromProjct(project) }
+            activitiesList.map { it.trim().replace(ACTIVITY_KILLED, "").substringAfter("-").psiClassByNameFromProjct(project) }
         )
     }
 
@@ -88,7 +89,9 @@ class AdbControllerImp(
 
         val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(listOf(packageName, applicationID), project, device)
 
-        backStackData.forEachIndexed { index, activityData ->
+        backStackData
+            .sortedByDescending { it.activityStackPosition }
+            .forEachIndexed { index, activityData ->
             backStackList[activityData.activity] = index
 
             activityData.fragment.forEachIndexed { fragmentIndex, fragmentData ->
@@ -105,14 +108,14 @@ class AdbControllerImp(
             val title = o.toString()
             displayTitle = if (title.contains('.')) {
                 margin = 10
-                StringBuilder().insert(0, "${backStackList[title]} - ").append((title.split('.').lastOrNull() ?: "") + " [Activity]").toString()
+                StringBuilder().insert(0, "[${backStackList[title]}]-").append((title.split('.').lastOrNull() ?: "") + " [Activity]${if (backStackData.firstOrNull { it.activity == title }?.isKilled == true) ACTIVITY_KILLED else ""}").toString()
             } else {
                 margin = 20
-                StringBuilder(title).insert(max(0, title.indexOfLast { char -> char == '\t' }), "|-- ${backStackList[title]} - ").append(" [Fragment]").toString()
+                StringBuilder(title).insert(max(0, title.indexOfLast { char -> char == '\t' }), "[${backStackList[title]}]-").append(" [Fragment]").toString()
             }
 
             val label = JBLabel(displayTitle)
-            label.border = EmptyBorder(5, margin, 5, 20)
+            label.border = JBUI.Borders.empty(5, margin, 5, 20)
             label
         }
         PopupChooserBuilder(list).apply {
@@ -121,7 +124,7 @@ class AdbControllerImp(
                 val current = backStackList.keys.elementAtOrNull(list.selectedIndex)
                 current?.let {
                     if (it.contains('/'))
-                        it.trim().substringAfterLast("/").psiClassByNameFromProjct(project)?.openIn(project)
+                        it.trim().replace(ACTIVITY_KILLED, "").replaceFirst("/","").psiClassByNameFromProjct(project)?.openIn(project)
                     else
                         it.trim().psiClassByNameFromCache(project)?.openIn(project)
                 }
@@ -156,7 +159,7 @@ class AdbControllerImp(
                 val fragmentsList = mutableMapOf<String, Int>()
 
                 fragmentsClass.forEachIndexed { index, fragmentData ->
-                    fragmentsList["\t$index-${fragmentData.fragment}"] = index
+                    fragmentsList["\t[$index]-${fragmentData.fragment}"] = index
 
                     addInnerFragmentsToList(fragmentData = fragmentData, fragmentsList = fragmentsList, indent = INDENT, includeIndex = true)
                 }
@@ -400,6 +403,12 @@ class AdbControllerImp(
         list: JBList<String>,
         classes: List<PsiClass?>
     ) {
+        list.installCellRenderer { displayTitle ->
+            val label = JBLabel(displayTitle)
+            label.border = JBUI.Borders.empty(5, 5, 5, 20)
+            label
+        }
+
         PopupChooserBuilder(list).apply {
             this.setTitle(title)
             this.setItemChoosenCallback {
@@ -418,7 +427,7 @@ class AdbControllerImp(
         fragmentData.innerFragments.forEachIndexed { fragmentIndex, innerFragmentData ->
             fragmentsList[
                     if (includeIndex) {
-                        "$indent$fragmentIndex-${innerFragmentData.fragment}"
+                        "$indent[$fragmentIndex]-${innerFragmentData.fragment}"
                     } else {
                         "$indent${innerFragmentData.fragment}"
                     }
