@@ -8,13 +8,13 @@ import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.psi.PsiClass
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
+import com.intellij.util.ui.JBUI
 import spock.adb.command.*
 import spock.adb.models.ActivityData
 import spock.adb.models.BackStackData
 import spock.adb.models.FragmentData
 import spock.adb.notification.CommonNotifier
 import spock.adb.premission.ListItem
-import javax.swing.border.EmptyBorder
 import kotlin.math.max
 
 
@@ -88,7 +88,9 @@ class AdbControllerImp(
 
         val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(listOf(packageName, applicationID), project, device)
 
-        backStackData.forEachIndexed { index, activityData ->
+        backStackData
+            .sortedByDescending { it.activityStackPosition }
+            .forEachIndexed { index, activityData ->
             backStackList[activityData.activity] = index
 
             activityData.fragment.forEachIndexed { fragmentIndex, fragmentData ->
@@ -105,14 +107,14 @@ class AdbControllerImp(
             val title = o.toString()
             displayTitle = if (title.contains('.')) {
                 margin = 10
-                StringBuilder().insert(0, "${backStackList[title]} - ").append((title.split('.').lastOrNull() ?: "") + " [Activity]").toString()
+                StringBuilder().insert(0, "${backStackList[title]} - ").append((title.split('.').lastOrNull() ?: "") + " [Activity]${if (backStackData.firstOrNull { it.activity == title }?.isKilled == true) " [Killed]" else ""}").toString()
             } else {
                 margin = 20
                 StringBuilder(title).insert(max(0, title.indexOfLast { char -> char == '\t' }), "|-- ${backStackList[title]} - ").append(" [Fragment]").toString()
             }
 
             val label = JBLabel(displayTitle)
-            label.border = EmptyBorder(5, margin, 5, 20)
+            label.border = JBUI.Borders.empty(5, margin, 5, 20)
             label
         }
         PopupChooserBuilder(list).apply {
@@ -121,7 +123,7 @@ class AdbControllerImp(
                 val current = backStackList.keys.elementAtOrNull(list.selectedIndex)
                 current?.let {
                     if (it.contains('/'))
-                        it.trim().substringAfterLast("/").psiClassByNameFromProjct(project)?.openIn(project)
+                        it.trim().replaceFirst("/","").psiClassByNameFromProjct(project)?.openIn(project)
                     else
                         it.trim().psiClassByNameFromCache(project)?.openIn(project)
                 }
