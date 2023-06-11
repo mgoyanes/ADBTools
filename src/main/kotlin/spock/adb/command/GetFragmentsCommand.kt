@@ -2,18 +2,22 @@ package spock.adb.command
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
+import spock.adb.ACTIVITY_PREFIX_DELIMITER
+import spock.adb.DASH
+import spock.adb.DUMPSYS_ACTIVITY
+import spock.adb.EMPTY
+import spock.adb.GET_TOP_ACTIVITY_COMMAND
+import spock.adb.ONE
 import spock.adb.ShellOutputReceiver
+import spock.adb.executeShellCommandWithTimeout
+import spock.adb.extractActivityRegex
+import spock.adb.extractAppRegex
 import spock.adb.models.FragmentData
-import java.util.concurrent.TimeUnit
 
 class GetFragmentsCommand : Command<String, List<FragmentData>> {
 
     companion object {
-        private val extractAppRegex = Regex("(A=|I=|u0\\s)([a-zA-Z.]+)")
-        private val extractActivityRegex = Regex("(u0\\s[a-zA-Z.]+/)([a-zA-Z.]+)")
-        private const val DASH = "/"
         private const val DELIMITER_ACTIVE_FRAGMENTS = "Active Fragments:"
-        private const val DELIMITER_ACTIVITY_PREFIX = "."
         private const val DELIMITER_ADDED_FRAGMENTS = "Added Fragments:"
         private const val DELIMITER_BACK_STACK = "Back Stack"
         private const val DELIMITER_CLOSE_BRACKET = "}"
@@ -25,38 +29,24 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
         private const val DELIMITER_SPACE = ": "
         private const val DELIMITER_SUPPORT_REQUEST_MANAGER_FRAGMENT = "SupportRequestManagerFragment"
         private const val DELIMITER_TASK = "TASK"
-        private const val EMPTY = ""
         private const val EMPTY_CHAR = ' '
-        private const val GET_TOP_ACTIVITY_COMMAND = "dumpsys activity | grep -E \"mResumedActivity|topResumedActivity\""
-        private const val ONE = 1
-        private const val MAX_TIMEOUT_TO_OBTAIN_RESPONSE = 15L
     }
 
     override fun execute(p: String, project: Project, device: IDevice): List<FragmentData> {
         val shellOutputReceiver = ShellOutputReceiver()
-        device.executeShellCommand(
-            GET_TOP_ACTIVITY_COMMAND,
-            shellOutputReceiver,
-            MAX_TIMEOUT_TO_OBTAIN_RESPONSE,
-            TimeUnit.SECONDS,
-        )
+        device.executeShellCommandWithTimeout(GET_TOP_ACTIVITY_COMMAND, shellOutputReceiver)
 
         val output = shellOutputReceiver.toString()
         val appPackage = getAppPackage(output)
         val topActivity = getActivityName(output)
 
-        val fullActivityName: String = if (topActivity.startsWith(DELIMITER_ACTIVITY_PREFIX)) {
-            "$appPackage$DASH$topActivity"
+        val fullActivityName: String = if (topActivity.startsWith(ACTIVITY_PREFIX_DELIMITER)) {
+            "$appPackage${DASH}$topActivity"
         } else {
             topActivity
         }
 
-        device.executeShellCommand(
-            "dumpsys activity -p $appPackage $fullActivityName",
-            shellOutputReceiver,
-            MAX_TIMEOUT_TO_OBTAIN_RESPONSE,
-            TimeUnit.SECONDS,
-        )
+        device.executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY -p $appPackage $fullActivityName", shellOutputReceiver)
 
         return getCurrentFragmentsFromLog(shellOutputReceiver.toString())
     }

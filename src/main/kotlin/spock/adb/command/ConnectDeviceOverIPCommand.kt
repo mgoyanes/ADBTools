@@ -1,9 +1,7 @@
 package spock.adb.command
 
 import com.intellij.openapi.project.Project
-import java.nio.charset.Charset
-import java.util.concurrent.TimeUnit
-import org.jetbrains.android.sdk.AndroidSdkUtils
+import spock.adb.EMPTY
 
 class ConnectDeviceOverIPCommand : AdbCommand<String, Any> {
     override fun execute(p: String, project: Project): Any {
@@ -22,12 +20,12 @@ class ConnectDeviceOverIPCommand : AdbCommand<String, Any> {
 //                destroy()
 //            }
 //            if (content.isNotEmpty()) throw Exception("enable to connect to $p")
-//            return ""
+//            return EMPTY
 //        } catch (e: Exception) {
 //            print(e)
 //            process?.destroy()
 //            throw Exception("enable to connect to $p")
    //   }
-        return ""
+        return EMPTY
     }
 }

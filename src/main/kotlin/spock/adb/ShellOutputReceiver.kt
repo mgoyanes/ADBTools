@@ -9,7 +9,7 @@ class ShellOutputReceiver : IShellOutputReceiver {
     override fun toString(): String {
         var ret = builder.toString()
         // Strip trailing newlines. They are especially ugly because adb uses DOS line endings.
-        while (ret.endsWith("\r") || ret.endsWith("\n")) {
+        while (ret.endsWith("\r") || ret.endsWith(LINE_SEPARATOR)) {
             ret = ret.substring(0, ret.length - 1)
         }
         return ret

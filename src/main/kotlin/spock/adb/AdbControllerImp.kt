@@ -18,10 +18,7 @@ import spock.adb.premission.ListItem
 import kotlin.math.max
 
 
-class AdbControllerImp(
-    private val project: Project,
-    private val debugBridge: AndroidDebugBridge?
-) : AdbController, AndroidDebugBridge.IDeviceChangeListener {
+class AdbControllerImp(private val project: Project, private val debugBridge: AndroidDebugBridge?) : AdbController, AndroidDebugBridge.IDeviceChangeListener {
 
     companion object {
         private const val INDENT = "\t\t\t\t"
@@ -59,10 +56,7 @@ class AdbControllerImp(
 
     override fun deviceChanged(iDevice: IDevice, i: Int) {}
 
-    override fun currentBackStack(
-        device: IDevice
-
-    ) {
+    override fun currentBackStack(device: IDevice) {
         val activitiesList = mutableListOf<String>()
         val activitiesClass: List<BackStackData> = GetBackStackCommand().execute(Any(), project, device)
 
@@ -70,7 +64,7 @@ class AdbControllerImp(
             activitiesList.add("\t[$index]-${activityData.appPackage}")
 
             activityData.activitiesList.forEachIndexed { activityIndex, activityData ->
-                activitiesList.add("\t\t\t\t[$activityIndex]-${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else ""}")
+                activitiesList.add("\t\t\t\t[$activityIndex]-${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else EMPTY}")
             }
         }
 
@@ -78,7 +72,7 @@ class AdbControllerImp(
         showClassPopup(
             "Activities",
             list,
-            activitiesList.map { it.trim().replace(ACTIVITY_KILLED, "").substringAfter("-").psiClassByNameFromProjct(project) }
+            activitiesList.map { it.trim().replace(ACTIVITY_KILLED, EMPTY).substringAfter(HYPHEN).psiClassByNameFromProjct(project) }
         )
     }
 
@@ -86,8 +80,7 @@ class AdbControllerImp(
         val packageName = getPackageName(device)
         val applicationID = getApplicationID(device)
         val backStackList = mutableMapOf<String, Int>()
-
-        val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(listOf(packageName, applicationID), project, device)
+        val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(listOf(packageName, applicationID), device)
 
         backStackData
             .sortedByDescending { it.activityStackPosition }
@@ -106,12 +99,12 @@ class AdbControllerImp(
         list.installCellRenderer { o: Any ->
             val displayTitle: String
             val title = o.toString()
-            displayTitle = if (title.contains('.')) {
+            displayTitle = if (title.contains(DOT)) {
                 margin = 10
-                StringBuilder().insert(0, "[${backStackList[title]}]-").append((title.split('.').lastOrNull() ?: "") + " [Activity]${if (backStackData.firstOrNull { it.activity == title }?.isKilled == true) ACTIVITY_KILLED else ""}").toString()
+                StringBuilder().insert(ZERO, "[${backStackList[title]}]-").append((title.split(DOT).lastOrNull() ?: EMPTY) + " [Activity]${if (backStackData.firstOrNull { it.activity == title }?.isKilled == true) ACTIVITY_KILLED else EMPTY}").toString()
             } else {
                 margin = 20
-                StringBuilder(title).insert(max(0, title.indexOfLast { char -> char == '\t' }), "[${backStackList[title]}]-").append(" [Fragment]").toString()
+                StringBuilder(title).insert(max(ZERO, title.indexOfLast { char -> char == TAB }), "[${backStackList[title]}]-").append(" [Fragment]").toString()
             }
 
             val label = JBLabel(displayTitle)
@@ -123,21 +116,17 @@ class AdbControllerImp(
             this.setItemChoosenCallback {
                 val current = backStackList.keys.elementAtOrNull(list.selectedIndex)
                 current?.let {
-                    if (it.contains('/'))
-                        it.trim().replace(ACTIVITY_KILLED, "").replaceFirst("/","").psiClassByNameFromProjct(project)?.openIn(project)
+                    if (it.contains(DASH))
+                        it.trim().replace(ACTIVITY_KILLED, EMPTY).replaceFirst(DASH.toString(),EMPTY).psiClassByNameFromProjct(project)?.openIn(project)
                     else
                         it.trim().psiClassByNameFromCache(project)?.openIn(project)
                 }
             }
             this.createPopup().showCenteredInCurrentWindow(project)
         }
-
     }
 
-    override fun currentActivity(
-        device: IDevice
-
-    ) {
+    override fun currentActivity(device: IDevice) {
         execute {
             val activity =
                 GetActivityCommand().execute(Any(), project, device) ?: throw Exception("No activities found")
@@ -146,10 +135,7 @@ class AdbControllerImp(
         }
     }
 
-    override fun currentFragment(
-        device: IDevice
-
-    ) {
+    override fun currentFragment(device: IDevice) {
         execute {
             val applicationID = getApplicationID(device)
 
@@ -168,7 +154,7 @@ class AdbControllerImp(
                 showClassPopup(
                     "Fragments",
                     list,
-                    fragmentsList.map { it.key.trim().substringAfter("-").psiClassByNameFromCache(project) }
+                    fragmentsList.map { it.key.trim().substringAfter(HYPHEN).psiClassByNameFromCache(project) }
                 )
             } else {
                 fragmentsClass
@@ -240,27 +226,20 @@ class AdbControllerImp(
         }
     }
 
-    override fun getApplicationPermissions(
-        device: IDevice,
-        block: (devices: List<ListItem>) -> Unit,
-    ) {
+    override fun getApplicationPermissions(device: IDevice, block: (devices: List<ListItem>) -> Unit) {
         execute {
             val applicationID = getApplicationID(device)
             val permissions = GetApplicationPermission().execute(applicationID, project, device)
-            if (permissions.isNotEmpty())
+            if (permissions.isNotEmpty()) {
                 block(permissions)
-            else
+            } else {
                 error("Your Application Doesn't Require any of Runtime Permissions ")
+            }
         }
     }
 
-    override fun grantOrRevokeAllPermissions(
-        device: IDevice,
-        permissionOperation: GetApplicationPermission.PermissionOperation,
-    ) {
-        getApplicationPermissions(
-            device,
-        ) { permissionsList ->
+    override fun grantOrRevokeAllPermissions(device: IDevice, permissionOperation: GetApplicationPermission.PermissionOperation) {
+        getApplicationPermissions(device) { permissionsList ->
             val applicationID = getApplicationID(device)
 
             val operation: (ListItem) -> Unit = when (permissionOperation) {
@@ -276,11 +255,7 @@ class AdbControllerImp(
         }
     }
 
-    override fun revokePermission(
-        device: IDevice,
-        listItem: ListItem,
-
-        ) {
+    override fun revokePermission(device: IDevice, listItem: ListItem) {
         execute {
             val applicationID = getApplicationID(device)
             RevokePermissionCommand().execute(applicationID, listItem, project, device)
@@ -288,11 +263,7 @@ class AdbControllerImp(
         }
     }
 
-    override fun grantPermission(
-        device: IDevice,
-        listItem: ListItem,
-
-        ) {
+    override fun grantPermission(device: IDevice, listItem: ListItem) {
         execute {
             val applicationID = getApplicationID(device)
             GrantPermissionCommand().execute(applicationID, listItem, project, device)
@@ -307,74 +278,49 @@ class AdbControllerImp(
         }
     }
 
-    override fun enableDisableShowTaps(
-        device: IDevice
-
-    ) {
+    override fun enableDisableShowTaps(device: IDevice) {
         execute {
             val result = EnableDisableShowTapsCommand().execute(Any(), project, device)
             showSuccess(result)
         }
     }
 
-    override fun enableDisableShowLayoutBounds(
-        device: IDevice
-
-    ) {
+    override fun enableDisableShowLayoutBounds(device: IDevice) {
         execute {
             val result = EnableDisableShowLayoutBoundsCommand().execute(Any(), project, device)
             showSuccess(result)
         }
     }
 
-    override fun setWindowAnimatorScale(
-        scale: String,
-        device: IDevice
-
-    ) {
+    override fun setWindowAnimatorScale(scale: String, device: IDevice) {
         execute {
             val result = WindowAnimatorScaleCommand().execute(scale, project, device)
             showSuccess(result)
         }
     }
 
-    override fun setTransitionAnimatorScale(
-        scale: String,
-        device: IDevice
-
-    ) {
+    override fun setTransitionAnimatorScale(scale: String, device: IDevice) {
         execute {
             val result = TransitionAnimatorScaleCommand().execute(scale, project, device)
             showSuccess(result)
         }
     }
 
-    override fun setAnimatorDurationScale(
-        scale: String,
-        device: IDevice
-
-    ) {
+    override fun setAnimatorDurationScale(scale: String, device: IDevice) {
         execute {
             val result = AnimatorDurationScaleCommand().execute(scale, project, device)
             showSuccess(result)
         }
     }
 
-    override fun toggleNetwork(
-        device: IDevice,
-        network: Network,
-
-        ) {
+    override fun toggleNetwork(device: IDevice, network: Network) {
         execute {
             val result = ToggleNetworkCommand().execute(network, project, device)
             showSuccess(result)
         }
     }
 
-    override fun inputOnDevice(
-        input: String,
-        device: IDevice
-    ) {
+    override fun inputOnDevice(input: String, device: IDevice) {
         execute {
             val result = InputOnDeviceCommand().execute(input, project, device)
             showSuccess(result)
@@ -383,7 +329,6 @@ class AdbControllerImp(
 
     private fun showError(message: String) {
         CommonNotifier.showNotifier(project = project, content = message, type = NotificationType.ERROR)
-
     }
 
     private fun showSuccess(message: String) {
@@ -436,11 +381,9 @@ class AdbControllerImp(
         }
     }
 
-    override fun openDeveloperOptions(
-        device: IDevice
-    ) {
+    override fun openDeveloperOptions(device: IDevice) {
         execute {
-            showSuccess(OpenDeveloperOptionsCommand().execute(project, device))
+            showSuccess(OpenDeveloperOptionsCommand().execute(device))
         }
     }
 
@@ -453,7 +396,7 @@ class AdbControllerImp(
 
     override fun openAccounts(device: IDevice) {
         execute {
-            showSuccess(OpenAccountsCommand().execute(project, device))
+            showSuccess(OpenAccountsCommand().execute(device))
         }
     }
 }

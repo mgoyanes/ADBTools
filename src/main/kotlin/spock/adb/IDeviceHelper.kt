@@ -1,6 +1,7 @@
 package spock.adb
 
 import com.android.ddmlib.IDevice
+import com.android.ddmlib.IShellOutputReceiver
 import java.util.concurrent.TimeUnit
 import spock.adb.command.DontKeepActivitiesState
 import spock.adb.command.Network
@@ -15,12 +16,12 @@ fun IDevice.forceKillApp(applicationID: String?, seconds: Long) {
 
 fun IDevice.isAppInstall(applicationID: String?): Boolean {
     val shellOutputReceiver = ShellOutputReceiver()
-    executeShellCommand("pm list packages $applicationID", shellOutputReceiver, 15L, TimeUnit.SECONDS)
-    return !shellOutputReceiver.toString().isEmpty()
+    executeShellCommandWithTimeout("pm list packages $applicationID", shellOutputReceiver)
+    return shellOutputReceiver.toString().isNotEmpty()
 }
 
 fun IDevice.startActivity(activity: String) {
-    executeShellCommand("am start -n $activity", ShellOutputReceiver(), 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("am start -n $activity", ShellOutputReceiver())
 }
 
 fun IDevice.clearAppData(applicationID: String?, seconds: Long) {
@@ -30,18 +31,14 @@ fun IDevice.clearAppData(applicationID: String?, seconds: Long) {
 fun IDevice.getDefaultActivityForApplication(packageName: String?): String {
     val outputReceiver = ShellOutputReceiver()
     if (isNougatOrAbove())
-        executeShellCommand(
+        executeShellCommandWithTimeout(
             "cmd package resolve-activity --brief $packageName | tail -n 1",
-            outputReceiver,
-            15L,
-            TimeUnit.SECONDS
+            outputReceiver
         )
     else {
-        executeShellCommand(
+        executeShellCommandWithTimeout(
             "pm dump $packageName | grep -B 10 category\\.LAUNCHER | grep -o '[^ ]*/[^ ]*' | tail -n 1",
             outputReceiver,
-            15L,
-            TimeUnit.SECONDS
         )
     }
     return outputReceiver.toString()
@@ -52,64 +49,73 @@ fun IDevice.isNougatOrAbove() = this.version.apiLevel >= 24
 
 fun IDevice.areDontKeepActivitiesEnabled(): DontKeepActivitiesState {
     val outputReceiver = ShellOutputReceiver()
-    executeShellCommand("settings get global always_finish_activities", outputReceiver, 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("settings get global always_finish_activities", outputReceiver)
 
     return DontKeepActivitiesState.getState(outputReceiver.toString())
 }
 
 fun IDevice.areShowTapsEnabled(): ShowTapsState {
     val outputReceiver = ShellOutputReceiver()
-    executeShellCommand("settings get system show_touches", outputReceiver, 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("settings get system show_touches", outputReceiver)
 
     return ShowTapsState.getState(outputReceiver.toString())
 }
 
 fun IDevice.areShowLayoutBoundsEnabled(): ShowLayoutBoundsState {
     val outputReceiver = ShellOutputReceiver()
-    executeShellCommand("getprop debug.layout", outputReceiver, 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("getprop debug.layout", outputReceiver)
 
     return ShowLayoutBoundsState.getState(outputReceiver.toString())
 }
 
 fun IDevice.refreshUi() {
     val shellOutputReceiver = ShellOutputReceiver()
-    executeShellCommand("service call activity 1599295570", shellOutputReceiver, 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("service call activity 1599295570", shellOutputReceiver)
 }
 
 fun IDevice.getWindowAnimatorScale(): String {
     val shellOutputReceiver = ShellOutputReceiver()
-    executeShellCommand("settings get global window_animation_scale", shellOutputReceiver, 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("settings get global window_animation_scale", shellOutputReceiver)
     return shellOutputReceiver.toString()
 }
 
 fun IDevice.getTransitionAnimationScale(): String {
     val shellOutputReceiver = ShellOutputReceiver()
-    executeShellCommand("settings get global transition_animation_scale", shellOutputReceiver, 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("settings get global transition_animation_scale", shellOutputReceiver)
     return shellOutputReceiver.toString()
 }
 
 fun IDevice.getAnimatorDurationScale(): String {
     val shellOutputReceiver = ShellOutputReceiver()
-    executeShellCommand("settings get global animator_duration_scale", shellOutputReceiver, 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("settings get global animator_duration_scale", shellOutputReceiver)
     return shellOutputReceiver.toString()
 }
 
 fun IDevice.isAppInForeground(applicationID: String?): Boolean {
     val shellOutputReceiver = ShellOutputReceiver()
-    executeShellCommand("dumpsys activity recents | grep 'Recent #0'", shellOutputReceiver, 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY recents | grep 'Recent #0'", shellOutputReceiver)
     return shellOutputReceiver.toString().contains(applicationID.toString(), true)
 }
 
 fun IDevice.getNetworkState(network: Network): NetworkState {
     val outputReceiver = ShellOutputReceiver()
-    executeShellCommand("settings get global ${network.networkSettingIdentifier}", outputReceiver, 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("settings get global ${network.networkSettingIdentifier}", outputReceiver)
 
     return NetworkState.getState(outputReceiver.toString())
 }
 
 fun IDevice.getApiVersion(): Int? {
     val outputReceiver = ShellOutputReceiver()
-    executeShellCommand("getprop ro.build.version.release", outputReceiver, 15L, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("getprop ro.build.version.release", outputReceiver)
 
     return outputReceiver.toString().toIntOrNull()
+}
+
+fun IDevice.executeShellCommandWithTimeout(command: String, receiver: IShellOutputReceiver) {
+    executeShellCommand(
+        command,
+        receiver,
+        MAX_TIME_TO_OUTPUT_RESPONSE,
+        TimeUnit.SECONDS,
+    )
 }
