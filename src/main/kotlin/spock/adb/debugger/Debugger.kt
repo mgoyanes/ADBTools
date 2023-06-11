@@ -107,8 +107,7 @@ private class RunningProcessesGetter(
     }
 
     override fun getPreviousImplementation(): Array<ProcessHandler> {
-        return on<ExecutionManager>().call("getInstance", project).call("getRunningProcesses")
-            .get<Array<ProcessHandler>>()
+        return on<ExecutionManager>().call("getInstance", project).call("getRunningProcesses").get()
     }
 }
 
@@ -154,4 +153,3 @@ fun waitUntil(timeoutMillis: Long = 30000L, step: Long = 100L, condition: () -> 
 fun invokeLater(runnable: () -> Unit) = ApplicationManager.getApplication().invokeLater(runnable)
 
 inline fun <reified T> on(): Reflect = on(T::class.java)
-inline fun <reified T> Reflect.asType(): T = this.`as`(T::class.java)

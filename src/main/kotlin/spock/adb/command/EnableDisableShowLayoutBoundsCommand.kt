@@ -2,9 +2,9 @@ package spock.adb.command
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
-import java.util.concurrent.TimeUnit
 import spock.adb.ShellOutputReceiver
 import spock.adb.areShowLayoutBoundsEnabled
+import spock.adb.executeShellCommandWithTimeout
 
 class EnableDisableShowLayoutBoundsCommand : Command<Any, String> {
 
@@ -24,12 +24,7 @@ class EnableDisableShowLayoutBoundsCommand : Command<Any, String> {
 
     private fun setShowLayoutBoundsState(device: IDevice, state: ShowLayoutBoundsState) {
         val shellOutputReceiver = ShellOutputReceiver()
-        device.executeShellCommand(
-            "setprop debug.layout ${state.state}",
-            shellOutputReceiver,
-            15L,
-            TimeUnit.SECONDS
-        )
+        device.executeShellCommandWithTimeout("setprop debug.layout ${state.state}", shellOutputReceiver)
     }
 }
 

@@ -2,9 +2,9 @@ package spock.adb.command
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
-import java.util.concurrent.TimeUnit
 import spock.adb.ShellOutputReceiver
 import spock.adb.areShowTapsEnabled
+import spock.adb.executeShellCommandWithTimeout
 
 class EnableDisableShowTapsCommand : Command<Any, String> {
 
@@ -24,12 +24,7 @@ class EnableDisableShowTapsCommand : Command<Any, String> {
 
     private fun setShowTapsState(device: IDevice, state: ShowTapsState) {
         val shellOutputReceiver = ShellOutputReceiver()
-        device.executeShellCommand(
-            "settings put system show_touches ${state.state}",
-            shellOutputReceiver,
-            15L,
-            TimeUnit.SECONDS
-        )
+        device.executeShellCommandWithTimeout("settings put system show_touches ${state.state}", shellOutputReceiver)
     }
 }
 

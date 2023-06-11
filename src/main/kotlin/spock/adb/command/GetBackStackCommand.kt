@@ -2,31 +2,25 @@ package spock.adb.command
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
+import spock.adb.ACTIVITY_PREFIX_DELIMITER
+import spock.adb.DUMPSYS_ACTIVITY
+import spock.adb.EMPTY
 import spock.adb.ShellOutputReceiver
+import spock.adb.executeShellCommandWithTimeout
 import spock.adb.models.ActivityData
 import spock.adb.models.BackStackData
-import java.util.concurrent.TimeUnit
 
 class GetBackStackCommand : Command<Any, List<BackStackData>> {
 
     companion object {
-        const val EMPTY = ""
         const val HIST_PREFIX = "* Hist"
-        const val ACTIVITY_PREFIX_DELIMITER = "."
-        private const val MAX_TIME_TO_OUTPUT_RESPONSE = 15L
-        private const val DUMPSYS_ACTIVITY = "dumpsys activity"
         val extractAppRegex = Regex("(A=|I=|u0\\s)([a-zA-Z.\\d]+)")
         val extractActivityRegex = Regex("(u0\\s[a-zA-Z.\\d]+/)([a-zA-Z.\\d]+)")
     }
 
     override fun execute(p: Any, project: Project, device: IDevice): List<BackStackData> {
         val shellOutputReceiver = ShellOutputReceiver()
-        device.executeShellCommand(
-            "dumpsys activity activities | grep Hist",
-            shellOutputReceiver,
-            MAX_TIME_TO_OUTPUT_RESPONSE,
-            TimeUnit.SECONDS
-        )
+        device.executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY activities | grep Hist", shellOutputReceiver)
         return getCurrentRunningActivitiesAboveApi11(device, shellOutputReceiver.toString())
     }
 
@@ -64,12 +58,7 @@ class GetBackStackCommand : Command<Any, List<BackStackData>> {
         val isKilledRegex = Regex(".*pid=(\\d+)")
         val shellOutputReceiver = ShellOutputReceiver()
 
-        device.executeShellCommand(
-            "$DUMPSYS_ACTIVITY $activity | grep ACTIVITY",
-            shellOutputReceiver,
-            MAX_TIME_TO_OUTPUT_RESPONSE,
-            TimeUnit.SECONDS
-        )
+        device.executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY $activity | grep ACTIVITY", shellOutputReceiver)
 
         return shellOutputReceiver
             .toString()

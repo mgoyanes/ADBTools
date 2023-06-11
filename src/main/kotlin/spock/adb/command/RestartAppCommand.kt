@@ -7,7 +7,7 @@ import spock.adb.*
 class RestartAppCommand : Command<String, Unit> {
     override fun execute(p: String, project: Project, device: IDevice) {
         if (device.isAppInstall(p)) {
-            device.forceKillApp(p, 15L)
+            device.forceKillApp(p, MAX_TIME_TO_OUTPUT_RESPONSE)
             val activity = device.getDefaultActivityForApplication(p)
             if (activity.isNotEmpty()) {
                 device.startActivity(activity)

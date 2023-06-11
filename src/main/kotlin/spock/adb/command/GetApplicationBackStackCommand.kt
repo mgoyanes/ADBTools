@@ -1,9 +1,14 @@
 package spock.adb.command
 
 import com.android.ddmlib.IDevice
-import com.intellij.openapi.project.Project
 import org.jetbrains.kotlin.idea.base.util.substringAfterLastOrNull
+import spock.adb.ACTIVITY_PREFIX_DELIMITER
+import spock.adb.DUMPSYS_ACTIVITY
+import spock.adb.LINE_SEPARATOR
+import spock.adb.MAX_TIME_TO_OUTPUT_RESPONSE
+import spock.adb.ONE
 import spock.adb.ShellOutputReceiver
+import spock.adb.executeShellCommandWithTimeout
 import spock.adb.models.ActivityData
 import spock.adb.models.FragmentData
 import java.util.concurrent.TimeUnit
@@ -11,16 +16,11 @@ import java.util.concurrent.TimeUnit
 class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
 
     companion object {
-        private const val INVALID_POS = -1
-        private const val ACTIVITY_PREFIX_DELIMITER = "."
-        private const val DUMPSYS_ACTIVITY = "dumpsys activity"
-        private const val LINE_SEPARATOR = "\n"
-        private const val MAX_TIME_TO_OUTPUT_RESPONSE = 15L
         private const val UNKNOWN_COMMAND = "Unknown command"
         val extractActivityRegex = Regex("(ACTIVITY\\s)([a-zA-Z.]+/[a-zA-Z.]+)")
     }
 
-    override fun execute(list: List<String>, project: Project, device: IDevice): List<ActivityData> {
+    override fun execute(list: List<String>, device: IDevice): List<ActivityData> {
         var shellOutputReceiver: ShellOutputReceiver
         var activityData: List<String>
         var topActivity: String
@@ -30,12 +30,7 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
 
         list.forEach loop@{ identifier ->
             shellOutputReceiver = ShellOutputReceiver()
-            device.executeShellCommand(
-                "$DUMPSYS_ACTIVITY $identifier",
-                shellOutputReceiver,
-                MAX_TIME_TO_OUTPUT_RESPONSE,
-                TimeUnit.SECONDS
-            )
+            device.executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY $identifier", shellOutputReceiver)
 
             if (shellOutputReceiver.toString().startsWith(UNKNOWN_COMMAND)) {
                 return@loop
@@ -60,7 +55,7 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
                 activityData = shellOutputReceiver.toString().lines()
                 currentFragmentsFromLog = GetFragmentsCommand().getCurrentFragmentsFromLog(activityData.joinToString(LINE_SEPARATOR))
 
-                val activity = fullActivityName.substringAfterLastOrNull(".")
+                val activity = fullActivityName.substringAfterLastOrNull(ACTIVITY_PREFIX_DELIMITER)
                 activitiesData.add(
                     ActivityData(
                         activity = fullActivityName,
@@ -80,7 +75,7 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
     private fun getActivityName(bulkAppData: String) = extractActivityRegex.find(bulkAppData)?.groups?.lastOrNull()?.value
 
     private fun getStackPosition(device: IDevice, identifier: String, activity: String?): Int {
-        activity ?: return INVALID_POS
+        activity ?: return -ONE
         val positionRegex = Regex(".*Hist.*#(\\d+).*")
         val shellOutputReceiver = ShellOutputReceiver()
 
@@ -95,8 +90,8 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
             .toString()
             .lines()
             .firstOrNull { value -> value.contains(activity) }
-            ?.let { position -> positionRegex.find(position)?.groups?.lastOrNull()?.value?.toIntOrNull() ?: INVALID_POS }
-            ?: INVALID_POS
+            ?.let { position -> positionRegex.find(position)?.groups?.lastOrNull()?.value?.toIntOrNull() ?: -ONE }
+            ?: -ONE
     }
 
     private fun isKilled(device: IDevice, activity: String?): Boolean {
@@ -104,12 +99,7 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
         val isKilledRegex = Regex(".*pid=(\\d+)")
         val shellOutputReceiver = ShellOutputReceiver()
 
-        device.executeShellCommand(
-            "$DUMPSYS_ACTIVITY $activity | grep ACTIVITY",
-            shellOutputReceiver,
-            MAX_TIME_TO_OUTPUT_RESPONSE,
-            TimeUnit.SECONDS
-        )
+        device.executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY $activity | grep ACTIVITY", shellOutputReceiver)
 
         return shellOutputReceiver
             .toString()

@@ -2,9 +2,10 @@ package spock.adb.command
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
-import java.util.concurrent.TimeUnit
 import spock.adb.ShellOutputReceiver
+import spock.adb.executeShellCommandWithTimeout
 import spock.adb.getNetworkState
+import java.util.*
 
 class ToggleNetworkCommand : Command<Network, String> {
 
@@ -13,23 +14,18 @@ class ToggleNetworkCommand : Command<Network, String> {
         return when (device.getNetworkState(p)) {
             NetworkState.DISABLED -> {
                 setNetworkState(device, p, NetworkState.ENABLED)
-                "Enabled ${p.name.toLowerCase().capitalize()} network"
+                "Enabled ${p.name.lowercase(Locale.getDefault()).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }} network"
             }
             NetworkState.ENABLED -> {
                 setNetworkState(device, p, NetworkState.DISABLED)
-                "Disabled ${p.name.toLowerCase().capitalize()} network"
+                "Disabled ${p.name.lowercase(Locale.getDefault()).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }} network"
             }
         }
     }
 
     private fun setNetworkState(device: IDevice, network: Network, networkState: NetworkState) {
         val shellOutputReceiver = ShellOutputReceiver()
-        device.executeShellCommand(
-            "svc ${network.networkChangeIdentifier} ${getSettingChangeValue(networkState)}",
-            shellOutputReceiver,
-            15L,
-            TimeUnit.SECONDS
-        )
+        device.executeShellCommandWithTimeout("svc ${network.networkChangeIdentifier} ${getSettingChangeValue(networkState)}", shellOutputReceiver)
     }
 }
 

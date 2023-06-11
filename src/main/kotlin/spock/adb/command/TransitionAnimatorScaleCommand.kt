@@ -2,8 +2,8 @@ package spock.adb.command
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
-import java.util.concurrent.TimeUnit
 import spock.adb.ShellOutputReceiver
+import spock.adb.executeShellCommandWithTimeout
 
 class TransitionAnimatorScaleCommand : Command<String, String> {
 
@@ -13,12 +13,7 @@ class TransitionAnimatorScaleCommand : Command<String, String> {
 
     override fun execute(p: String, project: Project, device: IDevice): String {
         val shellOutputReceiver = ShellOutputReceiver()
-        device.executeShellCommand(
-            "settings put global transition_animation_scale $p",
-            shellOutputReceiver,
-            15L,
-            TimeUnit.SECONDS
-        )
+        device.executeShellCommandWithTimeout("settings put global transition_animation_scale $p", shellOutputReceiver)
 
         return "Set Transition Animator Scale to $p"
     }

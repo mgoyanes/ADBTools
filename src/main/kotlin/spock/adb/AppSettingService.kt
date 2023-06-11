@@ -37,7 +37,7 @@ class AppSettingService : PersistentStateComponent<AppSetting> {
     }
 }
 
-data class AppSetting(val selectedDevice: String? = "", val list: List<ListItem>)
+data class AppSetting(val selectedDevice: String? = EMPTY, val list: List<ListItem>)
 enum class SpockAction {
     CURRENT_ACTIVITY,
     CURRENT_FRAGMENT,

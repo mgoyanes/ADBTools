@@ -2,12 +2,16 @@ package spock.adb.command
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
-
+import spock.adb.DOT
+import spock.adb.EMPTY
+import spock.adb.LINE_SEPARATOR
+import spock.adb.ONE
 import spock.adb.ShellOutputReceiver
+import spock.adb.ZERO
+import spock.adb.executeShellCommandWithTimeout
 import spock.adb.isAppInstall
 import spock.adb.isMarshmallow
 import spock.adb.premission.ListItem
-import java.util.concurrent.TimeUnit
 
 class GetApplicationPermission : Command<String, List<ListItem>> {
 
@@ -16,13 +20,8 @@ class GetApplicationPermission : Command<String, List<ListItem>> {
             if (device.isAppInstall(p)) {
                 val shellOutputReceiver = ShellOutputReceiver()
                 val ps = mutableMapOf<String, Boolean>()
-                device.executeShellCommand(
-                    "dumpsys package $p  | grep permission",
-                    shellOutputReceiver,
-                    15L,
-                    TimeUnit.SECONDS
-                )
-                shellOutputReceiver.toString().split("\n")
+                device.executeShellCommandWithTimeout("dumpsys package $p  | grep permission", shellOutputReceiver)
+                shellOutputReceiver.toString().split(LINE_SEPARATOR)
                     .map { it.trim() }
                     .filter { it.contains(".permission.") }
                     .distinct()
@@ -31,7 +30,7 @@ class GetApplicationPermission : Command<String, List<ListItem>> {
                 return ps.map { ListItem(it.key, it.value) }
                     .filter {
                         dangerousPermissions.find { dangerousPermission ->
-                            dangerousPermission.contains(it.name.split(".").getOrElse(2) { "any" })
+                            dangerousPermission.contains(it.name.split(DOT).getOrElse(2) { "any" })
                         } != null
                     }
                     .toList()
@@ -46,8 +45,8 @@ class GetApplicationPermission : Command<String, List<ListItem>> {
         it: String,
         ps: MutableMap<String, Boolean>
     ) {
-        val permission = it.split(":").getOrElse(0) { "" }
-        val grant = it.split("=").getOrElse(1) { "false" }.contains("true")
+        val permission = it.split(":").getOrElse(ZERO) { EMPTY }
+        val grant = it.split("=").getOrElse(ONE) { "false" }.contains("true")
         ps[permission] = grant
     }
 
