@@ -65,7 +65,7 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
                     ActivityData(
                         activity = fullActivityName,
                         activityStackPosition = getStackPosition(device, identifier, activity),
-                        isKilled = isKilled(device, identifier, activity),
+                        isKilled = isKilled(device, activity),
                         fragment = currentFragmentsFromLog
                     )
                 )
@@ -99,13 +99,13 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
             ?: INVALID_POS
     }
 
-    private fun isKilled(device: IDevice, identifier: String, activity: String?): Boolean {
+    private fun isKilled(device: IDevice, activity: String?): Boolean {
         activity ?: return true
         val isKilledRegex = Regex(".*pid=(\\d+)")
         val shellOutputReceiver = ShellOutputReceiver()
 
         device.executeShellCommand(
-            "$DUMPSYS_ACTIVITY $identifier | grep ACTIVITY",
+            "$DUMPSYS_ACTIVITY $activity | grep ACTIVITY",
             shellOutputReceiver,
             MAX_TIME_TO_OUTPUT_RESPONSE,
             TimeUnit.SECONDS
@@ -113,9 +113,6 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
 
         return shellOutputReceiver
             .toString()
-            .lines()
-            .firstOrNull { value -> value.contains(activity) }
-            ?.let { pidString -> isKilledRegex.find(pidString)?.groups?.lastOrNull()?.value == null }
-            ?: false
+            .let { pidString -> isKilledRegex.find(pidString)?.groups?.lastOrNull()?.value == null }
     }
 }
