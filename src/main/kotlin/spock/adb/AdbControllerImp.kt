@@ -399,4 +399,11 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
             showSuccess(OpenAccountsCommand().execute(device))
         }
     }
+
+    override fun openAppSettings(device: IDevice) {
+        execute {
+            val applicationID = getApplicationID(device)
+            showSuccess(OpenAppSettingsCommand().execute(applicationID, project, device))
+        }
+    }
 }

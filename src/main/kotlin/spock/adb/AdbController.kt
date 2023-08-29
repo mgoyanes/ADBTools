@@ -34,4 +34,5 @@ interface AdbController {
     fun openDeveloperOptions(device: IDevice)
     fun openDeepLink(input: String, device: IDevice)
     fun openAccounts(device: IDevice)
+    fun openAppSettings(device: IDevice)
 }

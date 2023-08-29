@@ -2,16 +2,27 @@
 
 ## [Unreleased]
 
-## [2.0.3]
+## [2.0.8]
 ### Added
+- Adds option to open App Settings;
+- Adds support to Android Studio Iguana
 
 ### Changed
+- Bumped dependencies e plugin configuration.
 
 ### Deprecated
+- Replaces kotlin deprecated methods.
 
 ### Removed
 
 ### Fixed
+- Improves Data visualization;
+- Improves BackStack detection. Use same method on all APIs;
+- Improves data visualization. Minor UI tweaks;
+- Fixes stack order. Topmost activity shows at the top;
+- Detects and shows if activity is killed;
+- Fixes activity file not opening when clicked on application backstack command;
+- Improves Fragment detection.
 
 ## [2.0.3]
 ### Fixed
