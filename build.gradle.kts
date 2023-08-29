@@ -6,16 +6,13 @@ plugins {
     // Java support
     id("java")
     // Kotlin support
-    id("org.jetbrains.kotlin.jvm") version "1.6.10"
+    id("org.jetbrains.kotlin.jvm") version "1.8.21"
     // Gradle IntelliJ Plugin
-    id("org.jetbrains.intellij") version "1.7.0"
+    id("org.jetbrains.intellij") version "1.15.0"
     // Gradle Changelog Plugin
     id("org.jetbrains.changelog") version "1.3.1"
     // Gradle Qodana Plugin
     id("org.jetbrains.qodana") version "0.1.13"
-    // detekt linter - read more: https://detekt.github.io/detekt/kotlindsl.html
-    // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
-//    id("org.jlleitschuh.gradle.ktlint") version "9.3.0"
 }
 
 // Import variables from gradle.properties file
@@ -24,7 +21,7 @@ val pluginName: String by project
 val pluginVersion: String by project
 val pluginSinceBuild: String by project
 val pluginUntilBuild: String by project
-
+val androidStudioPath: String by project
 val platformType: String by project
 val platformVersion: String by project
 val platformDownloadSources: String by project
@@ -35,17 +32,9 @@ version = pluginVersion
 // Configure project's dependencies
 repositories {
     mavenCentral()
-    jcenter()
 }
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jooq:joor-java-8:0.9.7")
-//    compileOnly(fileTree("${properties("androidStudioPath")}/plugins/android/lib/"))
- //   compileOnly(fileTree("${properties("androidStudioPath")}/lib"))
-    testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
-    testImplementation("io.mockk:mockk:1.12.0")
-
-
+    implementation("org.jooq:joor-java-8:0.9.14")
 }
 
 // Configure gradle-intellij-plugin plugin.
@@ -53,27 +42,20 @@ dependencies {
 intellij {
     pluginName.set(properties("pluginName"))
 
-    version.set("191.8026.42")
-    type.set("IC")
+    version.set(properties("platformVersion"))
     type.set(properties("platformType"))
-    downloadSources.set(properties("platformDownloadSources").toBoolean())
-    updateSinceUntilBuild.set(false)
-   // localPath.set(properties("androidStudioPath"))
-    // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
-    plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
+    plugins.set(listOf("org.jetbrains.android"))
 }
 
 
 tasks {
     // Set the compatibility versions to 1.8
     withType<JavaCompile> {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
     }
-    listOf("compileKotlin", "compileTestKotlin").forEach {
-        getByName<KotlinCompile>(it) {
-            kotlinOptions.jvmTarget = "1.8"
-        }
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "17"
     }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
@@ -88,6 +70,10 @@ tasks {
         reportPath.set(projectDir.resolve("build/reports/inspections").canonicalPath)
         saveReport.set(true)
         showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
+    }
+
+    runIde {
+        ideDir.set(file(androidStudioPath))
     }
 
     patchPluginXml {

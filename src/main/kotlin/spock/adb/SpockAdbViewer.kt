@@ -2,19 +2,28 @@ package spock.adb
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
-import spock.adb.command.*
+import spock.adb.command.AnimatorDurationScaleCommand
+import spock.adb.command.DontKeepActivitiesState
+import spock.adb.command.GetApplicationPermission
+import spock.adb.command.Network
+import spock.adb.command.ShowLayoutBoundsState
+import spock.adb.command.ShowTapsState
+import spock.adb.command.TransitionAnimatorScaleCommand
+import spock.adb.command.WindowAnimatorScaleCommand
 import spock.adb.premission.CheckBoxDialog
 import java.awt.event.ActionEvent
-import javax.swing.*
+import javax.swing.DefaultComboBoxModel
+import javax.swing.JButton
+import javax.swing.JCheckBox
+import javax.swing.JComboBox
+import javax.swing.JPanel
+import javax.swing.JScrollPane
+import javax.swing.JTextField
 
-class SpockAdbViewer(
-    private val project: Project
-) : SimpleToolWindowPanel(true) {
-    private lateinit var panel1: JPanel
+class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true) {
     private lateinit var rootPanel: JPanel
     private lateinit var permissionPanel: JPanel
     private lateinit var networkPanel: JPanel
@@ -135,7 +144,7 @@ class SpockAdbViewer(
             }
 
         }
-       adbWifi.isVisible = false
+        adbWifi.isVisible = false
 //        adbWifi.addActionListener {
 //            val ip = Messages.showInputDialog(
 //                "Enter You Android Device IP address",
@@ -146,7 +155,7 @@ class SpockAdbViewer(
 //            )
 //            ip?.let { adbController.connectDeviceOverIp(ip = ip) }
 
-      //  }
+        //  }
 
 //        refresh.addActionListener {
 //            adbController.refresh()
@@ -232,20 +241,12 @@ class SpockAdbViewer(
         }
         grantAllPermissionsButton.addActionListener {
             selectedIDevice?.let { device ->
-                adbController.grantOrRevokeAllPermissions(
-                    device,
-                    GetApplicationPermission.PermissionOperation.GRANT,
-
-                    )
+                adbController.grantOrRevokeAllPermissions(device, GetApplicationPermission.PermissionOperation.GRANT)
             }
         }
         revokeAllPermissionsButton.addActionListener {
             selectedIDevice?.let { device ->
-                adbController.grantOrRevokeAllPermissions(
-                    device,
-                    GetApplicationPermission.PermissionOperation.REVOKE,
-
-                    )
+                adbController.grantOrRevokeAllPermissions(device, GetApplicationPermission.PermissionOperation.REVOKE)
             }
         }
         wifiToggle.addActionListener {
@@ -303,6 +304,7 @@ class SpockAdbViewer(
                     inputOnDeviceButton.isVisible = it.isSelected
                     inputOnDeviceTextField.isVisible = it.isSelected
                 }
+
                 SpockAction.DEEP_LINK -> {
                     openDeepLinkButton.isVisible = it.isSelected
                     openDeepLinkTextField.isVisible = it.isSelected
