@@ -61,6 +61,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var openDeepLinkButton: JButton
     private lateinit var openDeveloperOptionsButton: JButton
     private lateinit var openAccountsButton: JButton
+    private lateinit var openAppSettingsButton: JButton
     private var selectedIDevice: IDevice? = null
 
     private lateinit var adbController: AdbController
@@ -279,6 +280,11 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         openAccountsButton.addActionListener {
             selectedIDevice?.let { device ->
                 adbController.openAccounts(device)
+            }
+        }
+        openAppSettingsButton.addActionListener {
+            selectedIDevice?.let { device ->
+                adbController.openAppSettings(device)
             }
         }
     }
