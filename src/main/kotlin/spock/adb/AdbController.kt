@@ -26,6 +26,7 @@ interface AdbController {
     fun connectDeviceOverIp(ip: String)
     fun enableDisableShowTaps(device: IDevice)
     fun enableDisableShowLayoutBounds(device: IDevice)
+    fun enableDisableDarkMode(device: IDevice)
     fun setWindowAnimatorScale(scale: String, device: IDevice)
     fun setTransitionAnimatorScale(scale: String, device: IDevice)
     fun setAnimatorDurationScale(scale: String, device: IDevice)

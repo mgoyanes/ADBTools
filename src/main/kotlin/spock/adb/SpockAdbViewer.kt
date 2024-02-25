@@ -7,6 +7,7 @@ import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
 import spock.adb.command.AnimatorDurationScaleCommand
 import spock.adb.command.DontKeepActivitiesState
+import spock.adb.command.EnableDarkModeState
 import spock.adb.command.GetApplicationPermission
 import spock.adb.command.Network
 import spock.adb.command.ShowLayoutBoundsState
@@ -50,6 +51,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var enableDisableDontKeepActivities: JCheckBox
     private lateinit var enableDisableShowTaps: JCheckBox
     private lateinit var enableDisableShowLayoutBounds: JCheckBox
+    private lateinit var enableDisableDarkMode: JCheckBox
     private lateinit var windowAnimatorScaleComboBox: JComboBox<String>
     private lateinit var transitionAnimatorScaleComboBox: JComboBox<String>
     private lateinit var animatorDurationScaleComboBox: JComboBox<String>
@@ -75,6 +77,13 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private val showLayoutBoundsActionListener: (ActionEvent) -> Unit = {
         selectedIDevice?.let { device ->
             adbController.enableDisableShowLayoutBounds(device)
+            device.refreshUi()
+        }
+    }
+
+    private val showDarkModeActionListener: (ActionEvent) -> Unit = {
+        selectedIDevice?.let { device ->
+            adbController.enableDisableDarkMode(device)
             device.refreshUi()
         }
     }
@@ -342,6 +351,10 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
             enableDisableShowLayoutBounds.removeActionListener(it)
         }
 
+        enableDisableDarkMode.actionListeners.forEach {
+            enableDisableDarkMode.removeActionListener(it)
+        }
+
         windowAnimatorScaleComboBox.actionListeners.forEach {
             windowAnimatorScaleComboBox.removeActionListener(it)
         }
@@ -364,6 +377,9 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         enableDisableShowLayoutBounds.isSelected =
             selectedIDevice?.areShowLayoutBoundsEnabled() == ShowLayoutBoundsState.ENABLED
 
+        enableDisableDarkMode.isSelected =
+            selectedIDevice?.isDarkModeEnabled() == EnableDarkModeState.ENABLED
+
         windowAnimatorScaleComboBox.selectedItem =
             WindowAnimatorScaleCommand.getWindowAnimatorScaleIndex(selectedIDevice?.getWindowAnimatorScale())
 
@@ -378,6 +394,8 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         enableDisableShowTaps.addActionListener(showTapsActionListener)
 
         enableDisableShowLayoutBounds.addActionListener(showLayoutBoundsActionListener)
+
+        enableDisableDarkMode.addActionListener(showDarkModeActionListener)
 
         windowAnimatorScaleComboBox.addActionListener(windowAnimatorScaleActionListener)
 
