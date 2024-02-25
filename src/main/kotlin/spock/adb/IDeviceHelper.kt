@@ -2,17 +2,19 @@ package spock.adb
 
 import com.android.ddmlib.IDevice
 import com.android.ddmlib.IShellOutputReceiver
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import spock.adb.command.DontKeepActivitiesState
 import spock.adb.command.EnableDarkModeState
 import spock.adb.command.Network
 import spock.adb.command.NetworkState
 import spock.adb.command.ShowLayoutBoundsState
 import spock.adb.command.ShowTapsState
+import java.util.concurrent.TimeUnit
 
-fun IDevice.forceKillApp(applicationID: String?, seconds: Long) {
+fun IDevice.forceKillApp(applicationID: String?) {
     val shellOutputReceiver = ShellOutputReceiver()
-    executeShellCommand("am force-stop $applicationID", shellOutputReceiver, seconds, TimeUnit.SECONDS)
+    executeShellCommandWithTimeout("am force-stop $applicationID", shellOutputReceiver)
 }
 
 fun IDevice.isAppInstall(applicationID: String?): Boolean {
@@ -25,8 +27,8 @@ fun IDevice.startActivity(activity: String) {
     executeShellCommandWithTimeout("am start -n $activity", ShellOutputReceiver())
 }
 
-fun IDevice.clearAppData(applicationID: String?, seconds: Long) {
-    executeShellCommand("pm clear $applicationID", ShellOutputReceiver(), seconds, TimeUnit.SECONDS)
+fun IDevice.clearAppData(applicationID: String?) {
+    executeShellCommandWithTimeout("pm clear $applicationID", ShellOutputReceiver())
 }
 
 fun IDevice.getDefaultActivityForApplication(packageName: String?): String {
@@ -119,11 +121,14 @@ fun IDevice.getApiVersion(): Int? {
     return outputReceiver.toString().toIntOrNull()
 }
 
-fun IDevice.executeShellCommandWithTimeout(command: String, receiver: IShellOutputReceiver) {
-    executeShellCommand(
-        command,
-        receiver,
-        MAX_TIME_TO_OUTPUT_RESPONSE,
-        TimeUnit.SECONDS,
-    )
+fun IDevice.executeShellCommandWithTimeout(command: String, receiver: IShellOutputReceiver, timeout: Long = MAX_TIME_TO_OUTPUT_RESPONSE, timeUnit: TimeUnit = TimeUnit.SECONDS) {
+    runBlocking(Dispatchers.IO) {
+        executeShellCommand(
+            command,
+            receiver,
+            timeout,
+            timeUnit,
+        )
+    }
 }
+

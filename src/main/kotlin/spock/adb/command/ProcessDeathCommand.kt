@@ -2,7 +2,12 @@ package spock.adb.command
 
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
-import spock.adb.*
+import spock.adb.ShellOutputReceiver
+import spock.adb.executeShellCommandWithTimeout
+import spock.adb.getDefaultActivityForApplication
+import spock.adb.isAppInForeground
+import spock.adb.isAppInstall
+import spock.adb.startActivity
 import java.util.concurrent.TimeUnit
 
 class ProcessDeathCommand : Command<String, Unit> {
@@ -24,7 +29,7 @@ class ProcessDeathCommand : Command<String, Unit> {
 
     private fun sendAppToBackgroundIfInForeground(device: IDevice, p: String) {
         if (device.isAppInForeground(p)) {
-            device.executeShellCommand("input keyevent 3", ShellOutputReceiver(), 0, TimeUnit.SECONDS)
+            device.executeShellCommandWithTimeout("input keyevent 3", ShellOutputReceiver(), 0, TimeUnit.SECONDS)
         }
     }
 
