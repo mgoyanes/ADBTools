@@ -45,11 +45,9 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
                 }
 
                 shellOutputReceiver = ShellOutputReceiver()
-                device.executeShellCommand(
+                device.executeShellCommandWithTimeout(
                     "$DUMPSYS_ACTIVITY $fullActivityName",
                     shellOutputReceiver,
-                    MAX_TIME_TO_OUTPUT_RESPONSE,
-                    TimeUnit.SECONDS
                 )
 
                 activityData = shellOutputReceiver.toString().lines()
@@ -79,11 +77,9 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
         val positionRegex = Regex(".*Hist.*#(\\d+).*")
         val shellOutputReceiver = ShellOutputReceiver()
 
-        device.executeShellCommand(
+        device.executeShellCommandWithTimeout(
             "$DUMPSYS_ACTIVITY activities | grep -E \"Hist.*${identifier}\"",
             shellOutputReceiver,
-            MAX_TIME_TO_OUTPUT_RESPONSE,
-            TimeUnit.SECONDS
         )
 
         return shellOutputReceiver
