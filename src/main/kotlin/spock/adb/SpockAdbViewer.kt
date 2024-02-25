@@ -167,10 +167,11 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
 
         //  }
 
-//        refresh.addActionListener {
-//            adbController.refresh()
-//            updateDevicesList()
-//        }
+        refresh.addActionListener {
+            adbController.refresh()
+            updateDevicesList()
+        }
+
         devicesListComboBox.addItemListener {
             selectedIDevice = devices[devicesListComboBox.selectedIndex]
 
