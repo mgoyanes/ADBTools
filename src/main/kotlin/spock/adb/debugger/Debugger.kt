@@ -2,43 +2,60 @@ package spock.adb.debugger
 
 import com.android.ddmlib.Client
 import com.android.ddmlib.IDevice
-import com.android.tools.idea.run.AndroidProcessHandler
-import com.android.tools.idea.run.editor.AndroidDebugger
+import com.android.tools.idea.execution.common.debug.AndroidDebugger
+import com.android.tools.idea.execution.common.debug.AndroidDebuggerState
+import com.android.tools.idea.execution.common.debug.DebugSessionStarter
+import com.android.tools.idea.execution.common.processhandler.AndroidProcessHandler
 import com.intellij.execution.ExecutionManager
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.process.ProcessOutputTypes
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
+import com.intellij.util.concurrency.AppExecutorUtil
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.joor.Reflect
 import org.joor.Reflect.on
 
 
-class Debugger(private val project: Project, private val device: IDevice, private val packageName: String) {
-
-    fun attach() {
-        var client: Client? = null
-        waitUntil {
-            client = device.getClient(packageName)
-            AndroidDebugger.EP_NAME.extensions.isNotEmpty() && client != null
-        }
-        for (androidDebugger in AndroidDebugger.EP_NAME.extensions) {
-            if (androidDebugger.supportsProject(project)) {
-                invokeLater { closeOldSessionAndRun(androidDebugger, device.getClient(packageName) ?: client!!) }
-                break
+class Debugger(
+    private val project: Project,
+    private val device: IDevice,
+    private val packageName: String,
+) {
+        fun attach() {
+            var client: Client? = null
+            waitUntil {
+                client = device.getClient(packageName)
+                AndroidDebugger.EP_NAME.extensions.isNotEmpty() && client != null
+            }
+            for (androidDebugger in AndroidDebugger.EP_NAME.extensions) {
+                if (androidDebugger.supportsProject(project)) {
+                    AppExecutorUtil.getAppExecutorService().execute {
+                        closeOldSessionAndRun(androidDebugger, device.getClient(packageName) ?: client!!)
+                    }
+                    break
+                }
             }
         }
-    }
 
-    private fun closeOldSessionAndRun(androidDebugger: AndroidDebugger<*>, client: Client) {
-        terminateRunSessions(client)
-        AttachToClient(androidDebugger, project, client).get()
-    }
+        private fun closeOldSessionAndRun(androidDebugger: AndroidDebugger<AndroidDebuggerState>, client: Client) {
+            terminateRunSessions(client)
 
-    // Disconnect any active run sessions to the same client
-    private fun terminateRunSessions(selectedClient: Client) {
-        TerminateRunSession(selectedClient, project).get()
+            GlobalScope.launch {
+                DebugSessionStarter.attachDebuggerToClientAndShowTab(
+                    project,
+                    client,
+                    androidDebugger,
+                    androidDebugger.createState()
+                )
+            }
+        }
+
+        // Disconnect any active run sessions to the same client
+        private fun terminateRunSessions(selectedClient: Client) {
+            TerminateRunSession(selectedClient, project).get()
+        }
     }
-}
 
 class TerminateRunSession(
     private val selectedClient: Client,
@@ -85,19 +102,7 @@ class TerminateRunSession(
     private fun pidFrom(client: Client) = on(client).call("getClientData").call("getPid").get<Int>()!!
 }
 
-class AttachToClient(
-    private val androidDebugger: AndroidDebugger<*>,
-    private val project: Project,
-    private val client: Client
-) : BackwardCompatibleGetter<Unit>() {
-    override fun getCurrentImplementation() {
-        androidDebugger.attachToClient(project, client, null)
-    }
 
-    override fun getPreviousImplementation() {
-        on(androidDebugger).call("attachToClient", project, client)
-    }
-}
 
 private class RunningProcessesGetter(
     val project: Project
@@ -149,7 +154,5 @@ fun waitUntil(timeoutMillis: Long = 30000L, step: Long = 100L, condition: () -> 
         Thread.sleep(step)
     }
 }
-
-fun invokeLater(runnable: () -> Unit) = ApplicationManager.getApplication().invokeLater(runnable)
 
 inline fun <reified T> on(): Reflect = on(T::class.java)
