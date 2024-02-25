@@ -85,14 +85,14 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
         backStackData
             .sortedByDescending { it.activityStackPosition }
             .forEachIndexed { index, activityData ->
-            backStackList[activityData.activity] = index
+                backStackList[activityData.activity] = index
 
-            activityData.fragment.forEachIndexed { fragmentIndex, fragmentData ->
-                backStackList[fragmentData.fragment] = fragmentIndex
+                activityData.fragment.forEachIndexed { fragmentIndex, fragmentData ->
+                    backStackList[fragmentData.fragment] = fragmentIndex
 
-                addInnerFragmentsToList(fragmentData = fragmentData, fragmentsList = backStackList, indent = INDENT, includeIndex = false)
+                    addInnerFragmentsToList(fragmentData = fragmentData, fragmentsList = backStackList, indent = INDENT, includeIndex = false)
+                }
             }
-        }
 
         val list = JBList(backStackList.keys.toList())
         var margin: Int
@@ -101,7 +101,9 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
             val title = o.toString()
             displayTitle = if (title.contains(DOT)) {
                 margin = 10
-                StringBuilder().insert(ZERO, "[${backStackList[title]}]-").append((title.split(DOT).lastOrNull() ?: EMPTY) + " [Activity]${if (backStackData.firstOrNull { it.activity == title }?.isKilled == true) ACTIVITY_KILLED else EMPTY}").toString()
+                StringBuilder().insert(ZERO, "[${backStackList[title]}]-").append(
+                    (title.split(DOT).lastOrNull() ?: EMPTY) + " [Activity]${if (backStackData.firstOrNull { it.activity == title }?.isKilled == true) ACTIVITY_KILLED else EMPTY}"
+                ).toString()
             } else {
                 margin = 20
                 StringBuilder(title).insert(max(ZERO, title.indexOfLast { char -> char == TAB }), "[${backStackList[title]}]-").append(" [Fragment]").toString()
@@ -117,7 +119,7 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
                 val current = backStackList.keys.elementAtOrNull(list.selectedIndex)
                 current?.let {
                     if (it.contains(DASH))
-                        it.trim().replace(ACTIVITY_KILLED, EMPTY).replaceFirst(DASH.toString(),EMPTY).psiClassByNameFromProjct(project)?.openIn(project)
+                        it.trim().replace(ACTIVITY_KILLED, EMPTY).replaceFirst(DASH.toString(), EMPTY).psiClassByNameFromProjct(project)?.openIn(project)
                     else
                         it.trim().psiClassByNameFromCache(project)?.openIn(project)
                 }
@@ -245,6 +247,7 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
             val operation: (ListItem) -> Unit = when (permissionOperation) {
                 GetApplicationPermission.PermissionOperation.GRANT ->
                     { permission -> GrantPermissionCommand().execute(applicationID, permission, project, device) }
+
                 GetApplicationPermission.PermissionOperation.REVOKE ->
                     { permission -> RevokePermissionCommand().execute(applicationID, permission, project, device) }
             }
@@ -288,6 +291,13 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
     override fun enableDisableShowLayoutBounds(device: IDevice) {
         execute {
             val result = EnableDisableShowLayoutBoundsCommand().execute(Any(), project, device)
+            showSuccess(result)
+        }
+    }
+
+    override fun enableDisableDarkMode(device: IDevice) {
+        execute {
+            val result = EnableDisableDarkModeCommand().execute(Any(), project, device)
             showSuccess(result)
         }
     }
@@ -371,11 +381,11 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
     ) {
         fragmentData.innerFragments.forEachIndexed { fragmentIndex, innerFragmentData ->
             fragmentsList[
-                    if (includeIndex) {
-                        "$indent[$fragmentIndex]-${innerFragmentData.fragment}"
-                    } else {
-                        "$indent${innerFragmentData.fragment}"
-                    }
+                if (includeIndex) {
+                    "$indent[$fragmentIndex]-${innerFragmentData.fragment}"
+                } else {
+                    "$indent${innerFragmentData.fragment}"
+                }
             ] = fragmentIndex
             addInnerFragmentsToList(innerFragmentData, fragmentsList, "$INDENT$indent", includeIndex)
         }

@@ -4,6 +4,7 @@ import com.android.ddmlib.IDevice
 import com.android.ddmlib.IShellOutputReceiver
 import java.util.concurrent.TimeUnit
 import spock.adb.command.DontKeepActivitiesState
+import spock.adb.command.EnableDarkModeState
 import spock.adb.command.Network
 import spock.adb.command.NetworkState
 import spock.adb.command.ShowLayoutBoundsState
@@ -66,6 +67,13 @@ fun IDevice.areShowLayoutBoundsEnabled(): ShowLayoutBoundsState {
     executeShellCommandWithTimeout("getprop debug.layout", outputReceiver)
 
     return ShowLayoutBoundsState.getState(outputReceiver.toString())
+}
+
+fun IDevice.isDarkModeEnabled(): EnableDarkModeState {
+    val outputReceiver = ShellOutputReceiver()
+    executeShellCommandWithTimeout("cmd uimode night", outputReceiver)
+
+    return EnableDarkModeState.getState(outputReceiver.toString())
 }
 
 fun IDevice.refreshUi() {
