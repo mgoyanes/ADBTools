@@ -416,4 +416,10 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
             showSuccess(OpenAppSettingsCommand().execute(applicationID, project, device))
         }
     }
+
+    override fun setFirebaseDebugApp(device: IDevice, firebaseDebugApp: String) {
+        execute {
+            FirebaseCommand().execute(getApplicationID(device), firebaseDebugApp, project, device)
+        }
+    }
 }
