@@ -5,9 +5,11 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
+import org.jetbrains.android.sdk.AndroidSdkUtils
 import spock.adb.command.AnimatorDurationScaleCommand
 import spock.adb.command.DontKeepActivitiesState
 import spock.adb.command.EnableDarkModeState
+import spock.adb.command.FirebaseCommand
 import spock.adb.command.GetApplicationPermission
 import spock.adb.command.Network
 import spock.adb.command.ShowLayoutBoundsState
@@ -64,6 +66,8 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var openDeveloperOptionsButton: JButton
     private lateinit var openAccountsButton: JButton
     private lateinit var openAppSettingsButton: JButton
+    private lateinit var firebaseButton: JButton
+    private lateinit var firebaseTextField: JTextField
     private var selectedIDevice: IDevice? = null
 
     private lateinit var adbController: AdbController
@@ -93,7 +97,6 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
             adbController.setWindowAnimatorScale(
                 windowAnimatorScaleComboBox.selectedItem as String,
                 device
-
             )
         }
     }
@@ -297,6 +300,13 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                 adbController.openAppSettings(device)
             }
         }
+        firebaseButton.addActionListener {
+            selectedIDevice?.let { device ->
+                val firebaseDebugApp = device.getFirebaseDebugApp()
+                adbController.setFirebaseDebugApp(device, firebaseDebugApp)
+                firebaseTextField.text = firebaseDebugApp
+            }
+        }
     }
 
     private fun updateUi(it: AppSetting) {
@@ -389,6 +399,8 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
 
         animatorDurationScaleComboBox.selectedItem =
             AnimatorDurationScaleCommand.getAnimatorDurationScaleIndex(selectedIDevice?.getAnimatorDurationScale())
+
+        setFirebaseData()
     }
 
     private fun setDeveloperOptionsListeners() {
@@ -403,6 +415,19 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         transitionAnimatorScaleComboBox.addActionListener(transitionAnimatorScaleActionListener)
 
         animatorDurationScaleComboBox.addActionListener(animatorDurationScaleActionListener)
+
+        firebaseButton.addActionListener {
+            setFirebaseData()
+        }
+    }
+
+    private fun setFirebaseData() {
+        val currentFirebaseDebugApp = selectedIDevice?.getFirebaseDebugApp()
+        firebaseTextField.text = currentFirebaseDebugApp
+        firebaseButton.text = when (currentFirebaseDebugApp) {
+            FirebaseCommand.NO_DEBUG_APP -> "Enable Firebase Debug"
+            else -> "Disable Firebase Debug"
+        }
     }
 
     private fun setToolWindowListener() {

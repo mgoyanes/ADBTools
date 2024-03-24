@@ -121,6 +121,13 @@ fun IDevice.getApiVersion(): Int? {
     return outputReceiver.toString().toIntOrNull()
 }
 
+fun IDevice.getFirebaseDebugApp(): String {
+    val outputReceiver = ShellOutputReceiver()
+    executeShellCommandWithTimeout("getprop debug.firebase.analytics.app", outputReceiver)
+
+    return outputReceiver.toString()
+}
+
 fun IDevice.executeShellCommandWithTimeout(command: String, receiver: IShellOutputReceiver, timeout: Long = MAX_TIME_TO_OUTPUT_RESPONSE, timeUnit: TimeUnit = TimeUnit.SECONDS) {
     runBlocking(Dispatchers.IO) {
         executeShellCommand(

@@ -36,4 +36,5 @@ interface AdbController {
     fun openDeepLink(input: String, device: IDevice)
     fun openAccounts(device: IDevice)
     fun openAppSettings(device: IDevice)
+    fun setFirebaseDebugApp(device: IDevice, firebaseDebugApp: String)
 }
