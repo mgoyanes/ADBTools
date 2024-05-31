@@ -38,6 +38,9 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var clearAppDataAndRestartButton: JButton
     private lateinit var uninstallAppButton: JButton
     private lateinit var refresh: JButton
+    private lateinit var refresh2: JButton
+    private lateinit var refresh3: JButton
+    private lateinit var refresh4: JButton
     private lateinit var permissionButton: JButton
     private lateinit var grantAllPermissionsButton: JButton
     private lateinit var revokeAllPermissionsButton: JButton
@@ -172,6 +175,18 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
 
         refresh.addActionListener {
             adbController.refresh()
+            updateDevicesList()
+        }
+        refresh2.addActionListener {
+            adbController.refresh2()
+            updateDevicesList()
+        }
+        refresh3.addActionListener {
+            adbController.refresh3()
+            updateDevicesList()
+        }
+        refresh4.addActionListener {
+            adbController.refresh4()
             updateDevicesList()
         }
 

@@ -7,6 +7,9 @@ import spock.adb.premission.ListItem
 
 interface AdbController {
     fun refresh()
+    fun refresh2()
+    fun refresh3()
+    fun refresh4()
     fun connectedDevices(block: (devices: List<IDevice>) -> Unit)
     fun currentBackStack(device: IDevice)
     fun currentApplicationBackStack(device: IDevice)

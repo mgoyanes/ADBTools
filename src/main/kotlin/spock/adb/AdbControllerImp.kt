@@ -9,16 +9,51 @@ import com.intellij.psi.PsiClass
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
 import com.intellij.util.ui.JBUI
-import spock.adb.command.*
+import org.jetbrains.android.sdk.AndroidSdkUtils
+import spock.adb.command.AnimatorDurationScaleCommand
+import spock.adb.command.ClearAppDataAndRestartCommand
+import spock.adb.command.ClearAppDataCommand
+import spock.adb.command.ConnectDeviceOverIPCommand
+import spock.adb.command.EnableDisableDarkModeCommand
+import spock.adb.command.EnableDisableShowLayoutBoundsCommand
+import spock.adb.command.EnableDisableShowTapsCommand
+import spock.adb.command.FirebaseCommand
+import spock.adb.command.ForceKillAppCommand
+import spock.adb.command.GetActivityCommand
+import spock.adb.command.GetApplicationBackStackCommand
+import spock.adb.command.GetApplicationIDCommand
+import spock.adb.command.GetApplicationPermission
+import spock.adb.command.GetBackStackCommand
+import spock.adb.command.GetFragmentsCommand
+import spock.adb.command.GetPackageNameCommand
+import spock.adb.command.GrantPermissionCommand
+import spock.adb.command.InputOnDeviceCommand
+import spock.adb.command.Network
+import spock.adb.command.OpenAccountsCommand
+import spock.adb.command.OpenAppSettingsCommand
+import spock.adb.command.OpenDeepLinkCommand
+import spock.adb.command.OpenDeveloperOptionsCommand
+import spock.adb.command.ProcessDeathCommand
+import spock.adb.command.RestartAppCommand
+import spock.adb.command.RestartAppWithDebuggerCommand
+import spock.adb.command.RevokePermissionCommand
+import spock.adb.command.ToggleNetworkCommand
+import spock.adb.command.TransitionAnimatorScaleCommand
+import spock.adb.command.UninstallAppCommand
+import spock.adb.command.WindowAnimatorScaleCommand
 import spock.adb.models.ActivityData
 import spock.adb.models.BackStackData
 import spock.adb.models.FragmentData
 import spock.adb.notification.CommonNotifier
 import spock.adb.premission.ListItem
+import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
 
-class AdbControllerImp(private val project: Project, private val debugBridge: AndroidDebugBridge?) : AdbController, AndroidDebugBridge.IDeviceChangeListener {
+class AdbControllerImp(private val project: Project, private var debugBridge: AndroidDebugBridge?) :
+    AdbController,
+    AndroidDebugBridge.IDeviceChangeListener,
+    AndroidDebugBridge.IDebugBridgeChangeListener {
 
     companion object {
         private const val INDENT = "\t\t\t\t"
@@ -37,6 +72,31 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
     private fun getPackageName(device: IDevice) = GetPackageNameCommand().execute(Any(), project, device).toString()
 
     override fun refresh() {
+        AndroidDebugBridge.terminate()
+        debugBridge?.startAdb(Long.MAX_VALUE, TimeUnit.MILLISECONDS)
+
+        AndroidDebugBridge.removeDeviceChangeListener(this)
+        AndroidDebugBridge.addDeviceChangeListener(this)
+    }
+
+    override fun refresh2() {
+        debugBridge?.restart(Long.MAX_VALUE, TimeUnit.MILLISECONDS)
+
+        AndroidDebugBridge.removeDeviceChangeListener(this)
+        AndroidDebugBridge.addDeviceChangeListener(this)
+    }
+
+    override fun refresh3() {
+        AndroidDebugBridge.terminate()
+        debugBridge?.restart(Long.MAX_VALUE, TimeUnit.MILLISECONDS)
+
+        AndroidDebugBridge.removeDeviceChangeListener(this)
+        AndroidDebugBridge.addDeviceChangeListener(this)
+    }
+
+    override fun refresh4() {
+        debugBridge = AndroidSdkUtils.getDebugBridge(project)
+
         AndroidDebugBridge.removeDeviceChangeListener(this)
         AndroidDebugBridge.addDeviceChangeListener(this)
     }
@@ -46,6 +106,31 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
         updateDeviceList?.invoke(debugBridge?.devices?.toList() ?: listOf())
     }
 
+
+    //region IDebugBridgeChangeListener
+    override fun bridgeChanged(bridge: AndroidDebugBridge?) {
+        debugBridge = bridge
+
+        showSuccess("bridgeChanged")
+    }
+
+    override fun restartInitiated() {
+        super.restartInitiated()
+        showSuccess("restartInitiated")
+    }
+
+    override fun restartCompleted(isSuccessful: Boolean) {
+        super.restartCompleted(isSuccessful)
+        showSuccess("restartCompleted isSuccessful=$isSuccessful")
+    }
+
+    override fun initializationError(exception: java.lang.Exception?) {
+        super.initializationError(exception)
+        showError("initializationError. Error was=${exception?.message}")
+    }
+    //endregion
+
+    //region IDeviceChangeListener
     override fun deviceConnected(iDevice: IDevice) {
         updateDeviceList?.invoke(debugBridge?.devices?.toList() ?: listOf())
     }
@@ -55,6 +140,7 @@ class AdbControllerImp(private val project: Project, private val debugBridge: An
     }
 
     override fun deviceChanged(iDevice: IDevice, i: Int) {}
+    //endregion
 
     override fun currentBackStack(device: IDevice) {
         val activitiesList = mutableListOf<String>()
