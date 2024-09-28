@@ -28,15 +28,21 @@ class GetApplicationIDCommand : Command<Any, String?> {
     }
 
     private fun getFacet(facets: List<AndroidFacet>, project: Project): AndroidFacet? {
-        val facets = facets.mapNotNull { it.holderModule.androidFacet }.distinct()
+        val facetList =
+            facets
+                .mapNotNull { androidFacet ->
+                    androidFacet.module.androidFacet
+                }
+                .distinct()
+
         val facet: AndroidFacet?
-        if (facets.size > 1) {
-            facet = showDialogForFacets(project, facets)
+        if (facetList.size > 1) {
+            facet = showDialogForFacets(project, facetList)
             if (facet == null) {
                 return null
             }
         } else {
-            facet = facets[0]
+            facet = facetList[0]
         }
 
         return facet
