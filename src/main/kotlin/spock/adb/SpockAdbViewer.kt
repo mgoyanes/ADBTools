@@ -12,6 +12,7 @@ import spock.adb.command.EnableDarkModeState
 import spock.adb.command.FirebaseCommand
 import spock.adb.command.GetApplicationPermission
 import spock.adb.command.Network
+import spock.adb.command.NetworkRateLimitCommand
 import spock.adb.command.ShowLayoutBoundsState
 import spock.adb.command.ShowTapsState
 import spock.adb.command.TransitionAnimatorScaleCommand
@@ -60,6 +61,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var windowAnimatorScaleComboBox: JComboBox<String>
     private lateinit var transitionAnimatorScaleComboBox: JComboBox<String>
     private lateinit var animatorDurationScaleComboBox: JComboBox<String>
+    private lateinit var networkRateLimitComboBox: JComboBox<String>
     private lateinit var wifiToggle: JButton
     private lateinit var mobileDataToggle: JButton
     private lateinit var inputOnDeviceTextField: JTextField
@@ -118,6 +120,15 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         selectedIDevice?.let { device ->
             adbController.setAnimatorDurationScale(
                 animatorDurationScaleComboBox.selectedItem as String,
+                device
+            )
+        }
+    }
+
+    private val networkRateLimitActionListener: (ActionEvent) -> Unit = {
+        selectedIDevice?.let { device ->
+            adbController.setNetworkRateLimit(
+                networkRateLimitComboBox.selectedItem as String,
                 device
             )
         }
@@ -392,6 +403,10 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         animatorDurationScaleComboBox.actionListeners.forEach {
             animatorDurationScaleComboBox.removeActionListener(it)
         }
+
+        networkRateLimitComboBox.actionListeners.forEach {
+            networkRateLimitComboBox.removeActionListener(it)
+        }
     }
 
     private fun setDeveloperOptionsValues() {
@@ -415,6 +430,9 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         animatorDurationScaleComboBox.selectedItem =
             AnimatorDurationScaleCommand.getAnimatorDurationScaleIndex(selectedIDevice?.getAnimatorDurationScale())
 
+        networkRateLimitComboBox.selectedItem =
+            NetworkRateLimitCommand.getGetNetworkRateLimitIndex(selectedIDevice?.getNetworkRateLimit())
+
         setFirebaseData()
     }
 
@@ -430,6 +448,8 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         transitionAnimatorScaleComboBox.addActionListener(transitionAnimatorScaleActionListener)
 
         animatorDurationScaleComboBox.addActionListener(animatorDurationScaleActionListener)
+
+        networkRateLimitComboBox.addActionListener(networkRateLimitActionListener)
 
         firebaseButton.addActionListener {
             setFirebaseData()

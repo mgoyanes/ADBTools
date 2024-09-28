@@ -101,6 +101,12 @@ fun IDevice.getAnimatorDurationScale(): String {
     return shellOutputReceiver.toString()
 }
 
+fun IDevice.getNetworkRateLimit(): String {
+    val shellOutputReceiver = ShellOutputReceiver()
+    executeShellCommandWithTimeout("settings get global ingress_rate_limit_bytes_per_second", shellOutputReceiver)
+    return shellOutputReceiver.toString()
+}
+
 fun IDevice.isAppInForeground(applicationID: String?): Boolean {
     val shellOutputReceiver = ShellOutputReceiver()
     executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY recents | grep 'Recent #0'", shellOutputReceiver)

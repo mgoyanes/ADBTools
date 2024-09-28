@@ -33,6 +33,7 @@ interface AdbController {
     fun setWindowAnimatorScale(scale: String, device: IDevice)
     fun setTransitionAnimatorScale(scale: String, device: IDevice)
     fun setAnimatorDurationScale(scale: String, device: IDevice)
+    fun setNetworkRateLimit(scale: String, device: IDevice)
     fun toggleNetwork(device: IDevice, network: Network)
     fun inputOnDevice(input: String, device: IDevice)
     fun openDeveloperOptions(device: IDevice)

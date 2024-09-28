@@ -29,6 +29,7 @@ import spock.adb.command.GetPackageNameCommand
 import spock.adb.command.GrantPermissionCommand
 import spock.adb.command.InputOnDeviceCommand
 import spock.adb.command.Network
+import spock.adb.command.NetworkRateLimitCommand
 import spock.adb.command.OpenAccountsCommand
 import spock.adb.command.OpenAppSettingsCommand
 import spock.adb.command.OpenDeepLinkCommand
@@ -405,6 +406,13 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun setAnimatorDurationScale(scale: String, device: IDevice) {
         execute {
             val result = AnimatorDurationScaleCommand().execute(scale, project, device)
+            showSuccess(result)
+        }
+    }
+
+    override fun setNetworkRateLimit(scale: String, device: IDevice) {
+        execute {
+            val result = NetworkRateLimitCommand().execute(scale, project, device)
             showSuccess(result)
         }
     }
