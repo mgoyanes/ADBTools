@@ -17,9 +17,9 @@
         </constraints>
         <properties>
           <focusable value="true"/>
-          <minimumSize width="500" height="900"/>
+          <minimumSize width="500" height="1000"/>
           <opaque value="true"/>
-          <preferredSize width="500" height="1000"/>
+          <preferredSize width="500" height="1100"/>
         </properties>
         <border type="none"/>
         <children>
