@@ -140,6 +140,12 @@ tasks {
     }
 }
 
+tasks.named<org.jetbrains.intellij.platform.gradle.tasks.RunIdeTask>("runIde") {
+    jvmArgumentProviders += CommandLineArgumentProvider {
+        listOf("-Didea.kotlin.plugin.use.k2=true")
+    }
+}
+
 intellijPlatformTesting {
     runIde {
         register("runIdeForUiTests") {

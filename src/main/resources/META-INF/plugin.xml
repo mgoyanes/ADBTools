@@ -45,6 +45,9 @@
                     secondary="true"/>
 
     </extensions>
+    <extensions defaultExtensionNs="org.jetbrains.kotlin">
+        <supportsKotlinPluginMode supportsK2="true" />
+    </extensions>
 
     <actions>
         <group id="org.intellij.sdk.action.GroupedActions" text="SpockAdb" popup="true">
