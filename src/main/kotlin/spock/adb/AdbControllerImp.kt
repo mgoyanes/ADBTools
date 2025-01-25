@@ -473,10 +473,17 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         }
     }
 
-    override fun openApp(app: AppsCommand.App, device: IDevice) {
+    override fun openApp(app: String, device: IDevice) {
         execute {
-            val result = AppsCommand().execute(app, project, device)
-            showSuccess(result)
+            val result = AppsCommand().execute(app, AppsCommand.AppAction.OPEN, project, device)
+            if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun closeApp(app: String, device: IDevice) {
+        execute {
+            val result = AppsCommand().execute(app, AppsCommand.AppAction.CLOSE, project, device)
+            if (result != EMPTY) showSuccess(result)
         }
     }
 

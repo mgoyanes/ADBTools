@@ -3,7 +3,6 @@ package spock.adb
 import ProcessCommand
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
@@ -15,7 +14,6 @@ import spock.adb.avsb.AVSBAdbController
 import spock.adb.command.AnimatorDurationScaleCommand
 import spock.adb.avsb.DMSCommand
 import spock.adb.avsb.KeyEventCommand
-import spock.adb.avsb.AppsCommand
 import spock.adb.command.DontKeepActivitiesState
 import spock.adb.command.EnableDarkModeState
 import spock.adb.command.FirebaseCommand
@@ -91,11 +89,6 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var avsbBack: JButton
     private lateinit var avsbExit: JButton
     private lateinit var avsbReboot: JButton
-    private lateinit var avsbYouTube: JButton
-    private lateinit var avsbDisney: JButton
-    private lateinit var avsbHBO: JButton
-    private lateinit var avsbPrime: JButton
-    private lateinit var avsbNetflix: JButton
     private lateinit var avsbUninstall: JButton
     private lateinit var avsbForceKill: JButton
     private lateinit var avsbClearData: JButton
@@ -103,6 +96,9 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var avsbHome: JButton
     private lateinit var avsbSearch: JButton
     private lateinit var avsbAllApps: JButton
+    private lateinit var avsbAppsOpen: JButton
+    private lateinit var avsbAppsClose: JButton
+    private lateinit var avsbAppsComboBox: JComboBox<String>
     private lateinit var avsbAppSettingsButton: JButton
     private lateinit var adbController: AdbController
 
@@ -419,36 +415,6 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
             (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.REBOOT)
         }
 
-        avsbNetflix.addActionListener {
-            selectedIDevice?.let { device ->
-                (adbController as AVSBAdbController).openApp(AppsCommand.App.NETFLIX, device)
-            }
-        }
-
-        avsbHBO.addActionListener {
-            selectedIDevice?.let { device ->
-                (adbController as AVSBAdbController).openApp(AppsCommand.App.HBO_MAX, device)
-            }
-        }
-
-        avsbDisney.addActionListener {
-            selectedIDevice?.let { device ->
-                (adbController as AVSBAdbController).openApp(AppsCommand.App.DISNEY_PLUS, device)
-            }
-        }
-
-        avsbPrime.addActionListener {
-            selectedIDevice?.let { device ->
-                (adbController as AVSBAdbController).openApp(AppsCommand.App.PRIME_VIDEO, device)
-            }
-        }
-
-        avsbYouTube.addActionListener {
-            selectedIDevice?.let { device ->
-                (adbController as AVSBAdbController).openApp(AppsCommand.App.YOUTUBE, device)
-            }
-        }
-
         avsbUninstall.addActionListener {
             selectedIDevice?.let {
                 (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.UNINSTALL)
@@ -488,6 +454,18 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         avsbAllApps.addActionListener {
             selectedIDevice?.let { device ->
                 (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.ALL_APPS, device)
+            }
+        }
+
+        avsbAppsOpen.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).openApp(avsbAppsComboBox.selectedItem as String, device)
+            }
+        }
+
+        avsbAppsClose.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).closeApp(avsbAppsComboBox.selectedItem as String, device)
             }
         }
     }
@@ -569,6 +547,10 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         dmsComboBox.actionListeners.forEach {
             dmsComboBox.removeActionListener(it)
         }
+
+        avsbAppsComboBox.actionListeners.forEach {
+            avsbAppsComboBox.removeActionListener(it)
+        }
     }
 
     private fun setDeveloperOptionsValues() {
@@ -600,7 +582,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         setFirebaseData()
     }
 
-    private fun setDeveloperOptionsListeners() {
+    private fun setListeners() {
         enableDisableShowTaps.addActionListener(showTapsActionListener)
 
         enableDisableShowLayoutBounds.addActionListener(showLayoutBoundsActionListener)
@@ -644,7 +626,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                                 if (toolWindow.isVisible) {
                                     removeDeveloperOptionsListeners()
                                     setDeveloperOptionsValues()
-                                    setDeveloperOptionsListeners()
+                                    setListeners()
                                 }
                             }
                         })

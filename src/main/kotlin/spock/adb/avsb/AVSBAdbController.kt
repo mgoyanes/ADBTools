@@ -8,7 +8,8 @@ interface AVSBAdbController : AdbController {
     fun openStatus(device: IDevice)
     fun openSettings(device: IDevice)
     fun inputKeyEvent(keyEvent: Int, device: IDevice)
-    fun openApp(app: AppsCommand.App, device: IDevice)
+    fun openApp(app: String, device: IDevice)
+    fun closeApp(app: String, device: IDevice)
     fun processCommand(command: ProcessCommand.Command)
     fun openAVSBAppSettings(device: IDevice)
 }
