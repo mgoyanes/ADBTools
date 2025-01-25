@@ -20,7 +20,6 @@ import spock.adb.avsb.DMSCommand
 import spock.adb.avsb.KeyEventCommand
 import spock.adb.avsb.OpenStatusCommand
 import spock.adb.avsb.AppsCommand
-import spock.adb.avsb.OpenCheatMenuCommand
 import spock.adb.avsb.OpenSettingsCommand
 import spock.adb.command.EnableDisableDarkModeCommand
 import spock.adb.command.EnableDisableShowLayoutBoundsCommand
@@ -492,12 +491,6 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun openAVSBAppSettings(device: IDevice) {
         execute {
             showSuccess(OpenAppSettingsCommand().execute(AVSB_PACKAGE, project, device))
-        }
-    }
-
-    override fun openCheatMenu(device: IDevice) {
-        execute {
-            showSuccess(OpenCheatMenuCommand().execute(AVSB_PACKAGE, project, device))
         }
     }
 

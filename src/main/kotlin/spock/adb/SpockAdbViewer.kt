@@ -99,7 +99,6 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var avsbUninstall: JButton
     private lateinit var avsbForceKill: JButton
     private lateinit var avsbClearData: JButton
-    private lateinit var avsbCheatMenu: JButton
     private lateinit var avsbPower: JButton
     private lateinit var avsbHome: JButton
     private lateinit var avsbSearch: JButton
@@ -465,12 +464,6 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         avsbClearData.addActionListener {
             selectedIDevice?.let {
                 (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.CLEAR_DATA)
-            }
-        }
-
-        avsbCheatMenu.addActionListener {
-            selectedIDevice?.let { device ->
-                (adbController as AVSBAdbController).openCheatMenu(device)
             }
         }
 

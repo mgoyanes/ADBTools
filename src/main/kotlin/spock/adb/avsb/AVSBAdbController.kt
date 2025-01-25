@@ -11,5 +11,4 @@ interface AVSBAdbController : AdbController {
     fun openApp(app: AppsCommand.App, device: IDevice)
     fun processCommand(command: ProcessCommand.Command)
     fun openAVSBAppSettings(device: IDevice)
-    fun openCheatMenu(device: IDevice)
 }

@@ -508,7 +508,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <grid id="3e703" binding="avsbPanel" layout-manager="GridLayoutManager" row-count="16" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="3e703" binding="avsbPanel" layout-manager="GridLayoutManager" row-count="15" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="16" column="0" row-span="1" col-span="6" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -522,7 +522,7 @@
             <children>
               <component id="724f" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="DMS"/>
@@ -530,7 +530,7 @@
               </component>
               <component id="a075b" class="javax.swing.JComboBox" binding="dmsComboBox">
                 <constraints>
-                  <grid row="13" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="12" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <model>
@@ -553,12 +553,12 @@
               </component>
               <vspacer id="9f300">
                 <constraints>
-                  <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
               </vspacer>
               <component id="86a25" class="javax.swing.JButton" binding="avsbNetflix">
                 <constraints>
-                  <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Netflix"/>
@@ -566,7 +566,7 @@
               </component>
               <component id="cdb67" class="javax.swing.JButton" binding="avsbPrime">
                 <constraints>
-                  <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Prime"/>
@@ -574,7 +574,7 @@
               </component>
               <component id="c5925" class="javax.swing.JButton" binding="avsbHBO">
                 <constraints>
-                  <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="HBO Max"/>
@@ -582,7 +582,7 @@
               </component>
               <component id="21d73" class="javax.swing.JButton" binding="avsbDisney">
                 <constraints>
-                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Disney+"/>
@@ -590,7 +590,7 @@
               </component>
               <component id="d4f90" class="javax.swing.JButton" binding="avsbYouTube">
                 <constraints>
-                  <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="YouTube"/>
@@ -598,7 +598,7 @@
               </component>
               <component id="ce780" class="javax.swing.JButton" binding="avsbClearData">
                 <constraints>
-                  <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Clear Data"/>
@@ -606,7 +606,7 @@
               </component>
               <component id="fcbe8" class="javax.swing.JButton" binding="avsbForceKill">
                 <constraints>
-                  <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Force Kill"/>
@@ -614,7 +614,7 @@
               </component>
               <component id="e7d8a" class="javax.swing.JButton" binding="avsbUninstall">
                 <constraints>
-                  <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="11" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Uninstall"/>
@@ -646,7 +646,7 @@
               </component>
               <component id="8788b" class="javax.swing.JButton" binding="avsbBack">
                 <constraints>
-                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Back"/>
@@ -654,7 +654,7 @@
               </component>
               <component id="2aae8" class="javax.swing.JButton" binding="avsbHome">
                 <constraints>
-                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Home"/>
@@ -662,7 +662,7 @@
               </component>
               <component id="84a15" class="javax.swing.JButton" binding="avsbSearch">
                 <constraints>
-                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Search"/>
@@ -670,7 +670,7 @@
               </component>
               <component id="e40bd" class="javax.swing.JButton" binding="avsbEPG">
                 <constraints>
-                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="EPG"/>
@@ -678,7 +678,7 @@
               </component>
               <component id="e2e6f" class="javax.swing.JButton" binding="avsbExit">
                 <constraints>
-                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Exit"/>
@@ -686,7 +686,7 @@
               </component>
               <component id="107ea" class="javax.swing.JButton" binding="avsbAllApps">
                 <constraints>
-                  <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Apps"/>
@@ -706,14 +706,6 @@
                 </constraints>
                 <properties>
                   <text value="App Settings"/>
-                </properties>
-              </component>
-              <component id="1698e" class="javax.swing.JButton" binding="avsbCheatMenu">
-                <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Cheat Menu"/>
                 </properties>
               </component>
             </children>
