@@ -55,4 +55,5 @@ enum class SpockAction {
     DEVELOPER_OPTIONS,
     INPUT,
     DEEP_LINK,
+    AVSB,
 }

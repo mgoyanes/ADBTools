@@ -1,12 +1,21 @@
 package spock.adb
 
+import ProcessCommand
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
-import org.jetbrains.android.sdk.AndroidSdkUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import spock.adb.avsb.AVSBAdbController
 import spock.adb.command.AnimatorDurationScaleCommand
+import spock.adb.avsb.DMSCommand
+import spock.adb.avsb.KeyEventCommand
+import spock.adb.avsb.AppsCommand
 import spock.adb.command.DontKeepActivitiesState
 import spock.adb.command.EnableDarkModeState
 import spock.adb.command.FirebaseCommand
@@ -32,6 +41,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var permissionPanel: JPanel
     private lateinit var networkPanel: JPanel
     private lateinit var developerPanel: JPanel
+    private lateinit var avsbPanel: JPanel
     private lateinit var devicesListComboBox: JComboBox<String>
     private lateinit var currentActivityButton: JButton
     private lateinit var currentFragmentButton: JButton
@@ -74,7 +84,27 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var firebaseButton: JButton
     private lateinit var firebaseTextField: JTextField
     private var selectedIDevice: IDevice? = null
-
+    private lateinit var dmsComboBox: JComboBox<String>
+    private lateinit var avsbOpenStatus: JButton
+    private lateinit var avsbOpenSettings: JButton
+    private lateinit var avsbEPG: JButton
+    private lateinit var avsbBack: JButton
+    private lateinit var avsbExit: JButton
+    private lateinit var avsbReboot: JButton
+    private lateinit var avsbYouTube: JButton
+    private lateinit var avsbDisney: JButton
+    private lateinit var avsbHBO: JButton
+    private lateinit var avsbPrime: JButton
+    private lateinit var avsbNetflix: JButton
+    private lateinit var avsbUninstall: JButton
+    private lateinit var avsbForceKill: JButton
+    private lateinit var avsbClearData: JButton
+    private lateinit var avsbCheatMenu: JButton
+    private lateinit var avsbPower: JButton
+    private lateinit var avsbHome: JButton
+    private lateinit var avsbSearch: JButton
+    private lateinit var avsbAllApps: JButton
+    private lateinit var avsbAppSettingsButton: JButton
     private lateinit var adbController: AdbController
 
     private val showTapsActionListener: (ActionEvent) -> Unit = {
@@ -131,6 +161,22 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                 networkRateLimitComboBox.selectedItem as String,
                 device
             )
+        }
+    }
+
+    private val dmsActionListener: (ActionEvent) -> Unit = {
+        selectedIDevice?.let { device ->
+            (adbController as AVSBAdbController).setDMS(
+                dmsComboBox.selectedItem as String,
+                device
+            )
+
+            CoroutineScope(Dispatchers.IO)
+                .launch {
+                    delay(2000)
+                    val receiver = ShellOutputReceiver()
+                    device.executeShellCommandWithTimeout("pm clear $AVSB_PACKAGE ~", receiver, NO_TIME_TO_OUTPUT_RESPONSE)
+                }
         }
     }
 
@@ -333,6 +379,124 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                 firebaseTextField.text = firebaseDebugApp
             }
         }
+
+        avsbOpenStatus.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).openStatus(device)
+            }
+        }
+
+        avsbOpenSettings.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).openSettings(device)
+            }
+        }
+
+        avsbAppSettingsButton.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).openAVSBAppSettings(device)
+            }
+        }
+
+        avsbEPG.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.EPG, device)
+            }
+        }
+
+        avsbBack.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.BACK, device)
+            }
+        }
+
+        avsbExit.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.EXIT, device)
+            }
+        }
+
+        avsbReboot.addActionListener {
+            (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.REBOOT)
+        }
+
+        avsbNetflix.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).openApp(AppsCommand.App.NETFLIX, device)
+            }
+        }
+
+        avsbHBO.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).openApp(AppsCommand.App.HBO_MAX, device)
+            }
+        }
+
+        avsbDisney.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).openApp(AppsCommand.App.DISNEY_PLUS, device)
+            }
+        }
+
+        avsbPrime.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).openApp(AppsCommand.App.PRIME_VIDEO, device)
+            }
+        }
+
+        avsbYouTube.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).openApp(AppsCommand.App.YOUTUBE, device)
+            }
+        }
+
+        avsbUninstall.addActionListener {
+            selectedIDevice?.let {
+                (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.UNINSTALL)
+            }
+        }
+
+        avsbForceKill.addActionListener {
+            selectedIDevice?.let {
+                (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.FORCE_KILL)
+            }
+        }
+
+        avsbClearData.addActionListener {
+            selectedIDevice?.let {
+                (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.CLEAR_DATA)
+            }
+        }
+
+        avsbCheatMenu.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).openCheatMenu(device)
+            }
+        }
+
+        avsbPower.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.POWER, device)
+            }
+        }
+
+        avsbHome.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.HOME, device)
+            }
+        }
+
+        avsbSearch.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.SEARCH, device)
+            }
+        }
+
+        avsbAllApps.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.ALL_APPS, device)
+            }
+        }
     }
 
     private fun updateUi(it: AppSetting) {
@@ -361,6 +525,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                     openDeepLinkButton.isVisible = it.isSelected
                     openDeepLinkTextField.isVisible = it.isSelected
                 }
+                SpockAction.AVSB -> avsbPanel.isVisible = it.isSelected
             }
             rootPanel.invalidate()
         }
@@ -407,6 +572,10 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         networkRateLimitComboBox.actionListeners.forEach {
             networkRateLimitComboBox.removeActionListener(it)
         }
+
+        dmsComboBox.actionListeners.forEach {
+            dmsComboBox.removeActionListener(it)
+        }
     }
 
     private fun setDeveloperOptionsValues() {
@@ -433,6 +602,8 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         networkRateLimitComboBox.selectedItem =
             NetworkRateLimitCommand.getGetNetworkRateLimitIndex(selectedIDevice?.getNetworkRateLimit())
 
+        dmsComboBox.selectedItem = DMSCommand.getDMSIndex(selectedIDevice?.getDMS())
+
         setFirebaseData()
     }
 
@@ -450,6 +621,8 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         animatorDurationScaleComboBox.addActionListener(animatorDurationScaleActionListener)
 
         networkRateLimitComboBox.addActionListener(networkRateLimitActionListener)
+
+        dmsComboBox.addActionListener(dmsActionListener)
 
         firebaseButton.addActionListener {
             setFirebaseData()

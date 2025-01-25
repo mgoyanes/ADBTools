@@ -1,5 +1,6 @@
 package spock.adb
 
+import ProcessCommand
 import com.android.ddmlib.AndroidDebugBridge
 import com.android.ddmlib.IDevice
 import com.intellij.notification.NotificationType
@@ -10,10 +11,17 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
 import com.intellij.util.ui.JBUI
 import org.jetbrains.android.sdk.AndroidSdkUtils
+import spock.adb.avsb.AVSBAdbController
 import spock.adb.command.AnimatorDurationScaleCommand
 import spock.adb.command.ClearAppDataAndRestartCommand
 import spock.adb.command.ClearAppDataCommand
 import spock.adb.command.ConnectDeviceOverIPCommand
+import spock.adb.avsb.DMSCommand
+import spock.adb.avsb.KeyEventCommand
+import spock.adb.avsb.OpenStatusCommand
+import spock.adb.avsb.AppsCommand
+import spock.adb.avsb.OpenCheatMenuCommand
+import spock.adb.avsb.OpenSettingsCommand
 import spock.adb.command.EnableDisableDarkModeCommand
 import spock.adb.command.EnableDisableShowLayoutBoundsCommand
 import spock.adb.command.EnableDisableShowTapsCommand
@@ -53,6 +61,7 @@ import kotlin.math.max
 
 class AdbControllerImp(private val project: Project, private var debugBridge: AndroidDebugBridge?) :
     AdbController,
+    AVSBAdbController,
     AndroidDebugBridge.IDeviceChangeListener,
     AndroidDebugBridge.IDebugBridgeChangeListener {
 
@@ -428,6 +437,67 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         execute {
             val result = InputOnDeviceCommand().execute(input, project, device)
             showSuccess(result)
+        }
+    }
+
+    override fun setDMS(dms: String, device: IDevice) {
+        execute {
+            val result = DMSCommand().execute(dms, project, device)
+
+            showSuccess(result)
+        }
+    }
+
+    override fun openStatus(device: IDevice) {
+        execute {
+            val result = OpenStatusCommand().execute(device)
+
+            showSuccess(result)
+        }
+    }
+
+    override fun openSettings(device: IDevice) {
+        execute {
+            val result = OpenSettingsCommand().execute(device)
+
+            showSuccess(result)
+        }
+    }
+
+    override fun inputKeyEvent(keyEvent: Int, device: IDevice) {
+        execute {
+            val result = KeyEventCommand().execute(keyEvent, project, device)
+
+            if (result != EMPTY) {
+                showSuccess(result)
+            }
+        }
+    }
+
+    override fun openApp(app: AppsCommand.App, device: IDevice) {
+        execute {
+            val result = AppsCommand().execute(app, project, device)
+            showSuccess(result)
+        }
+    }
+
+    override fun processCommand(command: ProcessCommand.Command) {
+        execute {
+            val result = ProcessCommand().execute(command)
+
+            println(result)
+        }
+    }
+
+    override fun openAVSBAppSettings(device: IDevice) {
+        execute {
+            showSuccess(OpenAppSettingsCommand().execute(AVSB_PACKAGE, project, device))
+        }
+    }
+
+    override fun openCheatMenu(device: IDevice) {
+        execute {
+            showSuccess(OpenCheatMenuCommand().execute(AVSB_PACKAGE, project, device))
         }
     }
 
