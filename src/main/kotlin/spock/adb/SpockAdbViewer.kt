@@ -3,6 +3,7 @@ package spock.adb
 import ProcessCommand
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
@@ -212,18 +213,16 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
             }
 
         }
-        adbWifi.isVisible = false
-//        adbWifi.addActionListener {
-//            val ip = Messages.showInputDialog(
-//                "Enter You Android Device IP address",
-//                "Spock Adb- Device connect over Wifi",
-//                null,
-//                "192.168.1.20",
-//                IPAddressInputValidator()
-//            )
-//            ip?.let { adbController.connectDeviceOverIp(ip = ip) }
-
-        //  }
+        adbWifi.addActionListener {
+            val ip = Messages.showInputDialog(
+                "Enter You Android Device IP address",
+                "Device connect over Wifi",
+                null,
+                EMPTY,
+                IPAddressInputValidator()
+            )
+            ip?.let { adbController.connectDeviceOverIp(ip = ip) }
+          }
 
         refresh.addActionListener {
             adbController.refresh()
