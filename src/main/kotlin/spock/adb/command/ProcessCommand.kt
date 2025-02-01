@@ -15,15 +15,19 @@ class ProcessCommand : ExecutableCommand<ProcessCommand.Command, String> {
         fun getCommand() = this.command
     }
 
-    override fun execute(command: Command): String = runCommand(command.getCommand(), command.name.lowercase().replaceFirstChar { it.uppercaseChar() })
+    override fun execute(command: Command): String = runCommand(
+        command.getCommand(),
+        command.name.lowercase().replaceFirstChar { it.uppercaseChar() },
+        TimeUnit.SECONDS.toMillis(ONE.toLong())
+    )
 
-    fun execute(command: String, commandName: String): String = runCommand(command, commandName)
+    fun execute(command: String, commandName: String, duration: Long): String = runCommand(command, commandName, duration)
 
-    private fun runCommand(command: String, commandName: String) = try {
+    private fun runCommand(command: String, commandName: String, duration: Long) = try {
 //        val process = Runtime.getRuntime().exec(arrayOf("sh", "-c",command))
         val process = Runtime.getRuntime().exec(command)
 
-        val completed = process.waitFor(ONE.toLong(), TimeUnit.SECONDS)
+        val completed = process.waitFor(duration, TimeUnit.MILLISECONDS)
 
         println("MGM $completed process=${process.exitValue()}")
 

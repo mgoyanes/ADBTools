@@ -42,6 +42,7 @@ import spock.adb.command.OpenAppSettingsCommand
 import spock.adb.command.OpenDeepLinkCommand
 import spock.adb.command.OpenDeveloperOptionsCommand
 import spock.adb.command.ProcessDeathCommand
+import spock.adb.avsb.ProxyCommand
 import spock.adb.command.RestartAppCommand
 import spock.adb.command.RestartAppWithDebuggerCommand
 import spock.adb.command.RevokePermissionCommand
@@ -449,7 +450,7 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
 
     override fun openStatus(device: IDevice) {
         execute {
-            val result = OpenStatusCommand().execute(device)
+            val result = OpenStatusCommand().execute(project, device)
 
             showSuccess(result)
         }
@@ -457,7 +458,7 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
 
     override fun openSettings(device: IDevice) {
         execute {
-            val result = OpenSettingsCommand().execute(device)
+            val result = OpenSettingsCommand().execute(project, device)
 
             showSuccess(result)
         }
@@ -490,14 +491,26 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun processCommand(command: ProcessCommand.Command) {
         execute {
             val result = ProcessCommand().execute(command)
-
-            println(result)
         }
     }
 
     override fun openAVSBAppSettings(device: IDevice) {
         execute {
-            showSuccess(OpenAppSettingsCommand().execute(AVSB_PACKAGE, project, device))
+            showSuccess(spock.adb.avsb.OpenAppSettingsCommand().execute(project, device))
+        }
+    }
+
+    override fun setProxy(hostname: String?, port: String?, device: IDevice) {
+        execute {
+            val result = ProxyCommand().setProxy(hostname, port, project, device)
+            if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun clearProxy(device: IDevice) {
+        execute {
+            val result = ProxyCommand().clearProxy(project, device)
+            if (result != EMPTY) showSuccess(result)
         }
     }
 

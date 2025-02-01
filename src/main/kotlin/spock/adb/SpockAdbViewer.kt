@@ -101,6 +101,10 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var avsbAppsClose: JButton
     private lateinit var avsbAppsComboBox: JComboBox<String>
     private lateinit var avsbAppSettingsButton: JButton
+    private lateinit var avsbProxySet: JButton
+    private lateinit var avsbProxyNone: JButton
+    private lateinit var avsbProxyHostname: JTextField
+    private lateinit var avsbProxyPort: JTextField
     private lateinit var adbController: AdbController
 
     private val showTapsActionListener: (ActionEvent) -> Unit = {
@@ -465,6 +469,17 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         avsbAppsClose.addActionListener {
             selectedIDevice?.let { device ->
                 (adbController as AVSBAdbController).closeApp(avsbAppsComboBox.selectedItem as String, device)
+            }
+        }
+
+        avsbProxySet.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).setProxy(avsbProxyHostname.text, avsbProxyPort.text, device)
+            }
+        }
+        avsbProxyNone.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).clearProxy(device)
             }
         }
     }

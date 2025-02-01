@@ -12,4 +12,6 @@ interface AVSBAdbController : AdbController {
     fun closeApp(app: String, device: IDevice)
     fun processCommand(command: ProcessCommand.Command)
     fun openAVSBAppSettings(device: IDevice)
+    fun setProxy(hostname: String?, port: String?, device: IDevice)
+    fun clearProxy(device: IDevice)
 }
