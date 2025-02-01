@@ -105,6 +105,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var avsbProxyNone: JButton
     private lateinit var avsbProxyHostname: JTextField
     private lateinit var avsbProxyPort: JTextField
+    private lateinit var avsbTalkback: JButton
     private lateinit var adbController: AdbController
 
     private val showTapsActionListener: (ActionEvent) -> Unit = {
@@ -477,9 +478,16 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                 (adbController as AVSBAdbController).setProxy(avsbProxyHostname.text, avsbProxyPort.text, device)
             }
         }
+
         avsbProxyNone.addActionListener {
             selectedIDevice?.let { device ->
                 (adbController as AVSBAdbController).clearProxy(device)
+            }
+        }
+
+        avsbTalkback.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).toggleTalkback(device)
             }
         }
     }

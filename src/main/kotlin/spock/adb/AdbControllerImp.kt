@@ -43,6 +43,7 @@ import spock.adb.command.OpenDeepLinkCommand
 import spock.adb.command.OpenDeveloperOptionsCommand
 import spock.adb.command.ProcessDeathCommand
 import spock.adb.avsb.ProxyCommand
+import spock.adb.avsb.TalkbackToggleCommand
 import spock.adb.command.RestartAppCommand
 import spock.adb.command.RestartAppWithDebuggerCommand
 import spock.adb.command.RevokePermissionCommand
@@ -510,6 +511,13 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun clearProxy(device: IDevice) {
         execute {
             val result = ProxyCommand().clearProxy(project, device)
+            if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun toggleTalkback(device: IDevice) {
+        execute {
+            val result = TalkbackToggleCommand().execute(device)
             if (result != EMPTY) showSuccess(result)
         }
     }
