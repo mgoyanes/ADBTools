@@ -15,4 +15,5 @@ interface AVSBAdbController : AdbController {
     fun setProxy(hostname: String?, port: String?, device: IDevice)
     fun clearProxy(device: IDevice)
     fun toggleTalkback(device: IDevice)
+    fun copyBoxInfoToClipboard(device: IDevice)
 }

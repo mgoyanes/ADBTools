@@ -667,6 +667,14 @@
                   <text value="Talkback"/>
                 </properties>
               </component>
+              <component id="91a1" class="javax.swing.JButton" binding="avsbCopyBoxInfo">
+                <constraints>
+                  <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Copy Info"/>
+                </properties>
+              </component>
               <component id="22990" class="javax.swing.JButton" binding="avsbPower">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>

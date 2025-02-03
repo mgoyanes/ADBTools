@@ -20,6 +20,7 @@ import spock.adb.avsb.DMSCommand
 import spock.adb.avsb.KeyEventCommand
 import spock.adb.avsb.OpenStatusCommand
 import spock.adb.avsb.AppsCommand
+import spock.adb.avsb.GetAVSBInfoCommand
 import spock.adb.avsb.OpenSettingsCommand
 import spock.adb.command.EnableDisableDarkModeCommand
 import spock.adb.command.EnableDisableShowLayoutBoundsCommand
@@ -518,6 +519,13 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun toggleTalkback(device: IDevice) {
         execute {
             val result = TalkbackToggleCommand().execute(device)
+            if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun copyBoxInfoToClipboard(device: IDevice) {
+        execute {
+            val result = GetAVSBInfoCommand().execute(device)
             if (result != EMPTY) showSuccess(result)
         }
     }
