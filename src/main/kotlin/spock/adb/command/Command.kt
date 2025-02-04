@@ -13,4 +13,9 @@ interface Command<in P, out R> {
     fun execute(p: P, project: Project, device: IDevice, timeout: Long): R {
         throw NotImplementedError()
     }
+
+    @Throws(Exception::class)
+    fun execute(p: P, device: IDevice): R {
+        throw NotImplementedError()
+    }
 }

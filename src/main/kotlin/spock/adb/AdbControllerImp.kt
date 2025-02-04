@@ -6,6 +6,7 @@ import com.android.ddmlib.IDevice
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
+import com.intellij.openapi.wm.ToolWindow
 import com.intellij.psi.PsiClass
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
@@ -21,6 +22,7 @@ import spock.adb.avsb.KeyEventCommand
 import spock.adb.avsb.OpenStatusCommand
 import spock.adb.avsb.AppsCommand
 import spock.adb.avsb.GetAVSBInfoCommand
+import spock.adb.avsb.InstallApkCommand
 import spock.adb.avsb.OpenSettingsCommand
 import spock.adb.command.EnableDisableDarkModeCommand
 import spock.adb.command.EnableDisableShowLayoutBoundsCommand
@@ -57,11 +59,16 @@ import spock.adb.models.BackStackData
 import spock.adb.models.FragmentData
 import spock.adb.notification.CommonNotifier
 import spock.adb.premission.ListItem
+import java.awt.Window
+import java.io.File
 import java.util.concurrent.TimeUnit
+import javax.swing.JFileChooser
+import javax.swing.JOptionPane
+import javax.swing.SwingUtilities
 import kotlin.math.max
 
 
-class AdbControllerImp(private val project: Project, private var debugBridge: AndroidDebugBridge?) :
+class AdbControllerImp(private val project: Project, private var debugBridge: AndroidDebugBridge?, private var toolWindow: ToolWindow? = null) :
     AdbController,
     AVSBAdbController,
     AndroidDebugBridge.IDeviceChangeListener,
@@ -527,6 +534,34 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         execute {
             val result = GetAVSBInfoCommand().execute(device)
             if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun installApk(device: IDevice) {
+        val desktopPath = System.getProperty("user.home") + File.separator + "Desktop"
+        val fileChooser = JFileChooser().apply {
+            dialogTitle = "Select an APK File"
+            fileSelectionMode = JFileChooser.FILES_ONLY
+            currentDirectory = File(desktopPath)
+        }
+
+        val parentWindow: Window? = SwingUtilities.getWindowAncestor(toolWindow?.component)
+
+        val dialogResult = fileChooser.showOpenDialog(parentWindow)
+
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            val selectedFile: File = fileChooser.selectedFile
+
+            if (!selectedFile.name.endsWith(".apk", ignoreCase = true)) {
+                JOptionPane.showMessageDialog(parentWindow, "Error: Selected file is not an APK!", "Invalid File", JOptionPane.ERROR_MESSAGE)
+                return
+            }
+
+            execute {
+                showSuccess("Please wait while app is being installed")
+                val result = InstallApkCommand().execute(selectedFile.absolutePath, device)
+                showSuccess(result)
+            }
         }
     }
 

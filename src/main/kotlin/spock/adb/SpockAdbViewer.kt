@@ -107,6 +107,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var avsbProxyPort: JTextField
     private lateinit var avsbTalkback: JButton
     private lateinit var avsbCopyBoxInfo: JButton
+    private lateinit var avsbInstallAPK: JButton
     private lateinit var adbController: AdbController
 
     private val showTapsActionListener: (ActionEvent) -> Unit = {
@@ -495,6 +496,12 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         avsbCopyBoxInfo.addActionListener {
             selectedIDevice?.let { device ->
                 (adbController as AVSBAdbController).copyBoxInfoToClipboard(device)
+            }
+        }
+
+        avsbInstallAPK.addActionListener {
+            selectedIDevice?.let { device ->
+                (adbController as AVSBAdbController).installApk(device)
             }
         }
     }

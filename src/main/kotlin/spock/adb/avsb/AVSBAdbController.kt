@@ -16,4 +16,5 @@ interface AVSBAdbController : AdbController {
     fun clearProxy(device: IDevice)
     fun toggleTalkback(device: IDevice)
     fun copyBoxInfoToClipboard(device: IDevice)
+    fun installApk(device: IDevice)
 }
