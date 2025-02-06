@@ -1,12 +1,21 @@
 package spock.adb
 
+import ProcessCommand
 import com.android.ddmlib.IDevice
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.wm.ToolWindowManager
+import com.intellij.openapi.wm.WindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
-import org.jetbrains.android.sdk.AndroidSdkUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import spock.adb.avsb.AVSBAdbController
 import spock.adb.command.AnimatorDurationScaleCommand
+import spock.adb.avsb.DMSCommand
+import spock.adb.avsb.KeyEventCommand
 import spock.adb.command.DontKeepActivitiesState
 import spock.adb.command.EnableDarkModeState
 import spock.adb.command.FirebaseCommand
@@ -32,6 +41,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var permissionPanel: JPanel
     private lateinit var networkPanel: JPanel
     private lateinit var developerPanel: JPanel
+    private lateinit var avsbPanel: JPanel
     private lateinit var devicesListComboBox: JComboBox<String>
     private lateinit var currentActivityButton: JButton
     private lateinit var currentFragmentButton: JButton
@@ -74,31 +84,55 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var firebaseButton: JButton
     private lateinit var firebaseTextField: JTextField
     private var selectedIDevice: IDevice? = null
-
+    private lateinit var dmsComboBox: JComboBox<String>
+    private lateinit var avsbOpenStatus: JButton
+    private lateinit var avsbOpenSettings: JButton
+    private lateinit var avsbEPG: JButton
+    private lateinit var avsbBack: JButton
+    private lateinit var avsbExit: JButton
+    private lateinit var avsbReboot: JButton
+    private lateinit var avsbUninstall: JButton
+    private lateinit var avsbForceKill: JButton
+    private lateinit var avsbClearData: JButton
+    private lateinit var avsbPower: JButton
+    private lateinit var avsbHome: JButton
+    private lateinit var avsbSearch: JButton
+    private lateinit var avsbAllApps: JButton
+    private lateinit var avsbAppsOpen: JButton
+    private lateinit var avsbAppsClose: JButton
+    private lateinit var avsbAppsComboBox: JComboBox<String>
+    private lateinit var avsbAppSettingsButton: JButton
+    private lateinit var avsbProxySet: JButton
+    private lateinit var avsbProxyNone: JButton
+    private lateinit var avsbProxyHostname: JTextField
+    private lateinit var avsbProxyPort: JTextField
+    private lateinit var avsbTalkback: JButton
+    private lateinit var avsbCopyBoxInfo: JButton
+    private lateinit var avsbInstallAPK: JButton
     private lateinit var adbController: AdbController
 
     private val showTapsActionListener: (ActionEvent) -> Unit = {
-        selectedIDevice?.let { device ->
+        executeAction { device ->
             adbController.enableDisableShowTaps(device)
         }
     }
 
     private val showLayoutBoundsActionListener: (ActionEvent) -> Unit = {
-        selectedIDevice?.let { device ->
+        executeAction { device ->
             adbController.enableDisableShowLayoutBounds(device)
             device.refreshUi()
         }
     }
 
     private val showDarkModeActionListener: (ActionEvent) -> Unit = {
-        selectedIDevice?.let { device ->
+        executeAction { device ->
             adbController.enableDisableDarkMode(device)
             device.refreshUi()
         }
     }
 
     private val windowAnimatorScaleActionListener: (ActionEvent) -> Unit = {
-        selectedIDevice?.let { device ->
+        executeAction { device ->
             adbController.setWindowAnimatorScale(
                 windowAnimatorScaleComboBox.selectedItem as String,
                 device
@@ -107,7 +141,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     }
 
     private val transitionAnimatorScaleActionListener: (ActionEvent) -> Unit = {
-        selectedIDevice?.let { device ->
+        executeAction { device ->
             adbController.setTransitionAnimatorScale(
                 transitionAnimatorScaleComboBox.selectedItem as String,
                 device
@@ -117,7 +151,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     }
 
     private val animatorDurationScaleActionListener: (ActionEvent) -> Unit = {
-        selectedIDevice?.let { device ->
+        executeAction { device ->
             adbController.setAnimatorDurationScale(
                 animatorDurationScaleComboBox.selectedItem as String,
                 device
@@ -126,11 +160,27 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     }
 
     private val networkRateLimitActionListener: (ActionEvent) -> Unit = {
-        selectedIDevice?.let { device ->
+        executeAction { device ->
             adbController.setNetworkRateLimit(
                 networkRateLimitComboBox.selectedItem as String,
                 device
             )
+        }
+    }
+
+    private val dmsActionListener: (ActionEvent) -> Unit = {
+        executeAction { device ->
+            (adbController as AVSBAdbController).setDMS(
+                dmsComboBox.selectedItem as String,
+                device
+            )
+
+            CoroutineScope(Dispatchers.IO)
+                .launch {
+                    delay(2000)
+                    val receiver = ShellOutputReceiver()
+                    device.executeShellCommandWithTimeout("pm clear $AVSB_PACKAGE ~", receiver, NO_TIME_TO_OUTPUT_RESPONSE)
+                }
         }
     }
 
@@ -163,7 +213,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                         }))
                         updateUi(it)
                     }
-                    dialog.setLocationRelativeTo(null)
+                    dialog.setLocationRelativeTo(WindowManager.getInstance().getFrame(project))
                     dialog.pack()
                     dialog.isVisible = true
                 }
@@ -171,31 +221,36 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
             }
 
         }
-        adbWifi.isVisible = false
-//        adbWifi.addActionListener {
-//            val ip = Messages.showInputDialog(
-//                "Enter You Android Device IP address",
-//                "Spock Adb- Device connect over Wifi",
-//                null,
-//                "192.168.1.20",
-//                IPAddressInputValidator()
-//            )
-//            ip?.let { adbController.connectDeviceOverIp(ip = ip) }
 
-        //  }
+        adbWifi.addActionListener {
+            val ip = Messages.showInputDialog(
+                "Enter your android device IP address",
+                "Device Connect Over WiFi",
+                null,
+                EMPTY,
+                IPAddressInputValidator()
+            )
+            ip?.let { adbController.connectDeviceOverIp(ip = ip) }
+        }
 
+        refresh.isVisible = false
         refresh.addActionListener {
             adbController.refresh()
             updateDevicesList()
         }
+
         refresh2.addActionListener {
             adbController.refresh2()
             updateDevicesList()
         }
+
+        refresh3.isVisible = false
         refresh3.addActionListener {
             adbController.refresh3()
             updateDevicesList()
         }
+
+        refresh4.isVisible = false
         refresh4.addActionListener {
             adbController.refresh4()
             updateDevicesList()
@@ -205,67 +260,75 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
             selectedIDevice = devices[devicesListComboBox.selectedIndex]
 
         }
-        setting.addActionListener {
 
-        }
         activitiesBackStackButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.currentBackStack(device)
             }
         }
+
         currentAppBackStackButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.currentApplicationBackStack(device)
             }
         }
+
         currentActivityButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.currentActivity(device)
             }
         }
+
         currentFragmentButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.currentFragment(device)
             }
         }
+
         restartAppButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.restartApp(device)
             }
         }
+
         restartAppWithDebuggerButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.restartAppWithDebugger(device)
             }
         }
+
         forceKillAppButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.forceKillApp(device)
             }
         }
+
         testProcessDeathButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.testProcessDeath(device)
             }
         }
+
         clearAppDataButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.clearAppData(device)
             }
         }
+
         clearAppDataAndRestartButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.clearAppDataAndRestart(device)
             }
         }
+
         uninstallAppButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.uninstallApp(device)
             }
         }
 
         permissionButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.getApplicationPermissions(device) { list ->
                     val dialog = CheckBoxDialog(list) { selectedItem ->
                         if (selectedItem.isSelected)
@@ -273,64 +336,199 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                         else
                             adbController.revokePermission(device, selectedItem)
                     }
+                    dialog.setLocationRelativeTo(WindowManager.getInstance().getFrame(project))
                     dialog.pack()
                     dialog.isVisible = true
 
                 }
             }
         }
+
         grantAllPermissionsButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.grantOrRevokeAllPermissions(device, GetApplicationPermission.PermissionOperation.GRANT)
             }
         }
+
         revokeAllPermissionsButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.grantOrRevokeAllPermissions(device, GetApplicationPermission.PermissionOperation.REVOKE)
             }
         }
+
         wifiToggle.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.toggleNetwork(device, Network.WIFI)
             }
         }
+
         mobileDataToggle.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.toggleNetwork(device, Network.MOBILE)
             }
         }
+
         inputOnDeviceButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.inputOnDevice(inputOnDeviceTextField.text, device)
             }
         }
         inputOnDeviceTextField.addActionListener { inputOnDeviceButton.doClick() }
+
         openDeveloperOptionsButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.openDeveloperOptions(device)
             }
         }
+
         openDeepLinkButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.openDeepLink(openDeepLinkTextField.text, device)
             }
         }
         openDeepLinkTextField.addActionListener { openDeepLinkButton.doClick() }
+
         openAccountsButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.openAccounts(device)
             }
         }
         openAppSettingsButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 adbController.openAppSettings(device)
             }
         }
         firebaseButton.addActionListener {
-            selectedIDevice?.let { device ->
+            executeAction { device ->
                 val firebaseDebugApp = device.getFirebaseDebugApp()
                 adbController.setFirebaseDebugApp(device, firebaseDebugApp)
                 firebaseTextField.text = firebaseDebugApp
+            }
+        }
+
+        avsbOpenStatus.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).openStatus(device)
+            }
+        }
+
+        avsbOpenSettings.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).openSettings(device)
+            }
+        }
+
+        avsbAppSettingsButton.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).openAVSBAppSettings(device)
+            }
+        }
+
+        avsbEPG.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.EPG, device)
+            }
+        }
+
+        avsbBack.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.BACK, device)
+            }
+        }
+
+        avsbExit.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.EXIT, device)
+            }
+        }
+
+        avsbReboot.addActionListener {
+            executeAction { _ ->
+                (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.REBOOT)
+            }
+        }
+
+        avsbUninstall.addActionListener {
+            executeAction { _ ->
+                (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.UNINSTALL)
+            }
+        }
+
+        avsbForceKill.addActionListener {
+            executeAction { _ ->
+                (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.FORCE_KILL)
+            }
+        }
+
+        avsbClearData.addActionListener {
+            executeAction { _ ->
+                (adbController as AVSBAdbController).processCommand(ProcessCommand.Command.CLEAR_DATA)
+            }
+        }
+
+        avsbPower.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.POWER, device)
+            }
+        }
+
+        avsbHome.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.HOME, device)
+            }
+        }
+
+        avsbSearch.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.SEARCH, device)
+            }
+        }
+
+        avsbAllApps.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(KeyEventCommand.ALL_APPS, device)
+            }
+        }
+
+        avsbAppsOpen.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).openApp(avsbAppsComboBox.selectedItem as String, device)
+            }
+        }
+
+        avsbAppsClose.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).closeApp(avsbAppsComboBox.selectedItem as String, device)
+            }
+        }
+
+        avsbProxySet.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).setProxy(avsbProxyHostname.text, avsbProxyPort.text, device)
+            }
+        }
+
+        avsbProxyNone.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).clearProxy(device)
+            }
+        }
+
+        avsbTalkback.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).toggleTalkback(device)
+            }
+        }
+
+        avsbCopyBoxInfo.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).copyBoxInfoToClipboard(device)
+            }
+        }
+
+        avsbInstallAPK.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).installApk(device)
             }
         }
     }
@@ -361,6 +559,8 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                     openDeepLinkButton.isVisible = it.isSelected
                     openDeepLinkTextField.isVisible = it.isSelected
                 }
+
+                SpockAction.AVSB -> avsbPanel.isVisible = it.isSelected
             }
             rootPanel.invalidate()
         }
@@ -369,7 +569,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private fun updateDevicesList() {
         adbController.connectedDevices { devices ->
             this.devices = devices
-            selectedIDevice = this.devices.getOrElse(devices.indexOf(selectedIDevice)) { this.devices.getOrNull(0) }
+            selectedIDevice = this.devices.getOrElse(devices.indexOf(selectedIDevice)) { this.devices.getOrNull(ZERO) }
 
             devicesListComboBox.model = DefaultComboBoxModel(
                 devices.map { device ->
@@ -407,6 +607,14 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         networkRateLimitComboBox.actionListeners.forEach {
             networkRateLimitComboBox.removeActionListener(it)
         }
+
+        dmsComboBox.actionListeners.forEach {
+            dmsComboBox.removeActionListener(it)
+        }
+
+        avsbAppsComboBox.actionListeners.forEach {
+            avsbAppsComboBox.removeActionListener(it)
+        }
     }
 
     private fun setDeveloperOptionsValues() {
@@ -433,10 +641,12 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         networkRateLimitComboBox.selectedItem =
             NetworkRateLimitCommand.getGetNetworkRateLimitIndex(selectedIDevice?.getNetworkRateLimit())
 
+        dmsComboBox.selectedItem = DMSCommand.getDMSIndex(selectedIDevice?.getDMS())
+
         setFirebaseData()
     }
 
-    private fun setDeveloperOptionsListeners() {
+    private fun setListeners() {
         enableDisableShowTaps.addActionListener(showTapsActionListener)
 
         enableDisableShowLayoutBounds.addActionListener(showLayoutBoundsActionListener)
@@ -451,17 +661,34 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
 
         networkRateLimitComboBox.addActionListener(networkRateLimitActionListener)
 
+        dmsComboBox.addActionListener(dmsActionListener)
+
         firebaseButton.addActionListener {
             setFirebaseData()
         }
     }
 
     private fun setFirebaseData() {
-        val currentFirebaseDebugApp = selectedIDevice?.getFirebaseDebugApp()
-        firebaseTextField.text = currentFirebaseDebugApp
-        firebaseButton.text = when (currentFirebaseDebugApp) {
-            FirebaseCommand.NO_DEBUG_APP -> "Enable Firebase Debug"
-            else -> "Disable Firebase Debug"
+        executeAction { device ->
+            val currentFirebaseDebugApp = device.getFirebaseDebugApp()
+            firebaseTextField.text = currentFirebaseDebugApp
+            firebaseButton.text = when (currentFirebaseDebugApp) {
+                FirebaseCommand.NO_DEBUG_APP -> "Enable Firebase Debug"
+                else -> "Disable Firebase Debug"
+            }
+        }
+    }
+
+    private fun executeAction(action: (device: IDevice) -> Unit) {
+        val currentDevice = selectedIDevice
+        if (currentDevice != null && currentDevice.isOnline) {
+            action.invoke(currentDevice)
+        } else {
+            Messages.showErrorDialog(
+                project,
+                "You are either connected to another device or not connected at all. Make sure you are connected and have selected the correct device from the list.",
+                "Not Connected To Device"
+            )
         }
     }
 
@@ -478,7 +705,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                                 if (toolWindow.isVisible) {
                                     removeDeveloperOptionsListeners()
                                     setDeveloperOptionsValues()
-                                    setDeveloperOptionsListeners()
+                                    setListeners()
                                 }
                             }
                         })

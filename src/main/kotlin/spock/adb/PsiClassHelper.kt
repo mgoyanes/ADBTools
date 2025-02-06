@@ -13,9 +13,13 @@ fun PsiClass.openIn(project: Project) {
 }
 
 fun String.psiClassByNameFromCache(project: Project): PsiClass? {
-    return PsiShortNamesCache.getInstance(project).getClassesByName(
-        this, GlobalSearchScope.allScope(project)
-    ).firstOrNull { it is KtUltraLightClass }
+    return PsiShortNamesCache
+        .getInstance(project)
+        .getClassesByName(
+            this, GlobalSearchScope.allScope(project)
+        )
+        .firstOrNull()
+//        .firstOrNull { it is KtUltraLightClass }
 }
 
 fun String.psiClassByNameFromProjct(project: Project): PsiClass? {

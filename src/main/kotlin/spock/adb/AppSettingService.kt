@@ -15,7 +15,7 @@ class AppSettingService : PersistentStateComponent<AppSetting> {
     private var localData: AppSetting
 
     init {
-        val list = SpockAction.values().map {
+        val list = SpockAction.entries.map {
             ListItem(it.name.replace("_", " "), true)
         }
         localData = AppSetting(null, list)
@@ -55,4 +55,5 @@ enum class SpockAction {
     DEVELOPER_OPTIONS,
     INPUT,
     DEEP_LINK,
+    AVSB,
 }

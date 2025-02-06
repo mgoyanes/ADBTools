@@ -11,7 +11,7 @@ import spock.adb.SpockAdbViewer
 class AdbDrawerViewer : ToolWindowFactory {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        val adbController: AdbController = AdbControllerImp(project, AndroidSdkUtils.getDebugBridge(project))
+        val adbController: AdbController = AdbControllerImp(project, AndroidSdkUtils.getDebugBridge(project), toolWindow)
         val contentManager = toolWindow.contentManager
 
         with(SpockAdbViewer(project)) {

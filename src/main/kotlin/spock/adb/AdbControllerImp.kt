@@ -1,19 +1,29 @@
 package spock.adb
 
+import ProcessCommand
 import com.android.ddmlib.AndroidDebugBridge
 import com.android.ddmlib.IDevice
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
+import com.intellij.openapi.wm.ToolWindow
 import com.intellij.psi.PsiClass
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
 import com.intellij.util.ui.JBUI
 import org.jetbrains.android.sdk.AndroidSdkUtils
+import spock.adb.avsb.AVSBAdbController
 import spock.adb.command.AnimatorDurationScaleCommand
 import spock.adb.command.ClearAppDataAndRestartCommand
 import spock.adb.command.ClearAppDataCommand
 import spock.adb.command.ConnectDeviceOverIPCommand
+import spock.adb.avsb.DMSCommand
+import spock.adb.avsb.KeyEventCommand
+import spock.adb.avsb.OpenStatusCommand
+import spock.adb.avsb.AppsCommand
+import spock.adb.avsb.GetAVSBInfoCommand
+import spock.adb.avsb.InstallApkCommand
+import spock.adb.avsb.OpenSettingsCommand
 import spock.adb.command.EnableDisableDarkModeCommand
 import spock.adb.command.EnableDisableShowLayoutBoundsCommand
 import spock.adb.command.EnableDisableShowTapsCommand
@@ -35,6 +45,8 @@ import spock.adb.command.OpenAppSettingsCommand
 import spock.adb.command.OpenDeepLinkCommand
 import spock.adb.command.OpenDeveloperOptionsCommand
 import spock.adb.command.ProcessDeathCommand
+import spock.adb.avsb.ProxyCommand
+import spock.adb.avsb.TalkbackToggleCommand
 import spock.adb.command.RestartAppCommand
 import spock.adb.command.RestartAppWithDebuggerCommand
 import spock.adb.command.RevokePermissionCommand
@@ -47,12 +59,18 @@ import spock.adb.models.BackStackData
 import spock.adb.models.FragmentData
 import spock.adb.notification.CommonNotifier
 import spock.adb.premission.ListItem
+import java.awt.Window
+import java.io.File
 import java.util.concurrent.TimeUnit
+import javax.swing.JFileChooser
+import javax.swing.JOptionPane
+import javax.swing.SwingUtilities
 import kotlin.math.max
 
 
-class AdbControllerImp(private val project: Project, private var debugBridge: AndroidDebugBridge?) :
+class AdbControllerImp(private val project: Project, private var debugBridge: AndroidDebugBridge?, private var toolWindow: ToolWindow? = null) :
     AdbController,
+    AVSBAdbController,
     AndroidDebugBridge.IDeviceChangeListener,
     AndroidDebugBridge.IDebugBridgeChangeListener {
 
@@ -428,6 +446,122 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         execute {
             val result = InputOnDeviceCommand().execute(input, project, device)
             showSuccess(result)
+        }
+    }
+
+    override fun setDMS(dms: String, device: IDevice) {
+        execute {
+            val result = DMSCommand().execute(dms, project, device)
+
+            showSuccess(result)
+        }
+    }
+
+    override fun openStatus(device: IDevice) {
+        execute {
+            val result = OpenStatusCommand().execute(project, device)
+
+            showSuccess(result)
+        }
+    }
+
+    override fun openSettings(device: IDevice) {
+        execute {
+            val result = OpenSettingsCommand().execute(project, device)
+
+            showSuccess(result)
+        }
+    }
+
+    override fun inputKeyEvent(keyEvent: Int, device: IDevice) {
+        execute {
+            val result = KeyEventCommand().execute(keyEvent, project, device)
+
+            if (result != EMPTY) {
+                showSuccess(result)
+            }
+        }
+    }
+
+    override fun openApp(app: String, device: IDevice) {
+        execute {
+            val result = AppsCommand().execute(app, AppsCommand.AppAction.OPEN, project, device)
+            if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun closeApp(app: String, device: IDevice) {
+        execute {
+            val result = AppsCommand().execute(app, AppsCommand.AppAction.CLOSE, project, device)
+            if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun processCommand(command: ProcessCommand.Command) {
+        execute {
+            val result = ProcessCommand().execute(command)
+        }
+    }
+
+    override fun openAVSBAppSettings(device: IDevice) {
+        execute {
+            showSuccess(spock.adb.avsb.OpenAppSettingsCommand().execute(project, device))
+        }
+    }
+
+    override fun setProxy(hostname: String?, port: String?, device: IDevice) {
+        execute {
+            val result = ProxyCommand().setProxy(hostname, port, project, device)
+            if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun clearProxy(device: IDevice) {
+        execute {
+            val result = ProxyCommand().clearProxy(project, device)
+            if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun toggleTalkback(device: IDevice) {
+        execute {
+            val result = TalkbackToggleCommand().execute(device)
+            if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun copyBoxInfoToClipboard(device: IDevice) {
+        execute {
+            val result = GetAVSBInfoCommand().execute(device)
+            if (result != EMPTY) showSuccess(result)
+        }
+    }
+
+    override fun installApk(device: IDevice) {
+        val desktopPath = System.getProperty("user.home") + File.separator + "Desktop"
+        val fileChooser = JFileChooser().apply {
+            dialogTitle = "Select an APK File"
+            fileSelectionMode = JFileChooser.FILES_ONLY
+            currentDirectory = File(desktopPath)
+        }
+
+        val parentWindow: Window? = SwingUtilities.getWindowAncestor(toolWindow?.component)
+
+        val dialogResult = fileChooser.showOpenDialog(parentWindow)
+
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            val selectedFile: File = fileChooser.selectedFile
+
+            if (!selectedFile.name.endsWith(".apk", ignoreCase = true)) {
+                JOptionPane.showMessageDialog(parentWindow, "Error: Selected file is not an APK!", "Invalid File", JOptionPane.ERROR_MESSAGE)
+                return
+            }
+
+            execute {
+                showSuccess("Please wait while app is being installed")
+                val result = InstallApkCommand().execute(selectedFile.absolutePath, device)
+                showSuccess(result)
+            }
         }
     }
 
