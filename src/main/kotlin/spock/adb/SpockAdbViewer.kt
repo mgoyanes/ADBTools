@@ -11,6 +11,10 @@ import com.intellij.openapi.wm.ex.ToolWindowManagerListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import spock.adb.avsb.AVSBAdbController
 import spock.adb.command.AnimatorDurationScaleCommand
@@ -184,6 +188,8 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         }
     }
 
+    private val _toolwindowState = MutableStateFlow(TollVisibilityWindowState(ToolWindowState.UNKNOWN, false))
+
     init {
         setContent(JScrollPane(rootPanel))
         setToolWindowListener()
@@ -192,6 +198,15 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                 updateUi(it)
             }
         }
+
+        _toolwindowState
+            .filter { windowState -> windowState.state == ToolWindowState.VISIBLE && windowState.isVisible }
+            .onEach {
+                removeListeners()
+                setPredefinedValues()
+                setListeners()
+            }
+            .launchIn(CoroutineScope(Dispatchers.Unconfined))
     }
 
     fun initPlugin(adbController: AdbController) {
@@ -393,16 +408,18 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
                 adbController.openAccounts(device)
             }
         }
+
         openAppSettingsButton.addActionListener {
             executeAction { device ->
                 adbController.openAppSettings(device)
             }
         }
+
         firebaseButton.addActionListener {
             executeAction { device ->
                 val firebaseDebugApp = device.getFirebaseDebugApp()
                 adbController.setFirebaseDebugApp(device, firebaseDebugApp)
-                firebaseTextField.text = firebaseDebugApp
+                setFirebaseData(firebaseDebugApp)
             }
         }
 
@@ -579,7 +596,7 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         }
     }
 
-    private fun removeDeveloperOptionsListeners() {
+    private fun removeListeners() {
         enableDisableShowTaps.actionListeners.forEach {
             enableDisableShowTaps.removeActionListener(it)
         }
@@ -611,13 +628,9 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         dmsComboBox.actionListeners.forEach {
             dmsComboBox.removeActionListener(it)
         }
-
-        avsbAppsComboBox.actionListeners.forEach {
-            avsbAppsComboBox.removeActionListener(it)
-        }
     }
 
-    private fun setDeveloperOptionsValues() {
+    private fun setPredefinedValues() {
         enableDisableDontKeepActivities.isSelected =
             selectedIDevice?.areDontKeepActivitiesEnabled() == DontKeepActivitiesState.ENABLED
 
@@ -643,7 +656,9 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
 
         dmsComboBox.selectedItem = DMSCommand.getDMSIndex(selectedIDevice?.getDMS())
 
-        setFirebaseData()
+        selectedIDevice?.let { device ->
+            setFirebaseData(device.getFirebaseDebugApp())
+        }
     }
 
     private fun setListeners() {
@@ -662,54 +677,64 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         networkRateLimitComboBox.addActionListener(networkRateLimitActionListener)
 
         dmsComboBox.addActionListener(dmsActionListener)
-
-        firebaseButton.addActionListener {
-            setFirebaseData()
-        }
     }
 
-    private fun setFirebaseData() {
-        executeAction { device ->
-            val currentFirebaseDebugApp = device.getFirebaseDebugApp()
-            firebaseTextField.text = currentFirebaseDebugApp
-            firebaseButton.text = when (currentFirebaseDebugApp) {
-                FirebaseCommand.NO_DEBUG_APP -> "Enable Firebase Debug"
-                else -> "Disable Firebase Debug"
-            }
+    private fun setFirebaseData(currentFirebaseDebugApp: String) {
+        firebaseTextField.text = currentFirebaseDebugApp
+        firebaseButton.text = when (currentFirebaseDebugApp) {
+            FirebaseCommand.NO_DEBUG_APP -> "Enable Firebase Debug"
+            EMPTY -> "Firebase"
+            else -> "Disable Firebase Debug"
         }
     }
 
     private fun executeAction(action: (device: IDevice) -> Unit) {
         val currentDevice = selectedIDevice
-        if (currentDevice != null && currentDevice.isOnline) {
-            action.invoke(currentDevice)
-        } else {
-            Messages.showErrorDialog(
-                project,
-                "You are either connected to another device or not connected at all. Make sure you are connected and have selected the correct device from the list.",
-                "Not Connected To Device"
-            )
+        when {
+            currentDevice != null && currentDevice.isOnline -> action.invoke(currentDevice)
+            else -> {
+                Messages.showErrorDialog(
+                    project,
+                    "You are either connected to another device or not connected at all. Make sure you are connected and have selected the correct device from the list.",
+                    "Not Connected To Device"
+                )
+            }
         }
     }
 
     private fun setToolWindowListener() {
-
         ToolWindowManager
             .getInstance(project)
             .run {
                 val toolWindow = getToolWindow("Spock ADB")
                 if (toolWindow != null) {
-                    project.messageBus.connect()
-                        .subscribe(ToolWindowManagerListener.TOPIC, object : ToolWindowManagerListener {
-                            override fun stateChanged() {
-                                if (toolWindow.isVisible) {
-                                    removeDeveloperOptionsListeners()
-                                    setDeveloperOptionsValues()
-                                    setListeners()
+                    project
+                        .messageBus
+                        .connect()
+                        .subscribe(
+                            ToolWindowManagerListener.TOPIC,
+                            object : ToolWindowManagerListener {
+                                override fun stateChanged(toolWindowManager: ToolWindowManager, changeType: ToolWindowManagerListener.ToolWindowManagerEventType) {
+                                    super.stateChanged(toolWindowManager, changeType)
+
+                                    _toolwindowState.tryEmit(
+                                        TollVisibilityWindowState(
+                                            if (ToolWindowManagerListener.ToolWindowManagerEventType.ActivateToolWindow == changeType) ToolWindowState.VISIBLE
+                                            else ToolWindowState.UNKNOWN,
+                                            toolWindow.isVisible
+                                        )
+                                    )
                                 }
                             }
-                        })
+                        )
                 }
             }
+    }
+
+    data class TollVisibilityWindowState(val state: ToolWindowState, val isVisible: Boolean)
+
+    enum class ToolWindowState {
+        VISIBLE,
+        UNKNOWN,
     }
 }
