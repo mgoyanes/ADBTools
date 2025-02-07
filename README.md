@@ -1,10 +1,4 @@
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/811387b23aae4a479f842c8a485a820a)](https://app.codacy.com/manual/WahdanZ/SpockAdb?utm_source=github.com&utm_medium=referral&utm_content=WahdanZ/SpockAdb&utm_campaign=Badge_Grade_Dashboard)
-![Build](https://github.com/WahdanZ/SpockAdb/workflows/Build/badge.svg)
-![JetBrains IntelliJ Plugins](https://img.shields.io/jetbrains/plugin/v/11591-spock-adb)
-![JetBrains IntelliJ plugins](https://img.shields.io/jetbrains/plugin/d/11591-spock-adb) 
-
-# SpockAdb 
+# ADBTools 
 <!-- Plugin description -->
 Plugin Helps you to have full control of your project and device.
 <!-- Plugin description end -->
@@ -32,20 +26,17 @@ Plugin Helps you to have full control of your project and device.
 
 ## Screenshot
 
-![Screenshot](images/spock_adb.png)
 
 ## Download
 
-https://plugins.jetbrains.com/plugin/11591-spock-adb
 
 ## Demo
 
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/x_WX_Pznqos/0.jpg)](http://www.youtube.com/watch?v=x_WX_Pznqos)
 
 
 
 ```
-Copyright 2019 Ahmed Wahdan
+Copyright 2025 Miguel Goyanes
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
