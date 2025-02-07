@@ -1,1 +1,1 @@
-rootProject.name = "com.wahdan.spockAdb"
+rootProject.name = "com.mgm.ADBTools"
