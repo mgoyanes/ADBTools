@@ -1,13 +1,12 @@
 package com.mgm.adbtools
 
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.mgm.adbtools.premission.ListItem
 
 @State(
-    name = "adbtools-localData",
+    name = "AppSettingsService",
     storages = [Storage("adbtools-localData.xml")]
 )
 class AppSettingsService : PersistentStateComponent<AppSettings> {
@@ -27,16 +26,9 @@ class AppSettingsService : PersistentStateComponent<AppSettings> {
     override fun loadState(state: AppSettings) {
         localData = state
     }
-
-    companion object {
-        @JvmStatic
-        fun getInstance(): PersistentStateComponent<AppSettings> {
-            return ApplicationManager.getApplication().getService(AppSettingsService::class.java)
-        }
-    }
 }
 
-data class AppSettings(var settings: Map<ADBToolsAction, Boolean>) {
+data class AppSettings(var settings: Map<ADBToolsAction, Boolean> = emptyMap()) {
     fun getAllAvailableAppSettings(): List<ListItem> = settings.entries.map { (action, enabled) -> ListItem(action.displayName, enabled) }
 }
 
