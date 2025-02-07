@@ -2,6 +2,7 @@ package com.mgm.adbtools
 
 import ProcessCommand
 import com.android.ddmlib.IDevice
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.SimpleToolWindowPanel
@@ -115,6 +116,7 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var avsbCopyBoxInfo: JButton
     private lateinit var avsbInstallAPK: JButton
     private lateinit var adbController: AdbController
+    private val appSettingsService by lazy { service<AppSettingsService>() }
 
     private val showTapsActionListener: (ActionEvent) -> Unit = {
         executeAction { device ->
@@ -194,11 +196,7 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
     init {
         setContent(JScrollPane(rootPanel))
         setToolWindowListener()
-        AppSettingsService.getInstance().run {
-            state?.let { appSettings ->
-                updateUi(appSettings)
-            }
-        }
+        updateUi(appSettingsService.state)
 
         _toolwindowState
             .filter { windowState -> windowState.state == ToolWindowState.VISIBLE && windowState.isVisible }
@@ -218,25 +216,23 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
         setting.isEnabled = true
         setting.isVisible = true
         setting.addActionListener {
-            AppSettingsService.getInstance().run {
-                state?.let { appSettings: AppSettings ->
-                    val dialog = CheckBoxDialog(appSettings.getAllAvailableAppSettings()) { selectedItem: ListItem ->
+            val appSettings = appSettingsService.state
 
-                        val newAppSettings = appSettings.settings.mapValues { (action, isSelected) ->
-                            if (action.displayName == selectedItem.name) selectedItem.isSelected else isSelected
-                        }
+            val dialog = CheckBoxDialog(appSettings.getAllAvailableAppSettings()) { selectedItem: ListItem ->
 
-                        appSettings.settings = newAppSettings
-
-                        updateUi(appSettings)
-                    }
-                    dialog.setLocationRelativeTo(WindowManager.getInstance().getFrame(project))
-                    dialog.pack()
-                    dialog.isVisible = true
+                val updatedSettings = appSettings.settings.mapValues { (action, isSelected) ->
+                    if (action.displayName == selectedItem.name) selectedItem.isSelected else isSelected
                 }
 
-            }
+                appSettings.settings = updatedSettings
 
+                updateUi(appSettings)
+            }
+            dialog.apply {
+                setLocationRelativeTo(WindowManager.getInstance().getFrame(project))
+                pack()
+                isVisible = true
+            }
         }
 
         adbWifi.addActionListener {
