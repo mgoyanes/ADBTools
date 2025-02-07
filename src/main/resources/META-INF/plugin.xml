@@ -38,7 +38,7 @@
     <depends>org.jetbrains.kotlin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="spock.adb.AppSettingService"/>
+        <applicationService serviceImplementation="spock.adb.AppSettingsService"/>
     </extensions>
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow anchor="left" canCloseContents="false" id="Spock ADB" factoryClass="spock.AdbDrawerViewer"

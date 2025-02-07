@@ -31,6 +31,7 @@ import spock.adb.command.ShowTapsState
 import spock.adb.command.TransitionAnimatorScaleCommand
 import spock.adb.command.WindowAnimatorScaleCommand
 import spock.adb.premission.CheckBoxDialog
+import spock.adb.premission.ListItem
 import java.awt.event.ActionEvent
 import javax.swing.DefaultComboBoxModel
 import javax.swing.JButton
@@ -193,9 +194,9 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
     init {
         setContent(JScrollPane(rootPanel))
         setToolWindowListener()
-        AppSettingService.getInstance().run {
-            state?.let {
-                updateUi(it)
+        AppSettingsService.getInstance().run {
+            state?.let { appSettings ->
+                updateUi(appSettings)
             }
         }
 
@@ -217,16 +218,17 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         setting.isEnabled = true
         setting.isVisible = true
         setting.addActionListener {
-            AppSettingService.getInstance().run {
-                state?.let {
-                    val dialog = CheckBoxDialog(it.list) { selectedItem ->
-                        println(selectedItem)
-                        this.loadState(it.copy(list = it.list.map { item ->
-                            if (item.name == selectedItem.name)
-                                item.copy(isSelected = selectedItem.isSelected)
-                            else item
-                        }))
-                        updateUi(it)
+            AppSettingsService.getInstance().run {
+                state?.let { appSettings: AppSettings ->
+                    val dialog = CheckBoxDialog(appSettings.getAllAvailableAppSettings()) { selectedItem: ListItem ->
+
+                        val newAppSettings = appSettings.settings.mapValues { (action, isSelected) ->
+                            if (action.displayName == selectedItem.name) selectedItem.isSelected else isSelected
+                        }
+
+                        appSettings.settings = newAppSettings
+
+                        updateUi(appSettings)
                     }
                     dialog.setLocationRelativeTo(WindowManager.getInstance().getFrame(project))
                     dialog.pack()
@@ -550,34 +552,45 @@ class SpockAdbViewer(private val project: Project) : SimpleToolWindowPanel(true)
         }
     }
 
-    private fun updateUi(it: AppSetting) {
-        it.list.map {
-            when (SpockAction.valueOf(it.name.replace(" ", "_"))) {
-                SpockAction.CURRENT_ACTIVITY -> currentActivityButton.isVisible = it.isSelected
-                SpockAction.CURRENT_FRAGMENT -> currentFragmentButton.isVisible = it.isSelected
-                SpockAction.CURRENT_APP_STACK -> currentAppBackStackButton.isVisible = it.isSelected
-                SpockAction.BACK_STACK -> activitiesBackStackButton.isVisible = it.isSelected
-                SpockAction.CLEAR_APP_DATA -> clearAppDataButton.isVisible = it.isSelected
-                SpockAction.CLEAR_APP_DATA_RESTART -> clearAppDataAndRestartButton.isVisible = it.isSelected
-                SpockAction.RESTART -> restartAppButton.isVisible = it.isSelected
-                SpockAction.RESTART_DEBUG -> restartAppWithDebuggerButton.isVisible = it.isSelected
-                SpockAction.TEST_PROCESS_DEATH -> testProcessDeathButton.isVisible = it.isSelected
-                SpockAction.FORCE_KILL -> forceKillAppButton.isVisible = it.isSelected
-                SpockAction.UNINSTALL -> uninstallAppButton.isVisible = it.isSelected
-                SpockAction.TOGGLE_NETWORK -> networkPanel.isVisible = it.isSelected
-                SpockAction.PERMISSIONS -> permissionPanel.isVisible = it.isSelected
-                SpockAction.DEVELOPER_OPTIONS -> developerPanel.isVisible = it.isSelected
-                SpockAction.INPUT -> {
-                    inputOnDeviceButton.isVisible = it.isSelected
-                    inputOnDeviceTextField.isVisible = it.isSelected
+    private fun updateUi(appSettings: AppSettings) {
+        appSettings.settings.forEach { (action, visibility) ->
+            when (action) {
+                ADBToolsAction.CODE_HELPERS -> {
+                    currentActivityButton.isVisible = visibility
+                    currentFragmentButton.isVisible = visibility
+                    currentAppBackStackButton.isVisible = visibility
+                    activitiesBackStackButton.isVisible = visibility
+                    clearAppDataButton.isVisible = visibility
+                    clearAppDataAndRestartButton.isVisible = visibility
+                    restartAppButton.isVisible = visibility
+                    restartAppWithDebuggerButton.isVisible = visibility
+                    testProcessDeathButton.isVisible = visibility
+                    forceKillAppButton.isVisible = visibility
+                    uninstallAppButton.isVisible = visibility
+                    openAppSettingsButton.isVisible = visibility
                 }
 
-                SpockAction.DEEP_LINK -> {
-                    openDeepLinkButton.isVisible = it.isSelected
-                    openDeepLinkTextField.isVisible = it.isSelected
+                ADBToolsAction.TOGGLE_NETWORK -> networkPanel.isVisible = visibility
+                ADBToolsAction.PERMISSIONS -> permissionPanel.isVisible = visibility
+                ADBToolsAction.DEVELOPER_OPTIONS -> developerPanel.isVisible = visibility
+
+                ADBToolsAction.AVSB -> avsbPanel.isVisible = visibility
+                ADBToolsAction.INPUT -> {
+                    inputOnDeviceButton.isVisible = visibility
+                    inputOnDeviceTextField.isVisible = visibility
                 }
 
-                SpockAction.AVSB -> avsbPanel.isVisible = it.isSelected
+                ADBToolsAction.DEEP_LINK -> {
+                    openDeepLinkButton.isVisible = visibility
+                    openDeepLinkTextField.isVisible = visibility
+                }
+
+                ADBToolsAction.OPEN_ACCOUNTS -> openAccountsButton.isVisible = visibility
+
+                ADBToolsAction.FIREBASE -> {
+                    firebaseButton.isVisible = visibility
+                    firebaseTextField.isVisible = visibility
+                }
             }
             rootPanel.invalidate()
         }
