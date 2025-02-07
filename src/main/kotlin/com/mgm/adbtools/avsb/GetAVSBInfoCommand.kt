@@ -40,7 +40,9 @@ class GetAVSBInfoCommand : NoInputCommand<String> {
         val firmwareVersion = result.toString()
         result = ShellOutputReceiver()
 
-        val buildType = ""
+        device.executeShellCommandWithTimeout("dumpsys package com.vodafone.vtv.avsb | grep \"flags=\\[\"", result, COMMAND_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+        val buildType = if (result.toString().contains("DEBUGGABLE", true)) "Debug" else "Release"
+        result = ShellOutputReceiver()
 
         device.executeShellCommandWithTimeout("getprop ro.boot.serialno", result, COMMAND_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
         val serialNumber = result.toString()
@@ -69,7 +71,7 @@ class GetAVSBInfoCommand : NoInputCommand<String> {
         $boxModel | Android $androidVersion | FW: $firmwareVersion | SN: $serialNumber
         UI Version ${uiVersion.trimIndent()}
         casId $casID | cver $cver
-        BuildType: $buildType   
+        BuildType: $buildType
         """.trimIndent()
 
         val clipboard = Toolkit.getDefaultToolkit().systemClipboard
