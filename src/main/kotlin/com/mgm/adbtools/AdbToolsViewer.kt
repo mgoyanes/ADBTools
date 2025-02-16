@@ -177,7 +177,7 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
 
     private val dmsActionListener: (ActionEvent) -> Unit = {
         executeAction { device ->
-            (adbController as AVSBAdbController).setDMS(
+            (adbController as AVSBAdbController). setDMS(
                 dmsComboBox.selectedItem as String,
                 device
             )

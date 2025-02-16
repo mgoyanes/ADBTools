@@ -149,12 +149,9 @@ class ProxyCommand {
 
     private fun setProxy(project: Project, device: IDevice, hostname: String, port: String) {
         val keyEventCommand = KeyEventCommand()
-        keyEventCommand.execute(KeyEventCommand.DPAD_DOWN, project, device)
-
-        keyEventCommand.execute(KeyEventCommand.DONE, project, device)
 
         repeat(20) {
-            ProcessCommand().execute(DELETE, "Clear Contents", 200.toLong())
+            ProcessCommand().execute(DELETE, "Clear Contents", project, 200.toLong())
         }
 
         InputOnDeviceCommand().execute(hostname, project, device)
@@ -162,7 +159,7 @@ class ProxyCommand {
         keyEventCommand.execute(KeyEventCommand.DONE, project, device)
 
         repeat(10) {
-            ProcessCommand().execute(DELETE, "Clear Contents", 200.toLong())
+            ProcessCommand().execute(DELETE, "Clear Contents", project, 200.toLong())
         }
 
         InputOnDeviceCommand().execute(port, project, device)

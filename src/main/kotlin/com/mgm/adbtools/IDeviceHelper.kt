@@ -136,7 +136,7 @@ fun IDevice.getFirebaseDebugApp(): String {
 
 fun IDevice.getDMS(): String {
     val shellOutputReceiver = ShellOutputReceiver()
-    executeShellCommandWithTimeout("settings get secure \"com_vodafone_vtv_dms\"", shellOutputReceiver)
+    executeShellCommandWithTimeout("settings get secure com_vodafone_vtv_dms", shellOutputReceiver)
     return shellOutputReceiver.toString()
 }
 

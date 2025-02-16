@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 
 class ConnectDeviceOverIPCommand : AdbCommand<String, Any> {
     override fun execute(p: String, project: Project): Any {
-        val adbPath = AndroidSdkUtils.getAdb(project)?.absolutePath
+        val adbPath = AndroidSdkUtils.findAdb(project).adbPath?.path
         var process: Process? = null
         print("$adbPath connect $p:5555")
         try {
