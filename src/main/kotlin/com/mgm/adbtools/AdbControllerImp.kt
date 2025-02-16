@@ -499,7 +499,8 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
 
     override fun processCommand(command: ProcessCommand.Command) {
         execute {
-            val result = ProcessCommand().execute(command)
+            val result = ProcessCommand().execute(command, project)
+            if (result != EMPTY) showSuccess(result)
         }
     }
 

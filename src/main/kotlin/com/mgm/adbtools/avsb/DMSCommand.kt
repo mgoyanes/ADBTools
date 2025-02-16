@@ -52,7 +52,7 @@ class DMSCommand : Command<String, String> {
             }
 
 
-        device.executeShellCommandWithTimeout("settings put secure \"com_vodafone_vtv_dms\" $dms", ShellOutputReceiver(), MIN_TIME_TO_OUTPUT_RESPONSE)
+        device.executeShellCommandWithTimeout("settings put secure com_vodafone_vtv_dms $dms", ShellOutputReceiver(), MIN_TIME_TO_OUTPUT_RESPONSE)
 
         return "Set DMS to $dms"
     }
