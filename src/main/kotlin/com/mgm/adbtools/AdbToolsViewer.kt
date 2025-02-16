@@ -41,6 +41,9 @@ import javax.swing.JComboBox
 import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTextField
+import javax.swing.text.AbstractDocument
+import javax.swing.text.AttributeSet
+import javax.swing.text.DocumentFilter
 
 class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true) {
     private lateinit var rootPanel: JPanel
@@ -115,6 +118,8 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var avsbTalkback: JButton
     private lateinit var avsbCopyBoxInfo: JButton
     private lateinit var avsbInstallAPK: JButton
+    private lateinit var avsbCustomKey: JButton
+    private lateinit var avsbCustomKeyInput: JTextField
     private lateinit var adbController: AdbController
     private val appSettingsService by lazy { service<AppSettingsService>() }
 
@@ -188,6 +193,22 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
                     val receiver = ShellOutputReceiver()
                     device.executeShellCommandWithTimeout("pm clear $AVSB_PACKAGE ~", receiver, NO_TIME_TO_OUTPUT_RESPONSE)
                 }
+        }
+    }
+
+    private val documentFilter = object : DocumentFilter() {
+        override fun insertString(fb: FilterBypass?, offset: Int, string: String?, attr: AttributeSet?) {
+            if (isInteger(string)) {
+                super.insertString(fb, offset, string, attr)
+            }
+        }
+
+        private fun isInteger(string: String?) = string?.toIntOrNull() != null
+
+        override fun replace(fb: FilterBypass?, offset: Int, length: Int, text: String?, attrs: AttributeSet?) {
+            if (isInteger(text)) {
+                super.replace(fb, offset, length, text, attrs)
+            }
         }
     }
 
@@ -544,6 +565,13 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
         avsbInstallAPK.addActionListener {
             executeAction { device ->
                 (adbController as AVSBAdbController).installApk(device)
+            }
+        }
+
+        (avsbCustomKeyInput.document as AbstractDocument).documentFilter = documentFilter
+        avsbCustomKey.addActionListener {
+            executeAction { device ->
+                (adbController as AVSBAdbController).inputKeyEvent(avsbCustomKeyInput.text.toInt(), device)
             }
         }
     }

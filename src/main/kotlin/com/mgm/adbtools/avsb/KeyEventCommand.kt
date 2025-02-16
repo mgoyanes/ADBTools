@@ -49,7 +49,7 @@ class KeyEventCommand : Command<Int, String> {
             ALL_APPS -> "Show Apps"
             POWER -> "Power On/Off"
             SEARCH -> "Search pressed"
-            else -> EMPTY
+            else -> "Input key event $p"
         }
     }
 }

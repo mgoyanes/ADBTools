@@ -13,7 +13,7 @@ class ConnectDeviceOverIPCommand : AdbCommand<String, Any> {
         print("$adbPath connect $p:5555")
         try {
             process = Runtime.getRuntime().exec("$adbPath connect $p:5555")
-            if (!process.waitFor(30, TimeUnit.SECONDS)) {
+            if (!process.waitFor(10, TimeUnit.SECONDS)) {
                 process.run { destroy() }
             }
             val content = process.errorStream.readBytes().toString(Charset.defaultCharset())
@@ -22,13 +22,12 @@ class ConnectDeviceOverIPCommand : AdbCommand<String, Any> {
                 print(content)
                 destroy()
             }
-            if (content.isNotEmpty()) throw Exception("enable to connect to $p")
+            if (content.isNotEmpty()) throw Exception("unable to connect to $p")
             return EMPTY
         } catch (e: Exception) {
             print(e)
             process?.destroy()
-            throw Exception("enable to connect to $p")
+            throw Exception("unable to connect to $p")
       }
-//        return EMPTY
     }
 }
