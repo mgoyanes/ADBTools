@@ -43,12 +43,12 @@ class AppsCommand : Command2<String, AppAction, String> {
             "YouTube",
             "com.google.android.youtube.tv"
         ),
-        HBO_GO(
-            "am start -a android.intent.action.MAIN -n com.hbo.hbonow/.MainActivity",
-            "am force-stop com.hbo.hbonow",
-            "HBO Go",
-            "com.hbo.hbonow"
-        ),
+//        HBO_GO(
+//            "am start -a android.intent.action.MAIN -n com.hbo.hbonow/.MainActivity",
+//            "am force-stop com.hbo.hbonow",
+//            "HBO Go",
+//            "com.hbo.hbonow"
+//        ),
         PLAY_STORE(
             "am start -a android.intent.action.MAIN -n com.android.vending/com.google.android.finsky.tvmainactivity.TvMainActivity",
             "am force-stop com.android.vending",
@@ -85,28 +85,28 @@ class AppsCommand : Command2<String, AppAction, String> {
             "VTV",
             "com.vodafone.vtv.avsb"
         ),
-        TV_RECOMMENDATION(
-            "am start -a android.intent.action.MAIN -n com.google.android.tvrecommendations/.TvRecommendationActivity",
-            "am force-stop com.google.android.tvrecommendations",
-            "TV Recommendation",
-            "com.google.android.tvrecommendations"
-        ),
-        TWITCH(
-            "am start -a android.intent.action.MAIN -n tv.twitch.android.app/tv.orange.features.app.splash.SplashActivity",
-            "am force-stop tv.twitch.android.app",
-            "Twitch",
-            "tv.twitch.android.app"
-        ),
-        VLC(
-            "am start -a android.intent.action.MAIN -n org.videolan.vlc/org.videolan.vlc.gui.MainActivity",
-            "am force-stop org.videolan.vlc",
-            "VLC",
-            "org.videolan.vlc"
-        ),
+//        TV_RECOMMENDATION(
+//            "am start -a android.intent.action.MAIN -n com.google.android.tvrecommendations/.TvRecommendationActivity",
+//            "am force-stop com.google.android.tvrecommendations",
+//            "TV Recommendation",
+//            "com.google.android.tvrecommendations"
+//        ),
+//        TWITCH(
+//            "am start -a android.intent.action.MAIN -n tv.twitch.android.app/tv.orange.features.app.splash.SplashActivity",
+//            "am force-stop tv.twitch.android.app",
+//            "Twitch",
+//            "tv.twitch.android.app"
+//        ),
+//        VLC(
+//            "am start -a android.intent.action.MAIN -n org.videolan.vlc/org.videolan.vlc.gui.MainActivity",
+//            "am force-stop org.videolan.vlc",
+//            "VLC",
+//            "org.videolan.vlc"
+//        ),
         FILMIN_ES(
             "am start -a android.intent.action.MAIN -n com.filmin.androidtv.portugal/com.filmin.androidtv.MainActivity",
             "am force-stop com.filmin.androidtv.portugal",
-            "Filmin ES",
+            "Filmin",
             "com.filmin.androidtv"
         ),
         RTP_PLAY(
