@@ -131,6 +131,12 @@ class ProxyCommand {
             TimeUnit.SECONDS,
         )
 
+        val keyEventCommand = KeyEventCommand()
+
+        keyEventCommand.execute(KeyEventCommand.DPAD_DOWN, project, device)
+
+        keyEventCommand.execute(KeyEventCommand.DONE, project, device)
+
         setProxy(project, device, hostname, port)
     }
 
