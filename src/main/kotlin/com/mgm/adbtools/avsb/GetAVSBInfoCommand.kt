@@ -1,6 +1,5 @@
 package com.mgm.adbtools.avsb
 
-import ai.grazie.utils.capitalize
 import android.databinding.tool.ext.toCamelCase
 import com.android.ddmlib.IDevice
 import com.mgm.adbtools.EMPTY
