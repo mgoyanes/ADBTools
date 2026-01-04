@@ -38,7 +38,9 @@ dependencies {
         // Plugin Dependencies. Uses `platformBundledPlugins` property from the gradle.properties file for bundled IntelliJ Platform plugins.
         bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
 //        androidStudio("2024.1.3.3")
-        plugin("org.jetbrains.android:243.16718.32")
+//        plugin("org.jetbrains.android:251.23774.16")
+        bundledPlugin("org.jetbrains.android")
+        bundledModule("com.intellij")
 
         // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
         plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
