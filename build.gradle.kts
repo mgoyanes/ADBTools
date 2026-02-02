@@ -13,10 +13,11 @@ plugins {
 
 group = providers.gradleProperty("pluginGroup").get()
 version = providers.gradleProperty("pluginVersion").get()
+layout.buildDirectory = File("/Volumes/Goyanes/Development/Builds/${rootProject.name}/${project.name}")
 
 // Set the JVM language level used to build the project.
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 // Configure project's dependencies
@@ -144,7 +145,12 @@ tasks {
 
 tasks.named<org.jetbrains.intellij.platform.gradle.tasks.RunIdeTask>("runIde") {
     jvmArgumentProviders += CommandLineArgumentProvider {
-        listOf("-Didea.kotlin.plugin.use.k2=true")
+        listOf(
+            "-Didea.kotlin.plugin.use.k2=true",
+            "-XX:+IgnoreUnrecognizedVMOptions",
+            "-XX:+AllowEnhancedClassLoading",
+            "-Djdk.jfr.exclude=com.intellij.platform.core.nio.fs.MultiRoutingFileSystemProvider"
+        )
     }
 }
 
