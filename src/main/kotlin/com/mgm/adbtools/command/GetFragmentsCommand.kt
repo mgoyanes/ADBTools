@@ -7,17 +7,18 @@ import com.mgm.adbtools.DASH
 import com.mgm.adbtools.DUMPSYS_ACTIVITY
 import com.mgm.adbtools.EMPTY
 import com.mgm.adbtools.GET_TOP_ACTIVITY_COMMAND
-import com.mgm.adbtools.ONE
 import com.mgm.adbtools.ShellOutputReceiver
 import com.mgm.adbtools.executeShellCommandWithTimeout
 import com.mgm.adbtools.extractActivityRegex
 import com.mgm.adbtools.extractAppRegex
 import com.mgm.adbtools.models.FragmentData
+import com.mgm.adbtools.parser.DumpsysParser
 
 class GetFragmentsCommand : Command<String, List<FragmentData>> {
 
+    private val parser = DumpsysParser()
+
     companion object {
-        private const val DELIMITER_ACTIVE_FRAGMENTS = "Active Fragments:"
         private const val DELIMITER_ADDED_FRAGMENTS = "Added Fragments:"
         private const val DELIMITER_BACK_STACK = "Back Stack"
         private const val DELIMITER_CLOSE_BRACKET = "}"
@@ -29,7 +30,6 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
         private const val DELIMITER_SPACE = ": "
         private const val DELIMITER_SUPPORT_REQUEST_MANAGER_FRAGMENT = "SupportRequestManagerFragment"
         private const val DELIMITER_TASK = "TASK"
-        private const val EMPTY_CHAR = ' '
     }
 
     override fun execute(p: String, project: Project, device: IDevice): List<FragmentData> {
@@ -69,11 +69,7 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
         val addedFragments: List<FragmentData>
 
         return if (bulkTaskDetails.contains(DELIMITER_NAV_HOST_FRAGMENT)) {
-            bulkAddedFragmentsDetails = getNavHostBulkFragmentDetails(bulkTaskDetails)
-
-            addedFragments = getNavHostAddedFragments(bulkAddedFragmentsDetails)
-
-            getFragments(addedFragments, bulkAddedFragmentsDetails)
+            parser.parse(log).activitiesList.firstOrNull()?.fragment ?: emptyList()
         } else {
             bulkAddedFragmentsDetails = getAddedFragmentsDetails(bulkTaskDetails)
 
@@ -83,35 +79,6 @@ class GetFragmentsCommand : Command<String, List<FragmentData>> {
         }
     }
 
-    private fun getNavHostBulkFragmentDetails(bulkTaskDetails: String): String =
-        bulkTaskDetails
-            .substringAfter(DELIMITER_NAV_HOST_FRAGMENT, EMPTY)
-            .substringBeforeLast(DELIMITER_ADDED_FRAGMENTS, EMPTY)
-            .substringAfter("$DELIMITER_ACTIVE_FRAGMENTS\n")
-            .substringBeforeLast("$DELIMITER_ADDED_FRAGMENTS\n")
-
-    private fun getNavHostAddedFragments(bulkTaskDetails: String): List<FragmentData> {
-        var spaceCount: Int
-        var tempLine: String
-        var fragment: String
-        return bulkTaskDetails
-            .lines()
-            .let { list ->
-                spaceCount = list.firstOrNull()?.indexOfFirst { char -> char != EMPTY_CHAR } ?: -ONE
-                list
-            }
-            .filter { line -> line.indexOfFirst { char -> char != EMPTY_CHAR } == spaceCount && isValidLine(line) }
-            .mapNotNull { line ->
-                tempLine = line.trim()
-                fragment = tempLine.substringBefore(DELIMITER_OPEN_BRACKET, EMPTY)
-
-                if (fragment.isBlank()) {
-                    return@mapNotNull null
-                }
-
-                FragmentData(fragment = fragment, fragmentIdentifier = getFragmentIdentifier(tempLine))
-            }
-    }
 
     private fun getAddedFragmentsDetails(bulkTaskDetails: String): String =
         bulkTaskDetails

@@ -181,52 +181,51 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         )
     }
 
+    private fun addInnerFragmentsToDisplayList(
+        fragmentData: FragmentData,
+        displayList: MutableList<Pair<String, String>>,
+        indent: String,
+    ) {
+        fragmentData.innerFragments.forEachIndexed { fragmentIndex, innerFragmentData ->
+            displayList.add("$indent[$fragmentIndex]-${innerFragmentData.fragment}" to innerFragmentData.fragment)
+            addInnerFragmentsToDisplayList(innerFragmentData, displayList, "$indent$INDENT")
+        }
+    }
+
     override fun currentApplicationBackStack(device: IDevice) {
         val packageName = getPackageName(device)
         val applicationID = getApplicationID(device)
-        val backStackList = mutableMapOf<String, Int>()
+        val displayList = mutableListOf<Pair<String, String>>() // displayText to actualClass
         val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(listOf(packageName, applicationID), device)
 
         backStackData
             .sortedByDescending { it.activityStackPosition }
             .forEachIndexed { index, activityData ->
-                backStackList[activityData.activity] = index
+                displayList.add("[${index}]-${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else EMPTY}" to activityData.activity)
 
                 activityData.fragment.forEachIndexed { fragmentIndex, fragmentData ->
-                    backStackList[fragmentData.fragment] = fragmentIndex
-
-                    addInnerFragmentsToList(fragmentData = fragmentData, fragmentsList = backStackList, indent = INDENT, includeIndex = false)
+                    displayList.add("$INDENT[$fragmentIndex]-${fragmentData.fragment}" to fragmentData.fragment)
+                    addInnerFragmentsToDisplayList(fragmentData, displayList, "$INDENT$INDENT")
                 }
             }
 
-        val list = JBList(backStackList.keys.toList())
+        val list = JBList(displayList.map { it.first })
         var margin: Int
         list.installCellRenderer { o: Any ->
-            val displayTitle: String
             val title = o.toString()
-            displayTitle = if (title.contains(DOT)) {
-                margin = 10
-                StringBuilder().insert(ZERO, "[${backStackList[title]}]-").append(
-                    (title.split(DOT).lastOrNull() ?: EMPTY) + " [Activity]${if (backStackData.firstOrNull { it.activity == title }?.isKilled == true) ACTIVITY_KILLED else EMPTY}"
-                ).toString()
-            } else {
-                margin = 20
-                StringBuilder(title).insert(max(ZERO, title.indexOfLast { char -> char == TAB }), "[${backStackList[title]}]-").append(" [Fragment]").toString()
-            }
-
-            val label = JBLabel(displayTitle)
+            margin = if (title.startsWith("[")) 10 else 20
+            val label = JBLabel(if (title.startsWith("[")) "$title [Activity]" else "$title [Fragment]")
             label.border = JBUI.Borders.empty(5, margin, 5, 20)
             label
         }
         PopupChooserBuilder(list).apply {
             this.setTitle("Activities")
             this.setItemChoosenCallback {
-                val current = backStackList.keys.elementAtOrNull(list.selectedIndex)
-                current?.let {
-                    if (it.contains(DASH))
-                        it.trim().replace(ACTIVITY_KILLED, EMPTY).replaceFirst(DASH.toString(), EMPTY).psiClassByNameFromProjct(project)?.openIn(project)
+                displayList.getOrNull(list.selectedIndex)?.second?.let { className ->
+                    if (className.contains(DOT))
+                        className.psiClassByNameFromProjct(project)?.openIn(project)
                     else
-                        it.trim().psiClassByNameFromCache(project)?.openIn(project)
+                        className.psiClassByNameFromCache(project)?.openIn(project)
                 }
             }
             this.createPopup().showCenteredInCurrentWindow(project)
