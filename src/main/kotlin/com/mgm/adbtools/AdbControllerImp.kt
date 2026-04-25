@@ -65,7 +65,6 @@ import java.util.concurrent.TimeUnit
 import javax.swing.JFileChooser
 import javax.swing.JOptionPane
 import javax.swing.SwingUtilities
-import kotlin.math.max
 
 
 class AdbControllerImp(private val project: Project, private var debugBridge: AndroidDebugBridge?, private var toolWindow: ToolWindow? = null) :
@@ -177,7 +176,7 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         showClassPopup(
             "Activities",
             list,
-            activitiesList.map { it.trim().replace(ACTIVITY_KILLED, EMPTY).substringAfter(HYPHEN).psiClassByNameFromProjct(project) }
+            activitiesList.map { it.trim().replace(ACTIVITY_KILLED, EMPTY).substringAfter(HYPHEN).psiClassByNameFromProject(project) }
         )
     }
 
@@ -223,7 +222,7 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
             this.setItemChoosenCallback {
                 displayList.getOrNull(list.selectedIndex)?.second?.let { className ->
                     if (className.contains(DOT))
-                        className.psiClassByNameFromProjct(project)?.openIn(project)
+                        className.psiClassByNameFromProject(project)?.openIn(project)
                     else
                         className.psiClassByNameFromCache(project)?.openIn(project)
                 }
@@ -236,7 +235,7 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         execute {
             val activity =
                 GetActivityCommand().execute(Any(), project, device) ?: throw Exception("No activities found")
-            activity.psiClassByNameFromProjct(project)?.openIn(project)
+            activity.psiClassByNameFromProject(project)?.openIn(project)
                 ?: throw Exception("class $activity  Not Found")
         }
     }
