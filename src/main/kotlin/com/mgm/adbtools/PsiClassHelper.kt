@@ -2,6 +2,7 @@ package com.mgm.adbtools
 
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.application.runReadActionBlocking
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
 import com.intellij.psi.search.GlobalSearchScope
@@ -12,15 +13,18 @@ fun PsiClass.openIn(project: Project) {
 }
 
 fun String.psiClassByNameFromCache(project: Project): PsiClass? {
-    return PsiShortNamesCache
-        .getInstance(project)
-        .getClassesByName(
-            this, GlobalSearchScope.allScope(project)
-        )
-        .firstOrNull()
-//        .firstOrNull { it is KtUltraLightClass }
+    return runReadActionBlocking {
+        PsiShortNamesCache
+            .getInstance(project)
+            .getClassesByName(
+                this, GlobalSearchScope.allScope(project)
+            )
+            .firstOrNull()
+    }
 }
 
-fun String.psiClassByNameFromProjct(project: Project): PsiClass? {
-    return JavaPsiFacade.getInstance(project).findClass(this, GlobalSearchScope.allScope(project))
+fun String.psiClassByNameFromProject(project: Project): PsiClass? {
+    return runReadActionBlocking {
+        JavaPsiFacade.getInstance(project).findClass(this, GlobalSearchScope.allScope(project))
+    }
 }
