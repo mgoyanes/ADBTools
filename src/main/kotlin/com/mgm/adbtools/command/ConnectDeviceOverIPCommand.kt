@@ -12,7 +12,7 @@ class ConnectDeviceOverIPCommand : AdbCommand<String, Any> {
         var process: Process? = null
         print("$adbPath connect $p:5555")
         try {
-            process = Runtime.getRuntime().exec("$adbPath connect $p:5555")
+            process = ProcessBuilder(adbPath, "connect", "$p:5555").start()
             if (!process.waitFor(10, TimeUnit.SECONDS)) {
                 process.run { destroy() }
             }

@@ -266,24 +266,24 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
 
         refresh.isVisible = false
         refresh.addActionListener {
-            adbController.refresh()
+            adbController.restartBridgeFromScratch()
             updateDevicesList()
         }
 
         refresh2.addActionListener {
-            adbController.refresh2()
+            adbController.restartBridge()
             updateDevicesList()
         }
 
         refresh3.isVisible = false
         refresh3.addActionListener {
-            adbController.refresh3()
+            adbController.terminateAndRestartBridge()
             updateDevicesList()
         }
 
         refresh4.isVisible = false
         refresh4.addActionListener {
-            adbController.refresh4()
+            adbController.reinitializeBridgeFromSdk()
             updateDevicesList()
         }
 

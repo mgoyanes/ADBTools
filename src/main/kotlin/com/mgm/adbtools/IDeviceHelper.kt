@@ -31,24 +31,20 @@ fun IDevice.clearAppData(applicationID: String?) {
     executeShellCommandWithTimeout("pm clear $applicationID", ShellOutputReceiver())
 }
 
-fun IDevice.getDefaultActivityForApplication(packageName: String?): String {
+fun IDevice.getDefaultActivityForApplication(packageName: String?): List<String> {
     val outputReceiver = ShellOutputReceiver()
-    if (isNougatOrAbove())
-        executeShellCommandWithTimeout(
-            "cmd package resolve-activity --brief $packageName | tail -n 1",
-            outputReceiver
-        )
-    else {
-        executeShellCommandWithTimeout(
-            "pm dump $packageName | grep -B 10 category\\.LAUNCHER | grep -o '[^ ]*/[^ ]*' | tail -n 1",
-            outputReceiver,
-        )
-    }
+    executeShellCommandWithTimeout(
+        "cmd package dump $packageName | grep -A1 'android.intent.category.LAUNCHER' | grep -o '$packageName/[^ ]*'",
+        outputReceiver
+    )
     return outputReceiver.toString()
+        .lines()
+        .distinct()
+        .map { it.trim() }
+        .filter { it.isNotEmpty() }
 }
 
-fun IDevice.isMarshmallow() = this.version.apiLevel >= 23
-fun IDevice.isNougatOrAbove() = this.version.apiLevel >= 24
+fun IDevice.isMarshmallow() = this.version.isAtLeast(23)
 
 fun IDevice.areDontKeepActivitiesEnabled(): DontKeepActivitiesState {
     val outputReceiver = ShellOutputReceiver()
@@ -118,13 +114,6 @@ fun IDevice.getNetworkState(network: Network): NetworkState {
     executeShellCommandWithTimeout("settings get global ${network.networkSettingIdentifier}", outputReceiver)
 
     return NetworkState.getState(outputReceiver.toString())
-}
-
-fun IDevice.getApiVersion(): Int? {
-    val outputReceiver = ShellOutputReceiver()
-    executeShellCommandWithTimeout("getprop ro.build.version.release", outputReceiver)
-
-    return outputReceiver.toString().toIntOrNull()
 }
 
 fun IDevice.getFirebaseDebugApp(): String {

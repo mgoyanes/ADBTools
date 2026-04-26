@@ -155,4 +155,4 @@ fun waitUntil(timeoutMillis: Long = 30000L, step: Long = 100L, condition: () -> 
     }
 }
 
-inline fun <reified T> on(): Reflect = on(T::class.java)
+inline fun <reified T> on(): Reflect = Reflect.onClass(T::class.java)

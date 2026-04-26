@@ -7,10 +7,10 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.ui.components.JBList
-import org.jetbrains.android.sdk.AndroidSdkUtils
 import com.mgm.adbtools.AdbController
 import com.mgm.adbtools.AdbControllerImp
 import com.mgm.adbtools.notification.CommonNotifier.Companion.showNotifier
+import org.jetbrains.android.sdk.AndroidSdkUtils
 
 abstract class BaseAction : AnAction() {
     override fun actionPerformed(event: AnActionEvent) = event.project?.run {
@@ -33,9 +33,9 @@ abstract class BaseAction : AnAction() {
         val list = JBList(devices.map { it.name })
         PopupChooserBuilder(list).apply {
             this.setTitle("Devices")
-            this.setItemChoosenCallback {
+            setItemChosenCallback(Runnable {
                 block(devices[list.selectedIndex])
-            }
+            })
             this.createPopup().showCenteredInCurrentWindow(project)
         }
 

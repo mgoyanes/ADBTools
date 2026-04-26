@@ -65,8 +65,6 @@ class DumpsysParser {
         return BackStackData(appPkg, merged)
     }
 
-    fun parse(lines: List<String>): BackStackData = parseSingle(lines)
-
     private fun parseSingle(dumpsysOutput: String): BackStackData =
         parseSingle(dumpsysOutput.lines())
 
@@ -158,13 +156,13 @@ class DumpsysParser {
                 Section.BACKSTACK -> {
                     BACKSTACK_ENTRY_REGEX.find(line)?.let { match ->
                         currentBackStackEntry = BackStackEntry(match.groupValues[1].toInt())
-                        manager.backStack += currentBackStackEntry!!
+                        manager.backStack += currentBackStackEntry
                     }
                 }
                 Section.OPS -> {
                     BACKSTACK_ENTRY_REGEX.find(line)?.let { match ->
                         currentBackStackEntry = BackStackEntry(match.groupValues[1].toInt())
-                        manager.backStack += currentBackStackEntry!!
+                        manager.backStack += currentBackStackEntry
                         currentSection = Section.BACKSTACK
                     } ?: OP_REGEX.find(line)?.let { match ->
                         val op = parseOperation(match)
@@ -346,7 +344,7 @@ class DumpsysParser {
     companion object {
         private val TASK_REGEX = Regex("""TASK\s+\d+:(\S+)""")
         private val ACTIVITY_REGEX = Regex("""^\s*ACTIVITY\s+(\S+)""")
-        private val FRAGMENT_HEADER_REGEX = Regex("""^\s*([A-Za-z0-9_.\$]+)\{([0-9a-f]+)\}(?:\s*\(([^)]+)\))?""")
+        private val FRAGMENT_HEADER_REGEX = Regex("""^\s*([A-Za-z0-9_.$]+)\{([0-9a-f]+)\}(?:\s*\(([^)]+)\))?""")
         private val ADDED_FRAGMENT_REGEX = Regex("""^\s*#\d+:\s*([A-Za-z0-9_.\$]+)\{([0-9a-f]+)\}(?:\s*\(([^)]+)\))?""")
         private val BACKSTACK_ENTRY_REGEX = Regex("""^\s*#(\d+):\s*BackStackEntry\{""")
         private val OP_REGEX = Regex("""^\s*Op #\d+:\s*([A-Z_]+)\s+(.*)$""")
