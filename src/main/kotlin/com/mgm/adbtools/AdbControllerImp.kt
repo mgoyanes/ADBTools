@@ -62,6 +62,7 @@ import com.mgm.adbtools.premission.ListItem
 import java.awt.Window
 import java.io.File
 import java.util.concurrent.TimeUnit
+import javax.swing.ListCellRenderer
 import javax.swing.JFileChooser
 import javax.swing.JOptionPane
 import javax.swing.SwingUtilities
@@ -82,6 +83,7 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
 
     init {
         AndroidDebugBridge.addDeviceChangeListener(this)
+        AndroidDebugBridge.addDebugBridgeChangeListener(this)
     }
 
     private fun getApplicationID(device: IDevice) =
@@ -89,34 +91,42 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
 
     private fun getPackageName(device: IDevice) = GetPackageNameCommand().execute(Any(), project, device).toString()
 
-    override fun refresh() {
+    override fun restartBridgeFromScratch() {
         AndroidDebugBridge.terminate()
         debugBridge?.startAdb(Long.MAX_VALUE, TimeUnit.MILLISECONDS)
 
         AndroidDebugBridge.removeDeviceChangeListener(this)
         AndroidDebugBridge.addDeviceChangeListener(this)
+        AndroidDebugBridge.removeDebugBridgeChangeListener(this)
+        AndroidDebugBridge.addDebugBridgeChangeListener(this)
     }
 
-    override fun refresh2() {
+    override fun restartBridge() {
         debugBridge?.restart(Long.MAX_VALUE, TimeUnit.MILLISECONDS)
 
         AndroidDebugBridge.removeDeviceChangeListener(this)
         AndroidDebugBridge.addDeviceChangeListener(this)
+        AndroidDebugBridge.removeDebugBridgeChangeListener(this)
+        AndroidDebugBridge.addDebugBridgeChangeListener(this)
     }
 
-    override fun refresh3() {
+    override fun terminateAndRestartBridge() {
         AndroidDebugBridge.terminate()
         debugBridge?.restart(Long.MAX_VALUE, TimeUnit.MILLISECONDS)
 
         AndroidDebugBridge.removeDeviceChangeListener(this)
         AndroidDebugBridge.addDeviceChangeListener(this)
+        AndroidDebugBridge.removeDebugBridgeChangeListener(this)
+        AndroidDebugBridge.addDebugBridgeChangeListener(this)
     }
 
-    override fun refresh4() {
+    override fun reinitializeBridgeFromSdk() {
         debugBridge = AndroidSdkUtils.getDebugBridge(project)
 
         AndroidDebugBridge.removeDeviceChangeListener(this)
         AndroidDebugBridge.addDeviceChangeListener(this)
+        AndroidDebugBridge.removeDebugBridgeChangeListener(this)
+        AndroidDebugBridge.addDebugBridgeChangeListener(this)
     }
 
     override fun connectedDevices(block: (devices: List<IDevice>) -> Unit) {
@@ -128,23 +138,7 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     //region IDebugBridgeChangeListener
     override fun bridgeChanged(bridge: AndroidDebugBridge?) {
         debugBridge = bridge
-
-        showSuccess("bridgeChanged")
-    }
-
-    override fun restartInitiated() {
-        super.restartInitiated()
-        showSuccess("restartInitiated")
-    }
-
-    override fun restartCompleted(isSuccessful: Boolean) {
-        super.restartCompleted(isSuccessful)
-        showSuccess("restartCompleted isSuccessful=$isSuccessful")
-    }
-
-    override fun initializationError(exception: java.lang.Exception?) {
-        super.initializationError(exception)
-        showError("initializationError. Error was=${exception?.message}")
+        updateDeviceList?.invoke(bridge?.devices?.toList() ?: listOf())
     }
     //endregion
 
@@ -180,14 +174,14 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         )
     }
 
-    private fun addInnerFragmentsToDisplayList(
+    private fun collectInnerFragments(
         fragmentData: FragmentData,
-        displayList: MutableList<Pair<String, String>>,
         indent: String,
+        onFragment: (displayText: String, fragment: String) -> Unit,
     ) {
-        fragmentData.innerFragments.forEachIndexed { fragmentIndex, innerFragmentData ->
-            displayList.add("$indent[$fragmentIndex]-${innerFragmentData.fragment}" to innerFragmentData.fragment)
-            addInnerFragmentsToDisplayList(innerFragmentData, displayList, "$indent$INDENT")
+        fragmentData.innerFragments.forEachIndexed { index, innerFragmentData ->
+            onFragment("$indent[$index]-${innerFragmentData.fragment}", innerFragmentData.fragment)
+            collectInnerFragments(innerFragmentData, "$indent$INDENT", onFragment)
         }
     }
 
@@ -200,34 +194,35 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         backStackData
             .sortedByDescending { it.activityStackPosition }
             .forEachIndexed { index, activityData ->
-                displayList.add("[${index}]-${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else EMPTY}" to activityData.activity)
+                displayList.add("[$index]-${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else EMPTY}" to activityData.activity)
 
                 activityData.fragment.forEachIndexed { fragmentIndex, fragmentData ->
                     displayList.add("$INDENT[$fragmentIndex]-${fragmentData.fragment}" to fragmentData.fragment)
-                    addInnerFragmentsToDisplayList(fragmentData, displayList, "$INDENT$INDENT")
+                    collectInnerFragments(fragmentData, "$INDENT$INDENT") { displayText, fragment ->
+                        displayList.add(displayText to fragment)
+                    }
                 }
             }
 
         val list = JBList(displayList.map { it.first })
-        var margin: Int
-        list.installCellRenderer { o: Any ->
-            val title = o.toString()
-            margin = if (title.startsWith("[")) 10 else 20
+        list.cellRenderer = ListCellRenderer { _, value, _, _, _ ->
+            val title = value.toString()
+            val margin = if (title.startsWith("[")) 10 else 20
             val label = JBLabel(if (title.startsWith("[")) "$title [Activity]" else "$title [Fragment]")
             label.border = JBUI.Borders.empty(5, margin, 5, 20)
             label
         }
         PopupChooserBuilder(list).apply {
-            this.setTitle("Activities")
-            this.setItemChoosenCallback {
+            setTitle("Activities")
+            setItemChosenCallback(Runnable {
                 displayList.getOrNull(list.selectedIndex)?.second?.let { className ->
                     if (className.contains(DOT))
                         className.psiClassByNameFromProject(project)?.openIn(project)
                     else
                         className.psiClassByNameFromCache(project)?.openIn(project)
                 }
-            }
-            this.createPopup().showCenteredInCurrentWindow(project)
+            })
+            createPopup().showCenteredInCurrentWindow(project)
         }
     }
 
@@ -246,13 +241,15 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
 
             val fragmentsClass = GetFragmentsCommand().execute(applicationID, project, device)
 
-            if (fragmentsClass.size > 1) {
+            if (fragmentsClass.size > 1 || fragmentsClass.firstOrNull()?.innerFragments?.isNotEmpty() == true) {
                 val fragmentsList = mutableMapOf<String, Int>()
 
                 fragmentsClass.forEachIndexed { index, fragmentData ->
                     fragmentsList["\t[$index]-${fragmentData.fragment}"] = index
 
-                    addInnerFragmentsToList(fragmentData = fragmentData, fragmentsList = fragmentsList, indent = INDENT, includeIndex = true)
+                    collectInnerFragments(fragmentData, INDENT) { displayText, _ ->
+                        fragmentsList[displayText] = fragmentsList.size
+                    }
                 }
 
                 val list = JBList(fragmentsList.keys.toList())
@@ -286,24 +283,27 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun testProcessDeath(device: IDevice) {
         execute {
             val applicationID = getApplicationID(device)
-            ProcessDeathCommand().execute(applicationID, project, device)
-            showSuccess("application $applicationID killed. App launched.")
+            val activities = ProcessDeathCommand().execute(applicationID, project, device)
+            launchActivityOrShowPicker(device, activities, "application $applicationID killed. App launched.")
         }
     }
 
     override fun restartApp(device: IDevice) {
         execute {
             val applicationID = getApplicationID(device)
-            RestartAppCommand().execute(applicationID, project, device)
-            showSuccess("application $applicationID Restart")
+            val activities = RestartAppCommand().execute(applicationID, project, device)
+            launchActivityOrShowPicker(device, activities, "application $applicationID restarted")
         }
     }
 
     override fun restartAppWithDebugger(device: IDevice) {
         execute {
             val applicationID = getApplicationID(device)
-            RestartAppWithDebuggerCommand().execute(applicationID, project, device)
-            showSuccess("application $applicationID Restarted with debugger")
+            val command = RestartAppWithDebuggerCommand()
+            val activities = command.execute(applicationID, project, device)
+            launchActivityOrShowPicker(device, activities, "application $applicationID restarted with debugger") { activity ->
+                command.startWithDebugger(activity, project, device, applicationID)
+            }
         }
     }
 
@@ -318,8 +318,8 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun clearAppDataAndRestart(device: IDevice) {
         execute {
             val applicationID = getApplicationID(device)
-            ClearAppDataAndRestartCommand().execute(applicationID, project, device)
-            showSuccess("application $applicationID data cleared and restarted")
+            val activities = ClearAppDataAndRestartCommand().execute(applicationID, project, device)
+            launchActivityOrShowPicker(device, activities, "application $applicationID data cleared and restarted")
         }
     }
 
@@ -344,8 +344,10 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     }
 
     override fun grantOrRevokeAllPermissions(device: IDevice, permissionOperation: GetApplicationPermission.PermissionOperation) {
-        getApplicationPermissions(device) { permissionsList ->
+        execute {
             val applicationID = getApplicationID(device)
+            val permissions = GetApplicationPermission().execute(applicationID, project, device)
+            if (permissions.isEmpty()) error("Your Application Doesn't Require any of Runtime Permissions")
 
             val operation: (ListItem) -> Unit = when (permissionOperation) {
                 GetApplicationPermission.PermissionOperation.GRANT ->
@@ -355,9 +357,8 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
                     { permission -> RevokePermissionCommand().execute(applicationID, permission, project, device) }
             }
 
-            permissionsList
-                .forEach { permission -> operation(permission) }
-                .also { showSuccess("All permissions ${permissionOperation.operationResult}") }
+            permissions.forEach { permission -> operation(permission) }
+            showSuccess("All permissions ${permissionOperation.operationResult}")
         }
     }
 
@@ -450,7 +451,6 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun setDMS(dms: String, device: IDevice) {
         execute {
             val result = DMSCommand().execute(dms, project, device)
-
             showSuccess(result)
         }
     }
@@ -458,7 +458,6 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun openStatus(device: IDevice) {
         execute {
             val result = OpenStatusCommand().execute(project, device)
-
             showSuccess(result)
         }
     }
@@ -466,7 +465,6 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun openSettings(device: IDevice) {
         execute {
             val result = OpenSettingsCommand().execute(project, device)
-
             showSuccess(result)
         }
     }
@@ -474,10 +472,7 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun inputKeyEvent(keyEvent: Int, device: IDevice) {
         execute {
             val result = KeyEventCommand().execute(keyEvent, project, device)
-
-            if (result != EMPTY) {
-                showSuccess(result)
-            }
+            if (result != EMPTY) showSuccess(result)
         }
     }
 
@@ -576,7 +571,7 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         try {
             execute.invoke()
         } catch (e: Exception) {
-            showError(e.message ?: "not found")
+            showError(e.localizedMessage ?: e.javaClass.simpleName)
         }
     }
 
@@ -585,36 +580,18 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         list: JBList<String>,
         classes: List<PsiClass?>
     ) {
-        list.installCellRenderer { displayTitle ->
+        list.cellRenderer = ListCellRenderer { _, displayTitle, _, _, _ ->
             val label = JBLabel(displayTitle)
             label.border = JBUI.Borders.empty(5, 5, 5, 20)
             label
         }
 
         PopupChooserBuilder(list).apply {
-            this.setTitle(title)
-            this.setItemChoosenCallback {
+            setTitle(title)
+            setItemChosenCallback(Runnable {
                 classes.getOrNull(list.selectedIndex)?.openIn(project)
-            }
-            this.createPopup().showCenteredInCurrentWindow(project)
-        }
-    }
-
-    private fun addInnerFragmentsToList(
-        fragmentData: FragmentData,
-        fragmentsList: MutableMap<String, Int>,
-        indent: String,
-        includeIndex: Boolean,
-    ) {
-        fragmentData.innerFragments.forEachIndexed { fragmentIndex, innerFragmentData ->
-            fragmentsList[
-                if (includeIndex) {
-                    "$indent[$fragmentIndex]-${innerFragmentData.fragment}"
-                } else {
-                    "$indent${innerFragmentData.fragment}"
-                }
-            ] = fragmentIndex
-            addInnerFragmentsToList(innerFragmentData, fragmentsList, "$INDENT$indent", includeIndex)
+            })
+            createPopup().showCenteredInCurrentWindow(project)
         }
     }
 
@@ -647,6 +624,37 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun setFirebaseDebugApp(device: IDevice, firebaseDebugApp: String) {
         execute {
             FirebaseCommand().execute(getApplicationID(device), firebaseDebugApp, project, device)
+        }
+    }
+
+    private fun launchActivityOrShowPicker(
+        device: IDevice,
+        activities: List<String>,
+        successMessage: String,
+        onActivitySelected: (String) -> Unit = { device.startActivity(it) }
+    ) {
+        if (activities.size == 1) {
+            onActivitySelected(activities.first())
+            showSuccess(successMessage)
+        } else {
+            val list = JBList(activities)
+            list.cellRenderer = ListCellRenderer { _, value, _, _, _ ->
+                val label = JBLabel(value)
+                label.border = JBUI.Borders.empty(5, 10, 5, 20)
+                label
+            }
+            PopupChooserBuilder(list).apply {
+                setTitle("Select Launcher Activity")
+                setItemChosenCallback(Runnable {
+                    activities.getOrNull(list.selectedIndex)?.let { activity ->
+                        execute {
+                            onActivitySelected(activity)
+                            showSuccess(successMessage)
+                        }
+                    }
+                })
+                createPopup().showCenteredInCurrentWindow(project)
+            }
         }
     }
 }

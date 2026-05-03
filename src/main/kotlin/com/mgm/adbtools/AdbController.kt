@@ -6,10 +6,10 @@ import com.mgm.adbtools.command.Network
 import com.mgm.adbtools.premission.ListItem
 
 interface AdbController {
-    fun refresh()
-    fun refresh2()
-    fun refresh3()
-    fun refresh4()
+    fun restartBridgeFromScratch()
+    fun restartBridge()
+    fun terminateAndRestartBridge()
+    fun reinitializeBridgeFromSdk()
     fun connectedDevices(block: (devices: List<IDevice>) -> Unit)
     fun currentBackStack(device: IDevice)
     fun currentApplicationBackStack(device: IDevice)

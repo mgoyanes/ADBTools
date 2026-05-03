@@ -1,0 +1,901 @@
+TASK 10266:wit.sire.mSeller.debug id=341 userId=0 displayId=0(type=INTERNAL)
+  ACTIVITY wit.sire.mSeller.debug/wit.sire.mSeller.ui.MainActivity 3ca434e pid=11721 userId=0 uid=10266 displayId=0(type=INTERNAL)
+    Local Activity eb1f04c State:
+      mResumed=true mStopped=false mFinished=false
+      mIsInMultiWindowMode=false mIsInPictureInPictureMode=false
+      mChangingConfigurations=false
+      mCurrentConfig={1.0 268mcc1mnc [en_GB] ldltr sw393dp w393dp h851dp 440dpi nrml long compactNeeded hdr widecg port finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1080, 2340) mAppBounds=Rect(0, 0 - 1080, 2340) mMaxBounds=Rect(0, 0 - 1080, 2340) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} as.3 s.2 fontWeightAdjustment=0}
+      mLoadersStarted=true
+      Active Fragments in a1e583b:
+        #0: ReportFragment{66fbb58 #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+          mFragmentId=#0 mContainerId=#0 mTag=androidx.lifecycle.LifecycleDispatcher.report_fragment_tag
+          mState=5 mIndex=0 mWho=android:fragment:0 mBackStackNesting=0
+          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+          mRetainInstance=false mRetaining=false mUserVisibleHint=true
+          mFragmentManager=FragmentManager{a1e583b in HostCallbacks{6b7c4b1}}
+          mHost=android.app.Activity$HostCallbacks@6b7c4b1
+          Child FragmentManager{c12dd96 in ReportFragment{66fbb58}}:
+            FragmentManager misc state:
+              mHost=android.app.Activity$HostCallbacks@6b7c4b1
+              mContainer=android.app.Fragment$1@b903d17
+              mParent=ReportFragment{66fbb58 #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+              mCurState=5 mStateSaved=false mDestroyed=false
+      Added Fragments:
+        #0: ReportFragment{66fbb58 #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+      FragmentManager misc state:
+        mHost=android.app.Activity$HostCallbacks@6b7c4b1
+        mContainer=android.app.Activity$HostCallbacks@6b7c4b1
+        mCurState=5 mStateSaved=false mDestroyed=false
+    ViewRoot:
+      mAdded=true
+      mRemoved=false
+      mStopped=false
+      mPausedForTransition=false
+      mConsumeBatchedInputScheduled=false
+      mConsumeBatchedInputImmediatelyScheduled=false
+      mPendingInputEventCount=0
+      mProcessInputEventsScheduled=false
+      mTraversalScheduled=false
+      mReportNextDraw=false
+      mLastReportedMergedConfiguration={mGlobalConfig={1.0 268mcc1mnc [en_GB] ldltr sw393dp w393dp h851dp 440dpi nrml long compactNeeded hdr widecg port finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1080, 2340) mAppBounds=Rect(0, 0 - 1080, 2340) mMaxBounds=Rect(0, 0 - 1080, 2340) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} as.3 s.160 fontWeightAdjustment=0} mOverrideConfig={1.0 268mcc1mnc [en_GB] ldltr sw393dp w393dp h851dp 440dpi nrml long compactNeeded hdr widecg port finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1080, 2340) mAppBounds=Rect(0, 0 - 1080, 2340) mMaxBounds=Rect(0, 0 - 1080, 2340) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} as.3 s.2 fontWeightAdjustment=0}}
+      mLastConfigurationFromResources={1.0 268mcc1mnc [en_GB] ldltr sw393dp w393dp h851dp 440dpi nrml long compactNeeded hdr widecg port finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1080, 2340) mAppBounds=Rect(0, 0 - 1080, 2340) mMaxBounds=Rect(0, 0 - 1080, 2340) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} as.3 s.2 fontWeightAdjustment=0}
+      mLastReportedActivityWindowInfo=ActivityWindowInfo{isEmbedded=false, taskBounds=Rect(0, 0 - 1080, 2340), taskFragmentBounds=Rect(0, 0 - 1080, 2340)}
+      mIsAmbientMode=false
+      mUnbufferedInputSource=0
+      mAttachInfo=       AttachInfo:
+        mHasWindowFocus=false
+        mWindowVisibility=0
+        mInTouchMode=true
+        mUnbufferedDispatchRequested=false
+      android.view.ViewRootImpl$NativePreImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$ImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$NativePostImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$WindowInputEventReceiver
+       mInputChannel: ed6061b wit.sire.mSeller.debug/wit.sire.mSeller.ui.MainActivity
+       mSeqMap: {}
+       mReceiverPtr:
+        mBatchedInputEventPending: false
+        mOutboundQueue:
+        {}  <empty>
+
+    Choreographer:
+      mFrameScheduled=true
+      mLastFrameTime=8447468 (10 ms ago)
+    InsetsController:
+        InsetsState
+          mDisplayFrame=Rect(0, 0 - 1080, 2340)
+          mDisplayCutout=DisplayCutout{insets=Rect(0, 136 - 0, 0) waterfall=Insets{left=0, top=0, right=0, bottom=0} boundingRect={Bounds=[Rect(0, 0 - 0, 0), Rect(0, 0 - 136, 136), Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0)]} cutoutPathParserInfo={CutoutPathParserInfo{displayWidth=1080 displayHeight=2340 physicalDisplayWidth=1080 physicalDisplayHeight=2340 density={2.75} cutoutSpec={M 40,83 a 42.75,42.75 0 1 0 85.5,0 42.75,42.75 0 1 0 -85.5,0 Z @left} rotation={0} scale={1.0} physicalPixelDisplaySizeRatio={1.0}}} sideOverrides={}}
+          mRoundedCorners=RoundedCorners{[RoundedCorner{position=TopLeft, radius=102, center=Point(102, 102)}, RoundedCorner{position=TopRight, radius=102, center=Point(978, 102)}, RoundedCorner{position=BottomRight, radius=102, center=Point(978, 2238)}, RoundedCorner{position=BottomLeft, radius=102, center=Point(102, 2238)}]}
+          mRoundedCornerFrame=Rect(0, 0 - 1080, 2340)
+          mPrivacyIndicatorBounds=PrivacyIndicatorBounds {static bounds=Rect(816, 0 - 1042, 136) rotation=0}
+          mDisplayShape=DisplayShape{ spec=-1307467802 displayWidth=1080 displayHeight=2340 physicalPixelDisplaySizeRatio=1.0 rotation=0 offsetX=0 offsetY=0 scale=1.0}
+            InsetsSource id=a2b90000 type=statusBars frame=[0,0][1080,136] visible=true flags= sideHint=TOP boundingRects=null
+            InsetsSource id=a2b90005 type=mandatorySystemGestures frame=[0,0][1080,169] visible=true flags= sideHint=TOP boundingRects=null
+            InsetsSource id=a2b90006 type=tappableElement frame=[0,0][1080,136] visible=true flags= sideHint=TOP boundingRects=null
+            InsetsSource id=b52a0001 type=navigationBars frame=[0,2274][1080,2340] visible=true flags=SUPPRESS_SCRIM|ANIMATE_RESIZING sideHint=BOTTOM boundingRects=null
+            InsetsSource id=b52a0004 type=systemGestures frame=[0,0][82,2340] visible=true flags= sideHint=LEFT boundingRects=null
+            InsetsSource id=b52a0005 type=mandatorySystemGestures frame=[0,2252][1080,2340] visible=true flags= sideHint=BOTTOM boundingRects=null
+            InsetsSource id=b52a0006 type=tappableElement frame=[0,0][0,0] visible=true flags= sideHint=NONE boundingRects=null
+            InsetsSource id=b52a0024 type=systemGestures frame=[998,0][1080,2340] visible=true flags= sideHint=RIGHT boundingRects=null
+            InsetsSource id=3 type=ime frame=[0,0][0,0] visibleFrame=[0,1541][1080,2340] visible=false flags=INVALID sideHint=NONE boundingRects=null
+            InsetsSource id=27 type=displayCutout frame=[0,0][1080,136] visible=true flags= sideHint=TOP boundingRects=null
+        mIsPredictiveBackImeHideAnimInProgress=false
+    WindowOnBackDispatcher:
+        Top Callback: android.view.ViewRootImpl$$ExternalSyntheticLambda12@4cb6012
+        Callbacks:
+          Callback: android.view.ViewRootImpl$$ExternalSyntheticLambda12@4cb6012 Priority=0
+    ImeBackAnimationController:
+        mLastProgress=0.0
+        mTriggerBack=false
+        mIsPreCommitAnimationInProgress=false
+        mStartRootScrollY=0
+        isBackAnimationAllowed=true
+        isAdjustPan=true
+        isHideAnimationInProgress=false
+    View Hierarchy:
+      com.android.internal.policy.DecorView{5d13504 V.E...... R....... 0,0-1080,2340 aid=0}[MainActivity]
+        android.widget.LinearLayout{c3250ae V.E...... ........ 0,0-1080,2340}
+          android.view.ViewStub{d52faed G.E...... ......I. 0,0-0,0 #10201e9 android:id/action_mode_bar_stub}
+          android.widget.FrameLayout{5173d22 V.E...... ........ 0,0-1080,2340}
+            androidx.appcompat.widget.FitWindowsLinearLayout{9d193b3 V.E...... ........ 0,0-1080,2340 #7f0a003b app:id/action_bar_root}
+              androidx.appcompat.widget.ViewStubCompat{8ae9d70 G.E...... ......I. 0,0-0,0 #7f0a0068 app:id/action_mode_bar_stub}
+              androidx.appcompat.widget.ContentFrameLayout{af158e9 V.E...... ........ 0,0-1080,2340 #1020002 android:id/content}
+                androidx.constraintlayout.widget.ConstraintLayout{f10096e V.E...... ........ 0,0-1080,2340}
+                  androidx.fragment.app.FragmentContainerView{5c7b80f V.E...... ........ 0,0-1080,2340 #7f0a021f app:id/nav_host_fragment}
+                    androidx.fragment.app.FragmentContainerView{ab8209c V.E...... ........ 0,0-1080,2340 #7f0a021f app:id/nav_host_fragment}
+                      start->end (pos:1.0 Dpos/Dt:0.0
+                        androidx.fragment.app.FragmentContainerView{cba679f V.E...... ........ 0,0-1080,2120 #7f0a0182 app:id/home_nav_host_fragment}
+                          androidx.fragment.app.FragmentContainerView{efd9aa5 V.E...... ........ 0,0-1080,2120 #7f0a0182 app:id/home_nav_host_fragment}
+                          androidx.fragment.app.FragmentContainerView{7b74e7a V.E...... ........ 0,0-1080,2120 #7f0a0182 app:id/home_nav_host_fragment}
+                            androidx.coordinatorlayout.widget.CoordinatorLayout{f51c62b V.E...... ........ 0,0-1080,2120}
+                              com.google.android.material.appbar.AppBarLayout{e27a553 V.E...... ........ 0,0-1080,363 #7f0a009c app:id/app_bar}
+                                com.google.android.material.appbar.CollapsingToolbarLayout{74aa88 V.ED..... ........ 0,88-1080,363 #7f0a036e app:id/toolbar_layout}
+                                  androidx.appcompat.widget.Toolbar{ad23c21 V.E...... ........ 0,0-1080,154 #7f0a036b app:id/toolbar}
+                                    androidx.appcompat.widget.AppCompatTextView{c5bd846 V.ED..... ........ 44,39-212,114 #7f0a036d app:id/toolbarTitle}
+                                  com.google.android.material.tabs.TabLayout{b249a07 VFED..... ........ 44,154-1036,231 #7f0a0172 app:id/headerTabLayout}
+                                    com.google.android.material.tabs.TabLayout$SlidingTabIndicator{dede734 V.ED..... ........ 0,0-992,77}
+                                      com.google.android.material.tabs.TabLayout$TabView{f5795d VFE...C.. ........ 0,0-380,77}
+                                        androidx.appcompat.widget.AppCompatImageView{e6d32d2 G.ED..... ......I. 0,0-0,0}
+                                        com.google.android.material.textview.MaterialTextView{a66cfa3 V.ED..... ........ 33,9-347,68}
+                                      com.google.android.material.tabs.TabLayout$TabView{c1c42a0 VFE...C.. ........ 380,0-675,77}
+                                        androidx.appcompat.widget.AppCompatImageView{c154e59 G.ED..... ......I. 0,0-0,0}
+                                        com.google.android.material.textview.MaterialTextView{4c7aa1e V.ED..... ........ 33,9-262,68}
+                                      com.google.android.material.tabs.TabLayout$TabView{cc2ff VFE...C.. ..S..A.. 675,0-967,77}
+                                        androidx.appcompat.widget.AppCompatImageView{912e8cc G.ED..... ..S..AI. 0,0-0,0}
+                                        com.google.android.material.textview.MaterialTextView{9c37715 V.ED..... ..S..A.. 33,9-259,68}
+                              androidx.viewpager2.widget.ViewPager2{c72de90 V.E...... ........ 0,363-1080,2120 #7f0a0390 app:id/viewPager}
+                                androidx.viewpager2.widget.ViewPager2$RecyclerViewImpl{5c04a2a VFED..... ........ 0,0-1080,1757 #3}
+                                  android.widget.FrameLayout{ff4901b V.E...... ........ 0,0-1080,1757 #6}
+                                    androidx.swiperefreshlayout.widget.SwipeRefreshLayout{eebc5b8 V.ED..... ........ 0,0-1080,1757}
+                                      androidx.core.widget.NestedScrollView{4f16f91 VFED..... ........ 0,0-1080,1757}
+                                        androidx.constraintlayout.widget.ConstraintLayout{5f0def6 V.E...... ........ 0,0-1080,10820}
+                                          com.google.android.material.card.MaterialCardView{3c212f7 V.E...... ........ 44,44-1036,10776}
+                                            android.widget.LinearLayout{d738564 V.E...... ........ 44,30-948,10688}
+                                              androidx.appcompat.widget.AppCompatTextView{c2c73cd V.ED..... ........ 0,0-314,59}
+                                              com.google.android.material.textfield.TextInputLayout{7c3f482 V.ED..... ........ 0,103-904,235 #7f0a02e9 app:id/searchTextInputLayout}
+                                                android.widget.FrameLayout{17ae793 V.E...... ........ 0,0-904,132}
+                                                  androidx.appcompat.widget.AppCompatTextView{29593d0 I.ED..... ......ID 0,0-904,132 #7f0a035e app:id/textinput_placeholder}
+                                                  com.google.android.material.textfield.TextInputEditText{f997fc9 VFED..CL. ........ 0,0-904,132 #7f0a02e8 app:id/searchTextInput aid=1073741833}
+                                                  android.widget.LinearLayout{7c0d6ce V.E...... ........ 0,0-143,132}
+                                                    com.google.android.material.internal.CheckableImageButton{fe269ef V.ED..... ........ 0,0-132,132 #7f0a035a app:id/text_input_start_icon}
+                                                    androidx.appcompat.widget.AppCompatTextView{d881cfc G.ED..... ......ID 0,0-0,0 #7f0a035f app:id/textinput_prefix_text}
+                                                  android.widget.LinearLayout{2b14f85 V.E...... ........ 904,0-904,132}
+                                                    androidx.appcompat.widget.AppCompatTextView{19791da G.ED..... ......ID 0,0-0,0 #7f0a0360 app:id/textinput_suffix_text}
+                                                    android.widget.FrameLayout{495b60b V.E...... ......ID 0,0-0,132}
+                                                      com.google.android.material.internal.CheckableImageButton{8b80ce8 GFED..C.. ......I. 0,0-0,0 #7f0a0358 app:id/text_input_end_icon}
+                                                    com.google.android.material.internal.CheckableImageButton{dbc5f01 G.ED..... ......I. 0,0-0,0 #7f0a0359 app:id/text_input_error_icon}
+                                              android.widget.LinearLayout{9ecf1a6 V.E...... ........ 0,271-904,359}
+                                                android.widget.LinearLayout{7e7a7e7 GFE...C.. ......I. 0,0-0,0}
+                                                  androidx.appcompat.widget.AppCompatImageView{6750f94 V.ED..... ......I. 0,0-0,0}
+                                                  androidx.appcompat.widget.AppCompatTextView{b0eea3d V.ED..... ......ID 0,0-0,0}
+                                                android.widget.LinearLayout{8e68232 VFE...C.. ........ 0,0-518,88}
+                                                  androidx.appcompat.widget.AppCompatImageView{a7cdb83 V.ED..... ........ 0,0-88,88}
+                                                  androidx.appcompat.widget.AppCompatTextView{c5d9100 V.ED..... ........ 121,14-518,73}
+                                              android.widget.FrameLayout{c04ed39 V.E...... ........ 0,406-904,10658}
+                                                com.facebook.shimmer.ShimmerFrameLayout{1768f7e G.ED..... ......ID 0,0-904,748}
+                                                  android.widget.LinearLayout{8a7acdf V.E...... .......D 0,0-904,748}
+                                                    android.widget.LinearLayout{98abd2c V.E...... .......D 0,0-904,88}
+                                                      android.view.View{1be23f5 V.ED..... ......ID 0,0-88,88}
+                                                      android.view.View{168258a V.ED..... ......ID 121,27-561,60}
+                                                    android.widget.LinearLayout{78437fb V.E...... .......D 0,132-904,220}
+                                                      android.view.View{37c8018 V.ED..... ......ID 0,0-88,88}
+                                                      android.view.View{59a0a71 V.ED..... ......ID 121,27-561,60}
+                                                    android.widget.LinearLayout{62b1056 V.E...... .......D 0,264-904,352}
+                                                      android.view.View{7d458d7 V.ED..... ......ID 0,0-88,88}
+                                                      android.view.View{5c585c4 V.ED..... ......ID 121,27-561,60}
+                                                    android.widget.LinearLayout{d73dcad V.E...... .......D 0,396-904,484}
+                                                      android.view.View{25fdbe2 V.ED..... ......ID 0,0-88,88}
+                                                      android.view.View{a9bab73 V.ED..... ......ID 121,27-561,60}
+                                                    android.widget.LinearLayout{773a30 V.E...... .......D 0,528-904,616}
+                                                      android.view.View{79e96a9 V.ED..... ......ID 0,0-88,88}
+                                                      android.view.View{23d42e V.ED..... ......ID 121,27-561,60}
+                                                    android.widget.LinearLayout{37b8bcf V.E...... .......D 0,660-904,748}
+                                                      android.view.View{14dc95c V.ED..... ......ID 0,0-88,88}
+                                                      android.view.View{aa0f465 V.ED..... ......ID 121,27-561,60}
+                                                android.widget.LinearLayout{c1d053a G.E...... ......I. 0,0-0,0 #7f0a01b6 app:id/loading_failure}
+                                                  androidx.appcompat.widget.AppCompatImageView{4cf15eb V.ED..... ......ID 0,0-0,0}
+                                                  androidx.appcompat.widget.AppCompatTextView{39c1f48 V.ED..... ......ID 0,0-0,0}
+                                                  androidx.appcompat.widget.AppCompatTextView{4b171e1 V.ED..... ......ID 0,0-0,0}
+                                                android.widget.LinearLayout{5463b06 V.E...... ........ 0,0-904,10252}
+                                                  androidx.recyclerview.widget.RecyclerView{18725c7 VFED..... ........ 0,0-904,10252 #7f0a01b2 app:id/list}
+                                                    android.widget.LinearLayout{2f7e7f4 VFE...C.. ........ 0,0-904,88}
+                                                      android.widget.FrameLayout{6f24b1d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{d7b0192 V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{c65763 V.ED..... ........ 121,14-197,73}
+                                                    android.widget.LinearLayout{ca58f60 VFE...C.. ........ 0,132-904,220}
+                                                      android.widget.FrameLayout{86d7c19 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{6c3a4de V.ED..... ........ 25,23-63,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{f3d06bf V.ED..... ........ 121,14-235,73}
+                                                    android.widget.LinearLayout{bc4418c VFE...C.. ........ 0,264-904,352}
+                                                      android.widget.FrameLayout{cd0c0d5 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{96130ea V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{a454fdb V.ED..... ........ 121,14-319,73}
+                                                    android.widget.LinearLayout{c39ea78 VFE...C.. ........ 0,396-904,484}
+                                                      android.widget.FrameLayout{ae99551 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{e9971b6 V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{bf0eb7 V.ED..... ........ 121,14-319,73}
+                                                    android.widget.LinearLayout{5f3624 VFE...C.. ........ 0,528-904,616}
+                                                      android.widget.FrameLayout{ee1358d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{c42f342 V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{5abdf53 V.ED..... ........ 121,14-358,73}
+                                                    android.widget.LinearLayout{56b9090 VFE...C.. ........ 0,660-904,748}
+                                                      android.widget.FrameLayout{4389d89 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{d11018e V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{8b1daf V.ED..... ........ 121,14-372,73}
+                                                    android.widget.LinearLayout{2a125bc VFE...C.. ........ 0,792-904,880}
+                                                      android.widget.FrameLayout{3848945 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{19fa89a V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{775e5cb V.ED..... ........ 121,14-354,73}
+                                                    android.widget.LinearLayout{f38e1a8 VFE...C.. ........ 0,924-904,1012}
+                                                      android.widget.FrameLayout{fe974c1 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{63fb466 V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{efb13a7 V.ED..... ........ 121,14-411,73}
+                                                    android.widget.LinearLayout{b0e7054 VFE...C.. ........ 0,1056-904,1144}
+                                                      android.widget.FrameLayout{579bfd V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{982b0f2 V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{bbb4343 V.ED..... ........ 121,14-438,73}
+                                                    android.widget.LinearLayout{60c3dc0 VFE...C.. ........ 0,1188-904,1276}
+                                                      android.widget.FrameLayout{86faf9 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{f86ea3e V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{1c4d09f V.ED..... ........ 121,14-496,73}
+                                                    android.widget.LinearLayout{25775ec VFE...C.. ........ 0,1320-904,1408}
+                                                      android.widget.FrameLayout{5b34db5 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{e036c4a V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{dafd7bb V.ED..... ........ 121,14-378,73}
+                                                    android.widget.LinearLayout{d3c04d8 VFE...C.. ........ 0,1452-904,1540}
+                                                      android.widget.FrameLayout{3181031 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{d140316 V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{37a3497 V.ED..... ........ 121,14-378,73}
+                                                    android.widget.LinearLayout{ad89684 VFE...C.. ........ 0,1584-904,1672}
+                                                      android.widget.FrameLayout{a2c7e6d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{8c53aa2 V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{f238333 V.ED..... ........ 121,14-378,73}
+                                                    android.widget.LinearLayout{8a96f0 VFE...C.. ........ 0,1716-904,1804}
+                                                      android.widget.FrameLayout{29f9469 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{f605eee V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{3091f8f V.ED..... ........ 121,14-378,73}
+                                                    android.widget.LinearLayout{a1a321c VFE...C.. ........ 0,1848-904,1936}
+                                                      android.widget.FrameLayout{6140e25 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{8777bfa V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{225ab V.ED..... ........ 121,14-378,73}
+                                                    android.widget.LinearLayout{5a65408 VFE...C.. ........ 0,1980-904,2068}
+                                                      android.widget.FrameLayout{b9c67a1 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{b15dc6 V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{33b7187 V.ED..... ........ 121,14-378,73}
+                                                    android.widget.LinearLayout{250a8b4 VFE...C.. ........ 0,2112-904,2200}
+                                                      android.widget.FrameLayout{ef6dcdd V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{6559052 V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{5d39f23 V.ED..... ........ 121,14-460,73}
+                                                    android.widget.LinearLayout{da99c20 VFE...C.. ........ 0,2244-904,2332}
+                                                      android.widget.FrameLayout{f8969d9 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{2985f9e V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{a370a7f V.ED..... ........ 121,14-289,73}
+                                                    android.widget.LinearLayout{bdc5a4c VFE...C.. ........ 0,2376-904,2464}
+                                                      android.widget.FrameLayout{31dca95 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{ba6d7aa V.ED..... ........ 20,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{33bcf9b V.ED..... ........ 121,14-381,73}
+                                                    android.widget.LinearLayout{69acf38 VFE...C.. ........ 0,2508-904,2596}
+                                                      android.widget.FrameLayout{85d7b11 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{b72c476 V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{fdca77 V.ED..... ........ 121,14-251,73}
+                                                    android.widget.LinearLayout{ec9a6e4 VFE...C.. ........ 0,2640-904,2728}
+                                                      android.widget.FrameLayout{50db74d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{73eb202 V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{f7a9713 V.ED..... ........ 121,14-472,73}
+                                                    android.widget.LinearLayout{cec4d50 VFE...C.. ........ 0,2772-904,2860}
+                                                      android.widget.FrameLayout{c0b7b49 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{3e9ec4e V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{2ed916f V.ED..... ........ 121,14-472,73}
+                                                    android.widget.LinearLayout{c50ee7c VFE...C.. ........ 0,2904-904,2992}
+                                                      android.widget.FrameLayout{7078305 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{2fc7f5a V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{debd58b V.ED..... ........ 121,14-457,73}
+                                                    android.widget.LinearLayout{cfc7668 VFE...C.. ........ 0,3036-904,3124}
+                                                      android.widget.FrameLayout{24a81 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{4733726 V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{d403f67 V.ED..... ........ 121,14-622,73}
+                                                    android.widget.LinearLayout{8569114 VFE...C.. ........ 0,3168-904,3256}
+                                                      android.widget.FrameLayout{6880dbd V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{94b9fb2 V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{5876b03 V.ED..... ........ 121,14-190,73}
+                                                    android.widget.LinearLayout{495aa80 VFE...C.. ........ 0,3300-904,3388}
+                                                      android.widget.FrameLayout{cacc8b9 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{2d004fe V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{e8bb45f V.ED..... ........ 121,14-397,73}
+                                                    android.widget.LinearLayout{2eaeeac VFE...C.. ........ 0,3432-904,3520}
+                                                      android.widget.FrameLayout{7c83775 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{aa3730a V.ED..... ........ 23,23-65,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{861377b V.ED..... ........ 121,14-514,73}
+                                                    android.widget.LinearLayout{46e4998 VFE...C.. ........ 0,3564-904,3652}
+                                                      android.widget.FrameLayout{f1d5f1 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{f8db5d6 V.ED..... ........ 21,23-67,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{641d057 V.ED..... ........ 121,14-348,73}
+                                                    android.widget.LinearLayout{1ca6744 VFE...C.. ........ 0,3696-904,3784}
+                                                      android.widget.FrameLayout{13ce02d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{3075962 V.ED..... ........ 20,23-67,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{b291af3 V.ED..... ........ 121,14-429,73}
+                                                    android.widget.LinearLayout{1a8b3b0 VFE...C.. ........ 0,3828-904,3916}
+                                                      android.widget.FrameLayout{5b45229 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{385a9ae V.ED..... ........ 25,23-63,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{430734f V.ED..... ........ 121,14-267,73}
+                                                    android.widget.LinearLayout{9dd5adc VFE...C.. ........ 0,3960-904,4048}
+                                                      android.widget.FrameLayout{716e7e5 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{f86b2ba V.ED..... ........ 27,23-61,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{caaf56b V.ED..... ........ 121,14-191,73}
+                                                    android.widget.LinearLayout{75348c8 VFE...C.. ........ 0,4092-904,4180}
+                                                      android.widget.FrameLayout{1531d61 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{d5d4086 V.ED..... ........ 27,23-61,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{8017d47 V.ED..... ........ 121,14-191,73}
+                                                    android.widget.LinearLayout{8b82974 VFE...C.. ........ 0,4224-904,4312}
+                                                      android.widget.FrameLayout{6c32e9d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{3bcdf12 V.ED..... ........ 27,23-61,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{d4ea6e3 V.ED..... ........ 121,14-331,73}
+                                                    android.widget.LinearLayout{7e868e0 VFE...C.. ........ 0,4356-904,4444}
+                                                      android.widget.FrameLayout{b291799 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{f05da5e V.ED..... ........ 27,23-61,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{bace3f V.ED..... ........ 121,14-331,73}
+                                                    android.widget.LinearLayout{e1b330c VFE...C.. ........ 0,4488-904,4576}
+                                                      android.widget.FrameLayout{26a9455 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{f513e6a V.ED..... ........ 19,23-69,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{6980f5b V.ED..... ........ 121,14-261,73}
+                                                    android.widget.LinearLayout{ece73f8 VFE...C.. ........ 0,4620-904,4708}
+                                                      android.widget.FrameLayout{f0d20d1 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{b3cd736 V.ED..... ........ 17,23-70,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{c3e4637 V.ED..... ........ 121,14-222,73}
+                                                    android.widget.LinearLayout{572d7a4 VFE...C.. ........ 0,4752-904,4840}
+                                                      android.widget.FrameLayout{c71f90d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{37730c2 V.ED..... ........ 17,23-70,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{2a70ed3 V.ED..... ........ 121,14-222,73}
+                                                    android.widget.LinearLayout{1d7ca10 VFE...C.. ........ 0,4884-904,4972}
+                                                      android.widget.FrameLayout{d21909 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{30b970e V.ED..... ........ 17,23-70,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{6c9c52f V.ED..... ........ 121,14-222,73}
+                                                    android.widget.LinearLayout{f57773c VFE...C.. ........ 0,5016-904,5104}
+                                                      android.widget.FrameLayout{2fa3cc5 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{86e161a V.ED..... ........ 17,23-70,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{3b7854b V.ED..... ........ 121,14-246,73}
+                                                    android.widget.LinearLayout{2c2cb28 VFE...C.. ........ 0,5148-904,5236}
+                                                      android.widget.FrameLayout{fc6e041 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{34779e6 V.ED..... ........ 17,23-70,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{a772b27 V.ED..... ........ 121,14-246,73}
+                                                    android.widget.LinearLayout{b0d71d4 VFE...C.. ........ 0,5280-904,5368}
+                                                      android.widget.FrameLayout{b603f7d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{3014e72 V.ED..... ........ 24,23-64,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{ba152c3 V.ED..... ........ 121,14-423,73}
+                                                    android.widget.LinearLayout{b9d740 VFE...C.. ........ 0,5412-904,5500}
+                                                      android.widget.FrameLayout{a365679 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{211dfbe V.ED..... ........ 24,23-64,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{ebc581f V.ED..... ........ 121,14-507,73}
+                                                    android.widget.LinearLayout{5276c VFE...C.. ........ 0,5544-904,5632}
+                                                      android.widget.FrameLayout{dbce135 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{a0839ca V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{358573b V.ED..... ........ 121,14-276,73}
+                                                    android.widget.LinearLayout{9d34e58 VFE...C.. ........ 0,5676-904,5764}
+                                                      android.widget.FrameLayout{e75bb1 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{c582896 V.ED..... ........ 21,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{7eb2c17 V.ED..... ........ 121,14-279,73}
+                                                    android.widget.LinearLayout{75af804 VFE...C.. ........ 0,5808-904,5896}
+                                                      android.widget.FrameLayout{6501ed V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{be63822 V.ED..... ........ 21,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{26c72b3 V.ED..... ........ 121,14-320,73}
+                                                    android.widget.LinearLayout{c919070 VFE...C.. ........ 0,5940-904,6028}
+                                                      android.widget.FrameLayout{a9ccfe9 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{353b46e V.ED..... ........ 21,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{6b1870f V.ED..... ........ 121,14-358,73}
+                                                    android.widget.LinearLayout{557439c VFE...C.. ........ 0,6072-904,6160}
+                                                      android.widget.FrameLayout{36981a5 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{40aa97a V.ED..... ........ 21,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{689852b V.ED..... ........ 121,14-399,73}
+                                                    android.widget.LinearLayout{962fd88 VFE...C.. ........ 0,6204-904,6292}
+                                                      android.widget.FrameLayout{7959321 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{a09e346 V.ED..... ........ 24,23-64,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{7994907 V.ED..... ........ 121,14-276,73}
+                                                    android.widget.LinearLayout{2ee6a34 VFE...C.. ........ 0,6336-904,6424}
+                                                      android.widget.FrameLayout{c17405d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{70edd2 V.ED..... ........ 24,23-64,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{af76ea3 V.ED..... ........ 121,14-407,73}
+                                                    android.widget.LinearLayout{421f5a0 VFE...C.. ........ 0,6468-904,6556}
+                                                      android.widget.FrameLayout{50c8559 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{2cc151e V.ED..... ........ 21,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{28851ff V.ED..... ........ 121,14-230,73}
+                                                    android.widget.LinearLayout{740cbcc VFE...C.. ........ 0,6600-904,6688}
+                                                      android.widget.FrameLayout{771e15 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{720652a V.ED..... ........ 21,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{1a0f1b V.ED..... ........ 121,14-236,73}
+                                                    android.widget.LinearLayout{594d8b8 VFE...C.. ........ 0,6732-904,6820}
+                                                      android.widget.FrameLayout{b88691 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{cb7a9f6 V.ED..... ........ 21,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{a4081f7 V.ED..... ........ 121,14-237,73}
+                                                    android.widget.LinearLayout{11ac864 VFE...C.. ........ 0,6864-904,6952}
+                                                      android.widget.FrameLayout{2cdfacd V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{bac6f82 V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{2f14693 V.ED..... ........ 121,14-439,73}
+                                                    android.widget.LinearLayout{cee06d0 VFE...C.. ........ 0,6996-904,7084}
+                                                      android.widget.FrameLayout{c4c76c9 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{13601ce V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{bdfb8ef V.ED..... ........ 121,14-469,73}
+                                                    android.widget.LinearLayout{74bffc VFE...C.. ........ 0,7128-904,7216}
+                                                      android.widget.FrameLayout{d1cb685 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{4b46cda V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{498f50b V.ED..... ........ 121,14-570,73}
+                                                    android.widget.LinearLayout{14bdfe8 VFE...C.. ........ 0,7260-904,7348}
+                                                      android.widget.FrameLayout{f73601 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{17c7ca6 V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{e5fd6e7 V.ED..... ........ 121,14-515,73}
+                                                    android.widget.LinearLayout{ff31294 VFE...C.. ........ 0,7392-904,7480}
+                                                      android.widget.FrameLayout{ca0313d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{163bd32 V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{1c8fa83 V.ED..... ........ 121,14-312,73}
+                                                    android.widget.LinearLayout{338c400 VFE...C.. ........ 0,7524-904,7612}
+                                                      android.widget.FrameLayout{2e3a439 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{40c7a7e V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{216bbdf V.ED..... ........ 121,14-312,73}
+                                                    android.widget.LinearLayout{e66202c VFE...C.. ........ 0,7656-904,7744}
+                                                      android.widget.FrameLayout{d514af5 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{ef1c08a V.ED..... ........ 22,23-66,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{a5536fb V.ED..... ........ 121,14-608,73}
+                                                    android.widget.LinearLayout{e2b1318 VFE...C.. ........ 0,7788-904,7876}
+                                                      android.widget.FrameLayout{4b8a171 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{2335b56 V.ED..... ........ 24,23-64,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{3647d7 V.ED..... ........ 121,14-414,73}
+                                                    android.widget.LinearLayout{84a48c4 VFE...C.. ........ 0,7920-904,8008}
+                                                      android.widget.FrameLayout{564e3ad V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{e21d6e2 V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{8ad8a73 V.ED..... ........ 121,14-356,73}
+                                                    android.widget.LinearLayout{a052d30 VFE...C.. ........ 0,8052-904,8140}
+                                                      android.widget.FrameLayout{b190da9 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{58a7f2e V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{a4c5acf V.ED..... ........ 121,14-247,73}
+                                                    android.widget.LinearLayout{147ec5c VFE...C.. ........ 0,8184-904,8272}
+                                                      android.widget.FrameLayout{cbdb65 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{8c3603a V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{95dd4eb V.ED..... ........ 121,14-247,73}
+                                                    android.widget.LinearLayout{c957248 VFE...C.. ........ 0,8316-904,8404}
+                                                      android.widget.FrameLayout{23c8e1 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{5774606 V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{9c2d4c7 V.ED..... ........ 121,14-195,73}
+                                                    android.widget.LinearLayout{db36af4 VFE...C.. ........ 0,8448-904,8536}
+                                                      android.widget.FrameLayout{cb3121d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{731bc92 V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{28df663 V.ED..... ........ 121,14-254,73}
+                                                    android.widget.LinearLayout{b164260 VFE...C.. ........ 0,8580-904,8668}
+                                                      android.widget.FrameLayout{6f3b319 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{4ab0fde V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{f5f95bf V.ED..... ........ 121,14-254,73}
+                                                    android.widget.LinearLayout{c0d248c VFE...C.. ........ 0,8712-904,8800}
+                                                      android.widget.FrameLayout{30367d5 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{5d44bea V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{b81cedb V.ED..... ........ 121,14-281,73}
+                                                    android.widget.LinearLayout{badfd78 VFE...C.. ........ 0,8844-904,8932}
+                                                      android.widget.FrameLayout{f1fac51 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{ea33cb6 V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{2c47db7 V.ED..... ........ 121,14-313,73}
+                                                    android.widget.LinearLayout{e817924 VFE...C.. ........ 0,8976-904,9064}
+                                                      android.widget.FrameLayout{5e1bc8d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{a9e6e42 V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{4193e53 V.ED..... ........ 121,14-218,73}
+                                                    android.widget.LinearLayout{6ef0390 VFE...C.. ........ 0,9108-904,9196}
+                                                      android.widget.FrameLayout{83a9489 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{5292c8e V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{1ef6caf V.ED..... ........ 121,14-218,73}
+                                                    android.widget.LinearLayout{468c8bc VFE...C.. ........ 0,9240-904,9328}
+                                                      android.widget.FrameLayout{b2ef045 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{a8f839a V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{c5024cb V.ED..... ........ 121,14-358,73}
+                                                    android.widget.LinearLayout{957b4a8 VFE...C.. ........ 0,9372-904,9460}
+                                                      android.widget.FrameLayout{5534bc1 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{dd23f66 V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{ba42a7 V.ED..... ........ 121,14-402,73}
+                                                    android.widget.LinearLayout{3c77354 VFE...C.. ........ 0,9504-904,9592}
+                                                      android.widget.FrameLayout{807e2fd V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{f32ebf2 V.ED..... ........ 25,23-62,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{bbe6243 V.ED..... ........ 121,14-298,73}
+                                                    android.widget.LinearLayout{4d270c0 VFE...C.. ........ 0,9636-904,9724}
+                                                      android.widget.FrameLayout{74b1f9 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{f7fd53e V.ED..... ........ 19,23-68,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{85adf9f V.ED..... ........ 121,14-261,73}
+                                                    android.widget.LinearLayout{2cdd8ec VFE...C.. ........ 0,9768-904,9856}
+                                                      android.widget.FrameLayout{c4574b5 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{c20074a V.ED..... ........ 19,23-69,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{917d6bb V.ED..... ........ 121,14-217,73}
+                                                    android.widget.LinearLayout{23597d8 VFE...C.. ........ 0,9900-904,9988}
+                                                      android.widget.FrameLayout{e25a731 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{fdf4e16 V.ED..... ........ 27,23-60,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{6e32397 V.ED..... ........ 121,14-161,73}
+                                                    android.widget.LinearLayout{1585984 VFE...C.. ........ 0,10032-904,10120}
+                                                      android.widget.FrameLayout{dfc856d V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{47a35a2 V.ED..... ........ 27,23-60,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{1ac6233 V.ED..... ........ 121,14-161,73}
+                                                    android.widget.LinearLayout{2c389f0 VFE...C.. ........ 0,10164-904,10252}
+                                                      android.widget.FrameLayout{e90b69 V.E...... ........ 0,0-88,88}
+                                                        androidx.appcompat.widget.AppCompatTextView{ea09ee V.ED..... ........ 27,23-60,64}
+                                                      androidx.appcompat.widget.AppCompatTextView{ec0ee8f V.ED..... ........ 121,14-161,73}
+                                                  android.widget.LinearLayout{26f551c GFE...C.. ......I. 0,0-0,0}
+                                                    androidx.appcompat.widget.AppCompatImageView{4fdf525 V.ED..... ......I. 0,0-0,0}
+                                                    androidx.appcompat.widget.AppCompatTextView{70d6fa V.ED..... ......ID 0,0-0,0}
+                                                  android.widget.LinearLayout{e7e4ab G.E...... ......I. 0,0-0,0 #7f0a013f app:id/empty}
+                                                    androidx.appcompat.widget.AppCompatImageView{1aaa708 V.ED..... ......ID 0,0-0,0}
+                                                    androidx.appcompat.widget.AppCompatTextView{cbdbea1 V.ED..... ......ID 0,0-0,0}
+                                                    androidx.appcompat.widget.AppCompatTextView{e6568c6 V.ED..... ......ID 0,0-0,0}
+                                      androidx.swiperefreshlayout.widget.CircleImageView{63e2087 G.ED..... ......ID 485,-110-595,0}
+                        com.google.android.material.bottomnavigation.BottomNavigationView{aeac0ec V.E...... ........ 0,2120-1080,2340 #7f0a00b5 app:id/bottom_nav}
+                          com.google.android.material.bottomnavigation.BottomNavigationMenuView{e9979c3 V.E...... ........ 0,0-1080,154}
+                            com.google.android.material.bottomnavigation.BottomNavigationItemView{a447240 VFE...C.. ........ 0,0-270,154 #7f0a0217 app:id/navHomeStart}
+                              androidx.appcompat.widget.AppCompatImageView{7745579 V.ED..... ........ 102,22-168,88 #7f0a0223 app:id/navigation_bar_item_icon_view}
+                              com.google.android.material.internal.BaselineLayout{32972be V.E...... ........ 92,91-177,154 #7f0a0224 app:id/navigation_bar_item_labels_group}
+                                com.google.android.material.textview.MaterialTextView{68fef1f V.ED..... ........ 0,0-85,44 #7f0a0226 app:id/navigation_bar_item_small_label_view}
+                                com.google.android.material.textview.MaterialTextView{71e726c I.ED..... ........ 0,0-85,44 #7f0a0225 app:id/navigation_bar_item_large_label_view}
+                            com.google.android.material.bottomnavigation.BottomNavigationItemView{a5bd035 VFE...C.. ..S..... 270,0-540,154 #7f0a0214 app:id/navHomeManagement}
+                              androidx.appcompat.widget.AppCompatImageView{85fcca V.ED..... ..S..... 102,22-168,88 #7f0a0223 app:id/navigation_bar_item_icon_view}
+                              com.google.android.material.internal.BaselineLayout{a4e5e3b V.E...... ..S..... 79,91-190,154 #7f0a0224 app:id/navigation_bar_item_labels_group}
+                                com.google.android.material.textview.MaterialTextView{b64958 I.ED..... ..S..... 0,0-111,44 #7f0a0226 app:id/navigation_bar_item_small_label_view}
+                                com.google.android.material.textview.MaterialTextView{a063ab1 V.ED..... ..S..... 0,0-111,44 #7f0a0225 app:id/navigation_bar_item_large_label_view}
+                            com.google.android.material.bottomnavigation.BottomNavigationItemView{6f1b96 VFE...C.. ........ 540,0-810,154 #7f0a0216 app:id/navHomeReports}
+                              androidx.appcompat.widget.AppCompatImageView{5baa317 V.ED..... ........ 102,22-168,88 #7f0a0223 app:id/navigation_bar_item_icon_view}
+                              com.google.android.material.internal.BaselineLayout{8f2a304 V.E...... ........ 55,91-214,154 #7f0a0224 app:id/navigation_bar_item_labels_group}
+                                com.google.android.material.textview.MaterialTextView{612d0ed V.ED..... ........ 0,0-159,44 #7f0a0226 app:id/navigation_bar_item_small_label_view}
+                                com.google.android.material.textview.MaterialTextView{5f95b22 I.ED..... ......I. 0,0-159,44 #7f0a0225 app:id/navigation_bar_item_large_label_view}
+                            com.google.android.material.bottomnavigation.BottomNavigationItemView{33c59b3 VFE...C.. ........ 810,0-1080,154 #7f0a0215 app:id/navHomeProfile}
+                              androidx.appcompat.widget.AppCompatImageView{778eb70 V.ED..... ........ 102,22-168,88 #7f0a0223 app:id/navigation_bar_item_icon_view}
+                              com.google.android.material.internal.BaselineLayout{ed88ee9 V.E...... ........ 93,91-176,154 #7f0a0224 app:id/navigation_bar_item_labels_group}
+                                com.google.android.material.textview.MaterialTextView{ef6076e V.ED..... ........ 0,0-83,44 #7f0a0226 app:id/navigation_bar_item_small_label_view}
+                                com.google.android.material.textview.MaterialTextView{218de0f I.ED..... ......ID 0,0-83,44 #7f0a0225 app:id/navigation_bar_item_large_label_view}
+        android.view.View{a958e4f I.ED..... ........ 0,2274-1080,2340 #1020030 android:id/navigationBarBackground}
+    Looper (main, tid 2) {5c72bb4}
+      (MessageQueue is using Legacy implementation)
+      Message 0: { when=+299ms what=40 target=android.view.ViewRootImpl$ViewRootHandler async=false heapIndex=-1 }
+      Message 1: { when=+549ms what=1 target=android.os.CountDownTimer$1 async=false heapIndex=-1 }
+      Message 2: { when=+728ms what=1 target=android.os.CountDownTimer$1 async=false heapIndex=-1 }
+      (Total messages: 3, polling=false, quitting=false)
+    ResourcesManager:
+      total apks: 9
+      resources: 6
+      resource impls: 5
+    1 dumpables:
+    #0: AutofillManager
+        AutofillManager:
+          sessionId: 2147483647
+          state: UNKNOWN
+          context: wit.sire.mSeller.ui.MainActivity@eb1f04c
+          service client: android.view.autofill.AutofillManager$AutofillManagerClient@656a3dd
+          client: android.view.autofill.AutofillClientController@2bf4b52 (android.os.BinderProxy@2c8af6e)
+          enabled: false
+          enabledAugmentedOnly: false
+          hasService: true
+          hasCallback: false
+          onInvisibleCalled false
+          last autofilled data: null
+          id of last fill UI shown: null
+          tracked views: null
+          fillable ids: null
+          entered ids: null
+          save trigger id: null
+          save on finish(): false
+          options: logLvl=0, compatMode=false, augmented=false, appDisabledExpiration=0
+          fill dialog enabled: false
+          fill dialog enabled hints: []
+          compat mode enabled: false
+          debug: false verbose: false
+        Autofill Compat Mode: false
+    Local FragmentActivity eb1f04c State:
+      mCreated=true mResumed=true mStopped=false    Active Fragments:
+    NavHostFragment{7d23e23} (cfa9674d-361f-47a0-9d1b-7348a96f8d23 id=0x7f0a021f)
+        mFragmentId=#7f0a021f mContainerId=#7f0a021f mTag=null
+        mState=7 mWho=cfa9674d-361f-47a0-9d1b-7348a96f8d23 mBackStackNesting=0
+        mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+        mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+        mRetainInstance=false mUserVisibleHint=true
+        mFragmentManager=FragmentManager{5854f20 in HostCallbacks{a9ea0d9}}}
+        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+        mPopDirection=false
+        mContainer=androidx.fragment.app.FragmentContainerView{5c7b80f V.E...... ........ 0,0-1080,2340 #7f0a021f app:id/nav_host_fragment}
+        mView=androidx.fragment.app.FragmentContainerView{ab8209c V.E...... ........ 0,0-1080,2340 #7f0a021f app:id/nav_host_fragment}
+        Child FragmentManager{b62ca9e in NavHostFragment{7d23e23}}}:
+          Active Fragments:
+          HomeFragment{700997f} (4bedb11d-3149-4035-a95c-b79fe1c4fe82 id=0x7f0a021f tag=2c65e004-2d74-41ab-80f3-22a4304e4840)
+              mFragmentId=#7f0a021f mContainerId=#7f0a021f mTag=2c65e004-2d74-41ab-80f3-22a4304e4840
+              mState=7 mWho=4bedb11d-3149-4035-a95c-b79fe1c4fe82 mBackStackNesting=0
+              mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+              mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+              mRetainInstance=false mUserVisibleHint=true
+              mFragmentManager=FragmentManager{b62ca9e in NavHostFragment{7d23e23}}}
+              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+              mParentFragment=NavHostFragment{7d23e23} (cfa9674d-361f-47a0-9d1b-7348a96f8d23 id=0x7f0a021f)
+              mPopDirection=false
+              mContainer=androidx.fragment.app.FragmentContainerView{ab8209c V.E...... ........ 0,0-1080,2340 #7f0a021f app:id/nav_host_fragment}
+              mView=start->end (pos:1.0 Dpos/Dt:0.0
+              Child FragmentManager{1403d4c in HomeFragment{700997f}}}:
+                Active Fragments:
+                NavHostFragment{fcf7195} (f75b2b51-140e-4d00-a82b-09821ceb67c5 id=0x7f0a0182 tag=bottomNavigation#2)
+                    mFragmentId=#7f0a0182 mContainerId=#7f0a0182 mTag=bottomNavigation#2
+                    mState=1 mWho=f75b2b51-140e-4d00-a82b-09821ceb67c5 mBackStackNesting=0
+                    mAdded=false mRemoving=false mFromLayout=false mInLayout=false
+                    mHidden=false mDetached=true mMenuVisible=true mHasMenu=false
+                    mRetainInstance=false mUserVisibleHint=true
+                    mFragmentManager=FragmentManager{1403d4c in HomeFragment{700997f}}}
+                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                    mParentFragment=HomeFragment{700997f} (4bedb11d-3149-4035-a95c-b79fe1c4fe82 id=0x7f0a021f tag=2c65e004-2d74-41ab-80f3-22a4304e4840)
+                    mArguments=Bundle[{android-support-nav:fragment:graphId=2131755012}]
+                    mPopDirection=false
+                    Child FragmentManager{e2cf2aa in NavHostFragment{fcf7195}}}:
+                      Active Fragments:
+                      HomeReportsFragment{48f4e9b} (74a40eac-6457-4301-9df7-f156d21cc26d id=0x7f0a0182 tag=b55b33ae-8383-49e4-8051-35e893708ff8)
+                          mFragmentId=#7f0a0182 mContainerId=#7f0a0182 mTag=b55b33ae-8383-49e4-8051-35e893708ff8
+                          mState=1 mWho=74a40eac-6457-4301-9df7-f156d21cc26d mBackStackNesting=0
+                          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                          mRetainInstance=false mUserVisibleHint=true
+                          mFragmentManager=FragmentManager{e2cf2aa in NavHostFragment{fcf7195}}}
+                          mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                          mParentFragment=NavHostFragment{fcf7195} (f75b2b51-140e-4d00-a82b-09821ceb67c5 id=0x7f0a0182 tag=bottomNavigation#2)
+                          mPopDirection=false
+                          Child FragmentManager{1d9e238 in HomeReportsFragment{48f4e9b}}}:
+                            Back Stack Index: 0
+                            FragmentManager misc state:
+                              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                              mContainer=androidx.fragment.app.Fragment$5@c029211
+                              mParent=HomeReportsFragment{48f4e9b} (74a40eac-6457-4301-9df7-f156d21cc26d id=0x7f0a0182 tag=b55b33ae-8383-49e4-8051-35e893708ff8)
+                              mCurState=1 mStateSaved=false mStopped=false mDestroyed=false
+                      Added Fragments:
+                        #0: HomeReportsFragment{48f4e9b} (74a40eac-6457-4301-9df7-f156d21cc26d id=0x7f0a0182 tag=b55b33ae-8383-49e4-8051-35e893708ff8)
+                      Back Stack Index: 0
+                      FragmentManager misc state:
+                        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                        mContainer=androidx.fragment.app.Fragment$5@fbf8f76
+                        mParent=NavHostFragment{fcf7195} (f75b2b51-140e-4d00-a82b-09821ceb67c5 id=0x7f0a0182 tag=bottomNavigation#2)
+                        mCurState=1 mStateSaved=false mStopped=false mDestroyed=false
+                NavHostFragment{d8a3977} (3b2a2000-77c7-4464-aa51-cc10431594f0 id=0x7f0a0182 tag=bottomNavigation#3)
+                    mFragmentId=#7f0a0182 mContainerId=#7f0a0182 mTag=bottomNavigation#3
+                    mState=1 mWho=3b2a2000-77c7-4464-aa51-cc10431594f0 mBackStackNesting=0
+                    mAdded=false mRemoving=false mFromLayout=false mInLayout=false
+                    mHidden=false mDetached=true mMenuVisible=true mHasMenu=false
+                    mRetainInstance=false mUserVisibleHint=true
+                    mFragmentManager=FragmentManager{1403d4c in HomeFragment{700997f}}}
+                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                    mParentFragment=HomeFragment{700997f} (4bedb11d-3149-4035-a95c-b79fe1c4fe82 id=0x7f0a021f tag=2c65e004-2d74-41ab-80f3-22a4304e4840)
+                    mArguments=Bundle[{android-support-nav:fragment:graphId=2131755011}]
+                    mPopDirection=false
+                    Child FragmentManager{a66e9e4 in NavHostFragment{d8a3977}}}:
+                      Active Fragments:
+                      HomeProfileFragment{36d3e4d} (fd01f4cc-c3de-48f8-b2c1-4aa79a585c28 id=0x7f0a0182 tag=b219c973-4d8a-4d7f-a086-d3b7ee35ea89)
+                          mFragmentId=#7f0a0182 mContainerId=#7f0a0182 mTag=b219c973-4d8a-4d7f-a086-d3b7ee35ea89
+                          mState=1 mWho=fd01f4cc-c3de-48f8-b2c1-4aa79a585c28 mBackStackNesting=0
+                          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                          mRetainInstance=false mUserVisibleHint=true
+                          mFragmentManager=FragmentManager{a66e9e4 in NavHostFragment{d8a3977}}}
+                          mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                          mParentFragment=NavHostFragment{d8a3977} (3b2a2000-77c7-4464-aa51-cc10431594f0 id=0x7f0a0182 tag=bottomNavigation#3)
+                          mPopDirection=false
+                          Child FragmentManager{b0d2d02 in HomeProfileFragment{36d3e4d}}}:
+                            Back Stack Index: 0
+                            FragmentManager misc state:
+                              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                              mContainer=androidx.fragment.app.Fragment$5@9def613
+                              mParent=HomeProfileFragment{36d3e4d} (fd01f4cc-c3de-48f8-b2c1-4aa79a585c28 id=0x7f0a0182 tag=b219c973-4d8a-4d7f-a086-d3b7ee35ea89)
+                              mCurState=1 mStateSaved=false mStopped=false mDestroyed=false
+                      Added Fragments:
+                        #0: HomeProfileFragment{36d3e4d} (fd01f4cc-c3de-48f8-b2c1-4aa79a585c28 id=0x7f0a0182 tag=b219c973-4d8a-4d7f-a086-d3b7ee35ea89)
+                      Back Stack Index: 0
+                      FragmentManager misc state:
+                        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                        mContainer=androidx.fragment.app.Fragment$5@89ac050
+                        mParent=NavHostFragment{d8a3977} (3b2a2000-77c7-4464-aa51-cc10431594f0 id=0x7f0a0182 tag=bottomNavigation#3)
+                        mCurState=1 mStateSaved=false mStopped=false mDestroyed=false
+                NavHostFragment{edb96cc} (951fd44d-9d9c-45a6-8407-29ed33be0b40 id=0x7f0a0182 tag=bottomNavigation#0)
+                    mFragmentId=#7f0a0182 mContainerId=#7f0a0182 mTag=bottomNavigation#0
+                    mState=1 mWho=951fd44d-9d9c-45a6-8407-29ed33be0b40 mBackStackNesting=4
+                    mAdded=false mRemoving=false mFromLayout=false mInLayout=false
+                    mHidden=false mDetached=true mMenuVisible=true mHasMenu=false
+                    mRetainInstance=false mUserVisibleHint=true
+                    mFragmentManager=FragmentManager{1403d4c in HomeFragment{700997f}}}
+                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                    mParentFragment=HomeFragment{700997f} (4bedb11d-3149-4035-a95c-b79fe1c4fe82 id=0x7f0a021f tag=2c65e004-2d74-41ab-80f3-22a4304e4840)
+                    mArguments=Bundle[{android-support-nav:fragment:graphId=2131755013}]
+                    mSavedViewState={2131362178=android.view.AbsSavedState$1@e5c7249}
+                    mPopDirection=false
+                    Child FragmentManager{5a5174e in NavHostFragment{edb96cc}}}:
+                      Active Fragments:
+                      HomeStartFragment{8b8e06f} (6f18a2ab-e4a8-4df7-a511-1b09e01c33d9 id=0x7f0a0182 tag=2d14435a-1139-4da4-a376-36d4ec584a60)
+                          mFragmentId=#7f0a0182 mContainerId=#7f0a0182 mTag=2d14435a-1139-4da4-a376-36d4ec584a60
+                          mState=1 mWho=6f18a2ab-e4a8-4df7-a511-1b09e01c33d9 mBackStackNesting=0
+                          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                          mRetainInstance=false mUserVisibleHint=true
+                          mFragmentManager=FragmentManager{5a5174e in NavHostFragment{edb96cc}}}
+                          mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                          mParentFragment=NavHostFragment{edb96cc} (951fd44d-9d9c-45a6-8407-29ed33be0b40 id=0x7f0a0182 tag=bottomNavigation#0)
+                          mSavedViewState={1=androidx.recyclerview.widget.RecyclerView$SavedState@ff3917c, 2131361948=android.view.AbsSavedState$1@e5c7249, 2131361988=android.view.AbsSavedState$1@e5c7249, 2131362046=HorizontalScrollView.SavedState{2f0ea05 scrollPosition=0}, 2131362162=HorizontalScrollView.SavedState{cbf5a5a scrollPosition=0}, 2131362183=android.view.AbsSavedState$1@e5c7249, 2131362240=android.view.AbsSavedState$1@e5c7249, 2131362359=android.view.AbsSavedState$1@e5c7249, 2131362428=android.view.AbsSavedState$1@e5c7249, 2131362429=android.view.AbsSavedState$1@e5c7249, 2131362437=android.view.AbsSavedState$1@e5c7249, 2131362472=android.view.AbsSavedState$1@e5c7249, 2131362474=android.view.AbsSavedState$1@e5c7249, 2131362481=android.view.AbsSavedState$1@e5c7249, 2131362618=android.view.AbsSavedState$1@e5c7249, 2131362620=HorizontalScrollView.SavedState{69d148b scrollPosition=0}, 2131362660=android.view.AbsSavedState$1@e5c7249, 2131362667=androidx.appcompat.widget.Toolbar$SavedState@ba64968, 2131362669=android.view.AbsSavedState$1@e5c7249, 2131362670=android.view.AbsSavedState$1@e5c7249, 2131362704=androidx.viewpager2.widget.ViewPager2$SavedState@e9b2181, 2131362715=android.view.AbsSavedState$1@e5c7249, 2131362716=android.view.AbsSavedState$1@e5c7249}
+                          mPopDirection=false
+                          Child FragmentManager{708c226 in HomeStartFragment{8b8e06f}}}:
+                            Active Fragments:
+                            RechargeCategoryFragment{9466e67} (b1b7960b-35e9-4051-8702-9f8e5eba21df tag=f0)
+                                mFragmentId=#0 mContainerId=#0 mTag=f0
+                                mState=1 mWho=b1b7960b-35e9-4051-8702-9f8e5eba21df mBackStackNesting=0
+                                mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                                mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                                mRetainInstance=false mUserVisibleHint=true
+                                mFragmentManager=FragmentManager{708c226 in HomeStartFragment{8b8e06f}}}
+                                mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                                mParentFragment=HomeStartFragment{8b8e06f} (6f18a2ab-e4a8-4df7-a511-1b09e01c33d9 id=0x7f0a0182 tag=2d14435a-1139-4da4-a376-36d4ec584a60)
+                                mArguments=Bundle[{SubCategory=RechargeCategory(type=RECHARGE, subType=VOZ)}]
+                                mSavedViewState={2131361993=androidx.recyclerview.widget.RecyclerView$SavedState@34a9414}
+                                mPopDirection=false
+                                Child FragmentManager{b5754bd in RechargeCategoryFragment{9466e67}}}:
+                                  Back Stack Index: 0
+                                  FragmentManager misc state:
+                                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                                    mContainer=androidx.fragment.app.Fragment$5@72edab2
+                                    mParent=RechargeCategoryFragment{9466e67} (b1b7960b-35e9-4051-8702-9f8e5eba21df tag=f0)
+                                    mCurState=1 mStateSaved=false mStopped=true mDestroyed=false
+                            Added Fragments:
+                              #0: RechargeCategoryFragment{9466e67} (b1b7960b-35e9-4051-8702-9f8e5eba21df tag=f0)
+                            Back Stack Index: 0
+                            FragmentManager misc state:
+                              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                              mContainer=androidx.fragment.app.Fragment$5@d418a03
+                              mParent=HomeStartFragment{8b8e06f} (6f18a2ab-e4a8-4df7-a511-1b09e01c33d9 id=0x7f0a0182 tag=2d14435a-1139-4da4-a376-36d4ec584a60)
+                              mCurState=1 mStateSaved=false mStopped=true mDestroyed=false
+                      Added Fragments:
+                        #0: HomeStartFragment{8b8e06f} (6f18a2ab-e4a8-4df7-a511-1b09e01c33d9 id=0x7f0a0182 tag=2d14435a-1139-4da4-a376-36d4ec584a60)
+                      Back Stack Index: 0
+                      FragmentManager misc state:
+                        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                        mContainer=androidx.fragment.app.Fragment$5@e46dd80
+                        mParent=NavHostFragment{edb96cc} (951fd44d-9d9c-45a6-8407-29ed33be0b40 id=0x7f0a0182 tag=bottomNavigation#0)
+                        mCurState=1 mStateSaved=false mStopped=true mDestroyed=false
+                NavHostFragment{df368ff} (9bea8d5e-a197-4b91-89e2-ebb0aab3682f id=0x7f0a0182 tag=bottomNavigation#1)
+                    mFragmentId=#7f0a0182 mContainerId=#7f0a0182 mTag=bottomNavigation#1
+                    mState=7 mWho=9bea8d5e-a197-4b91-89e2-ebb0aab3682f mBackStackNesting=2
+                    mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                    mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                    mRetainInstance=false mUserVisibleHint=true
+                    mFragmentManager=FragmentManager{1403d4c in HomeFragment{700997f}}}
+                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                    mParentFragment=HomeFragment{700997f} (4bedb11d-3149-4035-a95c-b79fe1c4fe82 id=0x7f0a021f tag=2c65e004-2d74-41ab-80f3-22a4304e4840)
+                    mArguments=Bundle[{android-support-nav:fragment:graphId=2131755010}]
+                    mPopDirection=false
+                    mContainer=androidx.fragment.app.FragmentContainerView{cba679f V.E...... ........ 0,0-1080,2120 #7f0a0182 app:id/home_nav_host_fragment}
+                    mView=androidx.fragment.app.FragmentContainerView{7b74e7a V.E...... ........ 0,0-1080,2120 #7f0a0182 app:id/home_nav_host_fragment}
+                    Child FragmentManager{ca97fb9 in NavHostFragment{df368ff}}}:
+                      Active Fragments:
+                      SubAgentDetailsFragment{b2beffe} (2d56df9f-1363-4908-87f8-baa075eb9c32 tag=ee8976b3-4518-41eb-917d-e8b3326cd7be)
+                          mFragmentId=#0 mContainerId=#0 mTag=ee8976b3-4518-41eb-917d-e8b3326cd7be
+                          mState=7 mWho=2d56df9f-1363-4908-87f8-baa075eb9c32 mBackStackNesting=0
+                          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                          mRetainInstance=false mUserVisibleHint=true
+                          mFragmentManager=FragmentManager{ca97fb9 in NavHostFragment{df368ff}}}
+                          mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                          mParentFragment=NavHostFragment{df368ff} (9bea8d5e-a197-4b91-89e2-ebb0aab3682f id=0x7f0a0182 tag=bottomNavigation#1)
+                          mArguments=Bundle[{subAgentId=121711}]
+                          mPopDirection=false
+                          mView=androidx.constraintlayout.widget.ConstraintLayout{148c35f V.E...... ........ 0,0-1080,2340}
+                          Child FragmentManager{1fc51ac in SubAgentDetailsFragment{b2beffe}}}:
+                            Back Stack Index: 0
+                            FragmentManager misc state:
+                              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                              mContainer=androidx.fragment.app.DialogFragment$5@595e75
+                              mParent=SubAgentDetailsFragment{b2beffe} (2d56df9f-1363-4908-87f8-baa075eb9c32 tag=ee8976b3-4518-41eb-917d-e8b3326cd7be)
+                              mCurState=7 mStateSaved=false mStopped=false mDestroyed=false
+                      HomeManagementFragment{4530e0a} (cf00dd7e-8522-43aa-b5b6-3503b4969f27 id=0x7f0a0182 tag=c8578e31-a5a0-42d8-9d8d-f4e5788d0ffc)
+                          mFragmentId=#7f0a0182 mContainerId=#7f0a0182 mTag=c8578e31-a5a0-42d8-9d8d-f4e5788d0ffc
+                          mState=7 mWho=cf00dd7e-8522-43aa-b5b6-3503b4969f27 mBackStackNesting=0
+                          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                          mRetainInstance=false mUserVisibleHint=true
+                          mFragmentManager=FragmentManager{ca97fb9 in NavHostFragment{df368ff}}}
+                          mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                          mParentFragment=NavHostFragment{df368ff} (9bea8d5e-a197-4b91-89e2-ebb0aab3682f id=0x7f0a0182 tag=bottomNavigation#1)
+                          mPopDirection=false
+                          mContainer=androidx.fragment.app.FragmentContainerView{7b74e7a V.E...... ........ 0,0-1080,2120 #7f0a0182 app:id/home_nav_host_fragment}
+                          mView=androidx.coordinatorlayout.widget.CoordinatorLayout{f51c62b V.E...... ........ 0,0-1080,2120}
+                          Child FragmentManager{b60367b in HomeManagementFragment{4530e0a}}}:
+                            Active Fragments:
+                            SellersFragment{6b2dc98} (562bcb54-1641-4ccf-9b07-515e0c042009 tag=f1)
+                                mFragmentId=#0 mContainerId=#0 mTag=f1
+                                mState=5 mWho=562bcb54-1641-4ccf-9b07-515e0c042009 mBackStackNesting=0
+                                mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                                mHidden=false mDetached=false mMenuVisible=false mHasMenu=false
+                                mRetainInstance=false mUserVisibleHint=true
+                                mFragmentManager=FragmentManager{b60367b in HomeManagementFragment{4530e0a}}}
+                                mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                                mParentFragment=HomeManagementFragment{4530e0a} (cf00dd7e-8522-43aa-b5b6-3503b4969f27 id=0x7f0a0182 tag=c8578e31-a5a0-42d8-9d8d-f4e5788d0ffc)
+                                mPopDirection=false
+                                mView=androidx.swiperefreshlayout.widget.SwipeRefreshLayout{eee6cf1 V.ED..... ......ID 0,0-1080,1757}
+                                Child FragmentManager{41c00d6 in SellersFragment{6b2dc98}}}:
+                                  Back Stack Index: 0
+                                  FragmentManager misc state:
+                                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                                    mContainer=androidx.fragment.app.Fragment$5@3b1bf57
+                                    mParent=SellersFragment{6b2dc98} (562bcb54-1641-4ccf-9b07-515e0c042009 tag=f1)
+                                    mCurState=5 mStateSaved=false mStopped=false mDestroyed=false
+                            SubAgentsFragment{f452a44} (6d84d829-05d5-44fe-aff5-026a9803bd00 tag=f2)
+                                mFragmentId=#0 mContainerId=#0 mTag=f2
+                                mState=7 mWho=6d84d829-05d5-44fe-aff5-026a9803bd00 mBackStackNesting=0
+                                mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                                mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                                mRetainInstance=false mUserVisibleHint=true
+                                mFragmentManager=FragmentManager{b60367b in HomeManagementFragment{4530e0a}}}
+                                mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                                mParentFragment=HomeManagementFragment{4530e0a} (cf00dd7e-8522-43aa-b5b6-3503b4969f27 id=0x7f0a0182 tag=c8578e31-a5a0-42d8-9d8d-f4e5788d0ffc)
+                                mPopDirection=false
+                                mView=androidx.swiperefreshlayout.widget.SwipeRefreshLayout{eebc5b8 V.ED..... ........ 0,0-1080,1757}
+                                Child FragmentManager{7ebe72d in SubAgentsFragment{f452a44}}}:
+                                  Back Stack Index: 0
+                                  FragmentManager misc state:
+                                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                                    mContainer=androidx.fragment.app.Fragment$5@9af5462
+                                    mParent=SubAgentsFragment{f452a44} (6d84d829-05d5-44fe-aff5-026a9803bd00 tag=f2)
+                                    mCurState=7 mStateSaved=false mStopped=false mDestroyed=false
+                            ReportsFragment{128f9f3} (18802af5-2d9c-4ff9-b5bf-ceb393a9364e tag=f0)
+                                mFragmentId=#0 mContainerId=#0 mTag=f0
+                                mState=5 mWho=18802af5-2d9c-4ff9-b5bf-ceb393a9364e mBackStackNesting=0
+                                mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                                mHidden=false mDetached=false mMenuVisible=false mHasMenu=false
+                                mRetainInstance=false mUserVisibleHint=true
+                                mFragmentManager=FragmentManager{b60367b in HomeManagementFragment{4530e0a}}}
+                                mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                                mParentFragment=HomeManagementFragment{4530e0a} (cf00dd7e-8522-43aa-b5b6-3503b4969f27 id=0x7f0a0182 tag=c8578e31-a5a0-42d8-9d8d-f4e5788d0ffc)
+                                mPopDirection=false
+                                mView=androidx.swiperefreshlayout.widget.SwipeRefreshLayout{f8ca6b0 V.ED..... ......ID 0,0-1080,1757}
+                                Child FragmentManager{5ccc929 in ReportsFragment{128f9f3}}}:
+                                  Back Stack Index: 0
+                                  FragmentManager misc state:
+                                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                                    mContainer=androidx.fragment.app.Fragment$5@c3254ae
+                                    mParent=ReportsFragment{128f9f3} (18802af5-2d9c-4ff9-b5bf-ceb393a9364e tag=f0)
+                                    mCurState=5 mStateSaved=false mStopped=false mDestroyed=false
+                            Added Fragments:
+                              #0: ReportsFragment{128f9f3} (18802af5-2d9c-4ff9-b5bf-ceb393a9364e tag=f0)
+                              #1: SellersFragment{6b2dc98} (562bcb54-1641-4ccf-9b07-515e0c042009 tag=f1)
+                              #2: SubAgentsFragment{f452a44} (6d84d829-05d5-44fe-aff5-026a9803bd00 tag=f2)
+                            Back Stack Index: 0
+                            FragmentManager misc state:
+                              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                              mContainer=androidx.fragment.app.Fragment$5@3cf424f
+                              mParent=HomeManagementFragment{4530e0a} (cf00dd7e-8522-43aa-b5b6-3503b4969f27 id=0x7f0a0182 tag=c8578e31-a5a0-42d8-9d8d-f4e5788d0ffc)
+                              mCurState=7 mStateSaved=false mStopped=false mDestroyed=false
+                      Added Fragments:
+                        #0: HomeManagementFragment{4530e0a} (cf00dd7e-8522-43aa-b5b6-3503b4969f27 id=0x7f0a0182 tag=c8578e31-a5a0-42d8-9d8d-f4e5788d0ffc)
+                        #1: SubAgentDetailsFragment{b2beffe} (2d56df9f-1363-4908-87f8-baa075eb9c32 tag=ee8976b3-4518-41eb-917d-e8b3326cd7be)
+                      Back Stack Index: 0
+                      FragmentManager misc state:
+                        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                        mContainer=androidx.fragment.app.Fragment$5@d8d7ddc
+                        mParent=NavHostFragment{df368ff} (9bea8d5e-a197-4b91-89e2-ebb0aab3682f id=0x7f0a0182 tag=bottomNavigation#1)
+                        mCurState=7 mStateSaved=false mStopped=false mDestroyed=false
+                NavHostFragment{5bfcee5} (930c8908-2ce6-4ece-b551-1438e55fc46e id=0x7f0a0182)
+                    mFragmentId=#7f0a0182 mContainerId=#7f0a0182 mTag=null
+                    mState=7 mWho=930c8908-2ce6-4ece-b551-1438e55fc46e mBackStackNesting=0
+                    mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                    mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                    mRetainInstance=false mUserVisibleHint=true
+                    mFragmentManager=FragmentManager{1403d4c in HomeFragment{700997f}}}
+                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                    mParentFragment=HomeFragment{700997f} (4bedb11d-3149-4035-a95c-b79fe1c4fe82 id=0x7f0a021f tag=2c65e004-2d74-41ab-80f3-22a4304e4840)
+                    mPopDirection=false
+                    mContainer=androidx.fragment.app.FragmentContainerView{cba679f V.E...... ........ 0,0-1080,2120 #7f0a0182 app:id/home_nav_host_fragment}
+                    mView=androidx.fragment.app.FragmentContainerView{efd9aa5 V.E...... ........ 0,0-1080,2120 #7f0a0182 app:id/home_nav_host_fragment}
+                    Child FragmentManager{dd30dba in NavHostFragment{5bfcee5}}}:
+                      Back Stack Index: 0
+                      FragmentManager misc state:
+                        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                        mContainer=androidx.fragment.app.Fragment$5@8e7b46b
+                        mParent=NavHostFragment{5bfcee5} (930c8908-2ce6-4ece-b551-1438e55fc46e id=0x7f0a0182)
+                        mCurState=7 mStateSaved=false mStopped=false mDestroyed=false
+                Added Fragments:
+                  #0: NavHostFragment{5bfcee5} (930c8908-2ce6-4ece-b551-1438e55fc46e id=0x7f0a0182)
+                  #1: NavHostFragment{df368ff} (9bea8d5e-a197-4b91-89e2-ebb0aab3682f id=0x7f0a0182 tag=bottomNavigation#1)
+                Back Stack:
+                  #0: BackStackEntry{9629bc8 #0 bottomNavigation#0}
+                    mName=bottomNavigation#0 mIndex=0 mCommitted=true
+                    Operations:
+                      Op #0: ATTACH NavHostFragment{df368ff} (9bea8d5e-a197-4b91-89e2-ebb0aab3682f id=0x7f0a0182 tag=bottomNavigation#1)
+                      Op #1: UNSET_PRIMARY_NAV NavHostFragment{edb96cc} (951fd44d-9d9c-45a6-8407-29ed33be0b40 id=0x7f0a0182 tag=bottomNavigation#0)
+                      Op #2: SET_PRIMARY_NAV NavHostFragment{df368ff} (9bea8d5e-a197-4b91-89e2-ebb0aab3682f id=0x7f0a0182 tag=bottomNavigation#1)
+                      Op #3: DETACH NavHostFragment{edb96cc} (951fd44d-9d9c-45a6-8407-29ed33be0b40 id=0x7f0a0182 tag=bottomNavigation#0)
+                      Op #4: DETACH NavHostFragment{edb96cc} (951fd44d-9d9c-45a6-8407-29ed33be0b40 id=0x7f0a0182 tag=bottomNavigation#0)
+                      Op #5: DETACH NavHostFragment{edb96cc} (951fd44d-9d9c-45a6-8407-29ed33be0b40 id=0x7f0a0182 tag=bottomNavigation#0)
+                Back Stack Index: 1
+                FragmentManager misc state:
+                  mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+                  mContainer=androidx.fragment.app.Fragment$5@f237461
+                  mParent=HomeFragment{700997f} (4bedb11d-3149-4035-a95c-b79fe1c4fe82 id=0x7f0a021f tag=2c65e004-2d74-41ab-80f3-22a4304e4840)
+                  mCurState=7 mStateSaved=false mStopped=false mDestroyed=false
+          Added Fragments:
+            #0: HomeFragment{700997f} (4bedb11d-3149-4035-a95c-b79fe1c4fe82 id=0x7f0a021f tag=2c65e004-2d74-41ab-80f3-22a4304e4840)
+          Back Stack Index: 0
+          FragmentManager misc state:
+            mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+            mContainer=androidx.fragment.app.Fragment$5@3944b86
+            mParent=NavHostFragment{7d23e23} (cfa9674d-361f-47a0-9d1b-7348a96f8d23 id=0x7f0a021f)
+            mCurState=7 mStateSaved=false mStopped=false mDestroyed=false
+    Added Fragments:
+      #0: NavHostFragment{7d23e23} (cfa9674d-361f-47a0-9d1b-7348a96f8d23 id=0x7f0a021f)
+    Back Stack Index: 0
+    FragmentManager misc state:
+      mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+      mContainer=androidx.fragment.app.FragmentActivity$HostCallbacks@a9ea0d9
+      mCurState=7 mStateSaved=false mStopped=false mDestroyed=false

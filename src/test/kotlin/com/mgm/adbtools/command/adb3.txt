@@ -1,0 +1,938 @@
+ miguelgoyanes@Miguels-MacBook-Pro-4  ~/Downloads/mfetest  adb shell dumpsys activity "wit.sire.mSeller.debug"
+TASK 10122:wit.sire.mSeller.debug id=11 userId=0 displayId=0(type=INTERNAL)
+  ACTIVITY wit.sire.mSeller.debug/wit.sire.mSeller.ui.MainActivity 9305694 pid=32488 userId=0 uid=10122 displayId=0(type=INTERNAL)
+    Local Activity 454af6e State:
+      mResumed=false mStopped=true mFinished=false
+      mIsInMultiWindowMode=false mIsInPictureInPictureMode=false
+      mChangingConfigurations=false
+      mCurrentConfig={1.0 310mcc270mnc [en_US] ldltr sw440dp w440dp h931dp 489dpi nrml long port finger qwerty/v/v -nav/h winConfig={ mBounds=Rect(0, 0 - 1344, 2992) mAppBounds=Rect(0, 0 - 1344, 2919) mMaxBounds=Rect(0, 0 - 1344, 2992) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} s.1 fontWeightAdjustment=0}
+      mLoadersStarted=true
+      Active Fragments in 8233a30:
+        #0: ReportFragment{3da96a9 #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+          mFragmentId=#0 mContainerId=#0 mTag=androidx.lifecycle.LifecycleDispatcher.report_fragment_tag
+          mState=3 mIndex=0 mWho=android:fragment:0 mBackStackNesting=0
+          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+          mRetainInstance=false mRetaining=false mUserVisibleHint=true
+          mFragmentManager=FragmentManager{8233a30 in HostCallbacks{dafd42e}}
+          mHost=android.app.Activity$HostCallbacks@dafd42e
+          Child FragmentManager{178bcf in ReportFragment{3da96a9}}:
+            FragmentManager misc state:
+              mHost=android.app.Activity$HostCallbacks@dafd42e
+              mContainer=android.app.Fragment$1@7b9c95c
+              mParent=ReportFragment{3da96a9 #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+              mCurState=3 mStateSaved=true mDestroyed=false
+      Added Fragments:
+        #0: ReportFragment{3da96a9 #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+      FragmentManager misc state:
+        mHost=android.app.Activity$HostCallbacks@dafd42e
+        mContainer=android.app.Activity$HostCallbacks@dafd42e
+        mCurState=3 mStateSaved=true mDestroyed=false
+    ViewRoot:
+      mAdded=true
+      mRemoved=false
+      mStopped=true
+      mPausedForTransition=false
+      mConsumeBatchedInputScheduled=false
+      mConsumeBatchedInputImmediatelyScheduled=false
+      mPendingInputEventCount=0
+      mProcessInputEventsScheduled=false
+      mTraversalScheduled=false
+      mReportNextDraw=false
+      mLastPerformTraversalsFailedReason=view_not_visible
+      mLastReportedMergedConfiguration={mGlobalConfig={1.0 310mcc270mnc [en_US] ldltr sw440dp w440dp h931dp 489dpi nrml long port finger qwerty/v/v -nav/h winConfig={ mBounds=Rect(0, 0 - 1344, 2992) mAppBounds=Rect(0, 0 - 1344, 2919) mMaxBounds=Rect(0, 0 - 1344, 2992) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} s.34 fontWeightAdjustment=0} mOverrideConfig={1.0 310mcc270mnc [en_US] ldltr sw440dp w440dp h931dp 489dpi nrml long port finger qwerty/v/v -nav/h winConfig={ mBounds=Rect(0, 0 - 1344, 2992) mAppBounds=Rect(0, 0 - 1344, 2919) mMaxBounds=Rect(0, 0 - 1344, 2992) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} s.1 fontWeightAdjustment=0}}
+      mLastConfigurationFromResources={1.0 310mcc270mnc [en_US] ldltr sw440dp w440dp h931dp 489dpi nrml long port finger qwerty/v/v -nav/h winConfig={ mBounds=Rect(0, 0 - 1344, 2992) mAppBounds=Rect(0, 0 - 1344, 2919) mMaxBounds=Rect(0, 0 - 1344, 2992) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} s.1 fontWeightAdjustment=0}
+      mIsAmbientMode=false
+      mUnbufferedInputSource=0
+      mAttachInfo=       AttachInfo:
+        mHasWindowFocus=false
+        mWindowVisibility=8
+        mInTouchMode=true
+        mUnbufferedDispatchRequested=false
+      android.view.ViewRootImpl$NativePreImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$ImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$NativePostImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$WindowInputEventReceiver
+       mInputChannel: 7166445 wit.sire.mSeller.debug/wit.sire.mSeller.ui.MainActivity (client)
+       mSeqMap: {}
+       mReceiverPtr:
+        mInputConsumer:
+          mResampleTouch = true
+          mChannel = 7166445 wit.sire.mSeller.debug/wit.sire.mSeller.ui.MainActivity (client)
+          mMsgDeferred: false
+          Batches:
+              <empty>
+          mSeqChains:
+              <empty>
+          mConsumeTimes:
+              <empty>
+
+        mBatchedInputEventPending: false
+        mOutboundQueue:
+          <empty>
+
+    Choreographer:
+      mFrameScheduled=false
+      mLastFrameTime=32063601 (62352 ms ago)
+    InsetsController:
+      InsetsState
+        mDisplayFrame=Rect(0, 0 - 1344, 2992)
+        mDisplayCutout=DisplayCutout{insets=Rect(0, 0 - 0, 0) waterfall=Insets{left=0, top=0, right=0, bottom=0} boundingRect={Bounds=[Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0)]} cutoutPathParserInfo={CutoutPathParserInfo{displayWidth=0 displayHeight=0 physicalDisplayWidth=0 physicalDisplayHeight=0 density={0.0} cutoutSpec={} rotation={0} scale={0.0} physicalPixelDisplaySizeRatio={0.0}}}}
+        mRoundedCorners=RoundedCorners{[RoundedCorner{position=TopLeft, radius=0, center=Point(0, 0)}, RoundedCorner{position=TopRight, radius=0, center=Point(0, 0)}, RoundedCorner{position=BottomRight, radius=0, center=Point(0, 0)}, RoundedCorner{position=BottomLeft, radius=0, center=Point(0, 0)}]}
+        mRoundedCornerFrame=Rect(0, 0 - 1344, 2992)
+        mPrivacyIndicatorBounds=PrivacyIndicatorBounds {static bounds=Rect(1051, 0 - 1301, 73) rotation=0}
+        mDisplayShape=DisplayShape{ spec=489068999 displayWidth=1344 displayHeight=2992 physicalPixelDisplaySizeRatio=1.0 rotation=0 offsetX=0 offsetY=0 scale=1.0}
+          InsetsSource id=f84d0001 type=navigationBars frame=[0,2919][1344,2992] visible=true flags=SUPPRESS_SCRIM insetsRoundedCornerFrame=false
+          InsetsSource id=f84d0004 type=systemGestures frame=[0,0][91,2992] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=f84d0005 type=mandatorySystemGestures frame=[0,2894][1344,2992] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=f84d0006 type=tappableElement frame=[0,0][0,0] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=f84d0024 type=systemGestures frame=[1253,0][1344,2992] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=3 type=ime frame=[0,0][0,0] visibleFrame=[0,2992][1344,2992] visible=false flags= insetsRoundedCornerFrame=false
+          InsetsSource id=5f370000 type=statusBars frame=[0,0][1344,73] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=5f370005 type=mandatorySystemGestures frame=[0,0][1344,73] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=5f370006 type=tappableElement frame=[0,0][1344,73] visible=true flags= insetsRoundedCornerFrame=false
+    WindowOnBackDispatcher:
+        Top Callback: android.view.ViewRootImpl$$ExternalSyntheticLambda17@2670d40
+        Callbacks:
+          Callback: android.view.ViewRootImpl$$ExternalSyntheticLambda17@2670d40 Priority=0
+    View Hierarchy:
+      DecorView@e9cf465[MainActivity]
+        android.widget.LinearLayout{383963d V.E...... .......D 0,0-1344,2919}
+          android.view.ViewStub{669053a G.E...... ......I. 0,0-0,0 #10201ca android:id/action_mode_bar_stub}
+          android.widget.FrameLayout{f2b15eb V.E...... .......D 0,0-1344,2919}
+            androidx.appcompat.widget.FitWindowsLinearLayout{4c81f48 V.E...... .......D 0,0-1344,2919 #7f0a003b app:id/action_bar_root}
+              androidx.appcompat.widget.ViewStubCompat{c6d71e1 G.E...... ......I. 0,0-0,0 #7f0a0068 app:id/action_mode_bar_stub}
+              androidx.appcompat.widget.ContentFrameLayout{8523b06 V.E...... .......D 0,0-1344,2919 #1020002 android:id/content}
+                androidx.constraintlayout.widget.ConstraintLayout{5a325c7 V.E...... .......D 0,0-1344,2919}
+                  androidx.fragment.app.FragmentContainerView{ae3e7f4 V.E...... .......D 0,0-1344,2919 #7f0a021e app:id/nav_host_fragment}
+                    androidx.fragment.app.FragmentContainerView{e6e4b1d V.E...... .......D 0,0-1344,2919 #7f0a021e app:id/nav_host_fragment}
+                      start->end (pos:1.0 Dpos/Dt:0.0
+                        androidx.fragment.app.FragmentContainerView{5f8052c V.E...... .......D 0,0-1344,2748 #7f0a0181 app:id/home_nav_host_fragment}
+                          androidx.fragment.app.FragmentContainerView{f861f17 V.E...... ........ 0,0-1344,2748 #7f0a0181 app:id/home_nav_host_fragment}
+                          androidx.fragment.app.FragmentContainerView{c5e6f04 V.E...... .......D 0,0-1344,2748 #7f0a0181 app:id/home_nav_host_fragment}
+                            androidx.swiperefreshlayout.widget.SwipeRefreshLayout{b20aced V.ED..... .......D 0,0-1344,2748 #7f0a0338 app:id/swipe_refresh_layout}
+                              androidx.coordinatorlayout.widget.CoordinatorLayout{de80722 V.E...... .......D 0,0-1344,2748}
+                                androidx.core.widget.NestedScrollView{7ed36e2 VFED..... .......D 0,994-1344,3339 #7f0a00fe app:id/content}
+                                  android.widget.LinearLayout{44395b3 V.E...... .......D 49,49-1295,2296 #7f0a00c4 app:id/categories}
+                                    com.google.android.material.tabs.TabLayout{3d57770 VFED..... .......D 0,0-1246,86 #7f0a033a app:id/tabLayout}
+                                      com.google.android.material.tabs.TabLayout$SlidingTabIndicator{ce82ae9 V.ED..... .......D 0,0-3004,86}
+                                        com.google.android.material.tabs.TabLayout$TabView{523736e VFE...C.. ..S..AID 0,0-220,86}
+                                          androidx.appcompat.widget.AppCompatImageView{257da0f G.ED..... ..S..AI. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{a729a9c V.ED..... ..S..A.. 70,10-149,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{e8f8ca5 VFE...C.. ......ID 220,0-440,86}
+                                          androidx.appcompat.widget.AppCompatImageView{c97587a G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{1c2082b V.ED..... ........ 43,10-176,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{a5cc488 VFE...C.. ......ID 440,0-695,86}
+                                          androidx.appcompat.widget.AppCompatImageView{6914e21 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{328246 V.ED..... ........ 36,10-219,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{156fc07 VFE...C.. ......ID 695,0-915,86}
+                                          androidx.appcompat.widget.AppCompatImageView{73da134 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{e93ab5d V.ED..... ........ 62,10-158,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{a047cd2 VFE...C.. ......ID 915,0-1135,86}
+                                          androidx.appcompat.widget.AppCompatImageView{e5d51a3 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{3ad9ca0 V.ED..... ........ 40,10-180,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{a64a059 VFE...C.. ......ID 1135,0-1477,86}
+                                          androidx.appcompat.widget.AppCompatImageView{389941e G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{9e964ff V.ED..... ........ 36,10-306,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{15fe2cc VFE...C.. ......ID 1477,0-1768,86}
+                                          androidx.appcompat.widget.AppCompatImageView{2b5e915 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{fb6d42a V.ED..... ........ 36,10-255,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{7f9521b VFE...C.. ......ID 1768,0-1988,86}
+                                          androidx.appcompat.widget.AppCompatImageView{80e5fb8 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{f990191 V.ED..... ........ 36,10-184,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{9c608f6 VFE...C.. ......ID 1988,0-2337,86}
+                                          androidx.appcompat.widget.AppCompatImageView{450f4f7 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{f25bf64 V.ED..... ........ 36,10-313,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{ebb25cd VFE...C.. ......ID 2337,0-2733,86}
+                                          androidx.appcompat.widget.AppCompatImageView{4c1be82 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{915e993 V.ED..... ........ 36,10-360,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{6316dd0 VFE...C.. ......ID 2733,0-3004,86}
+                                          androidx.appcompat.widget.AppCompatImageView{16151c9 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{7d140ce V.ED..... ........ 36,10-235,75}
+                                    androidx.viewpager2.widget.ViewPager2{32b8bef V.E...... .......D 0,159-1246,2113 #7f0a038e app:id/viewPager}
+                                      androidx.viewpager2.widget.ViewPager2$RecyclerViewImpl{80796fc VFED..... .......D 0,0-1246,1954 #11}
+                                        android.widget.FrameLayout{e244185 V.E...... .......D 0,0-1246,1954 #12}
+                                          androidx.recyclerview.widget.RecyclerView{3449bda VFED..... .......D 0,0-1246,1954 #7f0a00c9 app:id/categoryRv}
+                                            wit.sire.mSeller.ui.foundation.widgets.SquareFrameLayout{4ef80b V.E...... .......D 0,0-399,399}
+                                              com.google.android.material.card.MaterialCardView{4b526e8 VFE...C.. ......ID 0,0-399,399}
+                                                androidx.constraintlayout.widget.ConstraintLayout{26c7101 V.E...... .......D 37,24-362,375}
+                                                  androidx.appcompat.widget.AppCompatImageView{a609ba6 V.ED..... ......ID 0,0-73,73 #7f0a0186 app:id/icon}
+                                                  androidx.appcompat.widget.AppCompatTextView{2f309e7 V.ED..... ........ 0,227-80,292 #7f0a011b app:id/description}
+                                                  androidx.appcompat.widget.AppCompatTextView{e29c994 V.ED..... ........ 0,304-148,351 #7f0a028e app:id/price}
+                                            wit.sire.mSeller.ui.foundation.widgets.SquareFrameLayout{fae1c3d V.E...... .......D 423,0-822,399}
+                                              com.google.android.material.card.MaterialCardView{deacc32 VFE...C.. ......ID 0,0-399,399}
+                                                androidx.constraintlayout.widget.ConstraintLayout{7dc5d83 V.E...... .......D 37,24-362,375}
+                                                  androidx.appcompat.widget.AppCompatImageView{3a3eb00 V.ED..... ......ID 0,0-73,73 #7f0a0186 app:id/icon}
+                                                  androidx.appcompat.widget.AppCompatTextView{653f39 V.ED..... ........ 0,227-322,292 #7f0a011b app:id/description}
+                                                  androidx.appcompat.widget.AppCompatTextView{375797e V.ED..... ........ 0,304-159,351 #7f0a028e app:id/price}
+                                    android.widget.Space{97d4edf I.ED..... ......I. 0,2113-1246,2247}
+                                com.google.android.material.appbar.AppBarLayout{b856a73 V.E...... ......ID 0,0-1344,994 #7f0a009c app:id/app_bar}
+                                  com.google.android.material.appbar.CollapsingToolbarLayout{7dcb72c V.ED..... .......D 0,98-1344,994 #7f0a036c app:id/toolbar_layout}
+                                    android.widget.LinearLayout{d195f5 V.E...... .......D 0,0-1344,896 #7f0a0362 app:id/titleContainer}
+                                      androidx.appcompat.widget.AppCompatImageView{56baf8a V.ED..... ......ID 49,37-309,113 #7f0a01bf app:id/logo}
+                                      androidx.appcompat.widget.AppCompatTextView{d11f9fb V.ED..... ........ 49,196-337,261}
+                                      androidx.constraintlayout.widget.ConstraintLayout{df41a18 VFE...C.. .......D 49,285-672,419}
+                                        androidx.appcompat.widget.AppCompatTextView{7729c71 V.ED..... ........ 0,0-495,134 #7f0a0284 app:id/plafondValue}
+                                        androidx.appcompat.widget.AppCompatTextView{7dd3a56 V.ED..... ......ID 501,52-501,120 #7f0a027b app:id/plafondCurrency}
+                                        androidx.appcompat.widget.AppCompatImageView{57c3ad7 V.ED..... ......ID 525,18-623,116 #7f0a027c app:id/plafondHiddenToggle}
+                                      androidx.constraintlayout.widget.ConstraintLayout{91cbfc4 V.E...... .......D 49,523-605,798}
+                                        android.widget.LinearLayout{9438ead V.E...... .......D 0,0-229,275 #7f0a02a9 app:id/rechargeLayout}
+                                          com.google.android.material.card.MaterialCardView{e0aa5e2 VFE...C.. ......ID 0,0-153,153 #7f0a02a7 app:id/rechargeButtonWithVppAccess}
+                                            androidx.appcompat.widget.AppCompatImageView{7dfad73 V.ED..... ......ID 46,46-107,107}
+                                          com.google.android.material.textview.MaterialTextView{b081430 V.ED..... ........ 0,168-229,275}
+                                        android.widget.LinearLayout{5b768a9 V.E...... .......D 281,0-556,275 #7f0a039a app:id/vppLayout}
+                                          com.google.android.material.card.MaterialCardView{cb13e2e VFE...C.. ......ID 0,0-153,153 #7f0a0399 app:id/vppHomeScreenButton}
+                                            androidx.appcompat.widget.AppCompatImageView{dfdadcf V.ED..... ......ID 46,46-107,107}
+                                          com.google.android.material.textview.MaterialTextView{d12435c V.ED..... ........ 0,168-275,275}
+                                        com.google.android.material.card.MaterialCardView{674e665 GFE...C.. ......I. 0,0-0,0 #7f0a02b0 app:id/rechargeView}
+                                          android.widget.LinearLayout{5170f3a V.E...... ......I. 0,0-0,0}
+                                            androidx.appcompat.widget.AppCompatImageView{25157eb V.ED..... ......ID 0,0-0,0}
+                                            androidx.appcompat.widget.AppCompatTextView{2e3948 V.ED..... ......ID 0,0-0,0}
+                                    androidx.appcompat.widget.Toolbar{ed283e1 V.E...... .......D 0,0-1344,171 #7f0a0369 app:id/toolbar}
+                                      androidx.appcompat.widget.AppCompatTextView{4d6e506 V.ED..... ........ 48,44-323,126 #7f0a036b app:id/toolbarTitle}
+                                      android.widget.FrameLayout{1eb87c7 VFE...C.. .......D 1173,0-1344,171 #7f0a0236 app:id/notificationAction}
+                                        android.widget.FrameLayout{f91a1f4 V.E...... .......D 0,0-171,171}
+                                          androidx.appcompat.widget.AppCompatImageView{7127d1d V.ED..... ......ID 49,49-122,122}
+                                          android.widget.FrameLayout{66c4b92 G.E...... ......I. 0,0-0,0}
+                                            androidx.appcompat.widget.AppCompatImageView{ed963 V.ED..... ......ID 0,0-0,0 #7f0a0186 app:id/icon}
+                                            androidx.appcompat.widget.AppCompatTextView{220e960 V.ED..... ......I. 0,0-0,0}
+                                    com.google.android.material.tabs.TabLayout{f5ece19 IFED..... ......ID 49,761-1295,847 #7f0a0172 app:id/headerTabLayout}
+                                      com.google.android.material.tabs.TabLayout$SlidingTabIndicator{e7f8ede V.ED..... ......ID 0,0-3004,86}
+                                        com.google.android.material.tabs.TabLayout$TabView{78ba8bf VFE...C.. ..S..AID 0,0-220,86}
+                                          androidx.appcompat.widget.AppCompatImageView{69b3b8c G.ED..... ..S..AI. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{68532d5 V.ED..... ..S..AID 70,10-149,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{1f1baea VFE...C.. ......ID 220,0-440,86}
+                                          androidx.appcompat.widget.AppCompatImageView{5dc11db G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{6868478 V.ED..... ......ID 43,10-176,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{732751 VFE...C.. ......ID 440,0-695,86}
+                                          androidx.appcompat.widget.AppCompatImageView{a89bb6 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{bfff0b7 V.ED..... ......ID 36,10-219,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{bdb7024 VFE...C.. ......ID 695,0-915,86}
+                                          androidx.appcompat.widget.AppCompatImageView{871e78d G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{11abd42 V.ED..... ......ID 62,10-158,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{118e153 VFE...C.. ......ID 915,0-1135,86}
+                                          androidx.appcompat.widget.AppCompatImageView{5716a90 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{b226f89 V.ED..... ......ID 40,10-180,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{89b6b8e VFE...C.. ......ID 1135,0-1477,86}
+                                          androidx.appcompat.widget.AppCompatImageView{2c63faf G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{62a9fbc V.ED..... ......ID 36,10-306,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{4397b45 VFE...C.. ......ID 1477,0-1768,86}
+                                          androidx.appcompat.widget.AppCompatImageView{c66b29a G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{f4127cb V.ED..... ......ID 36,10-255,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{adffba8 VFE...C.. ......ID 1768,0-1988,86}
+                                          androidx.appcompat.widget.AppCompatImageView{bfb86c1 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{76d5e66 V.ED..... ......ID 36,10-184,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{53875a7 VFE...C.. ......ID 1988,0-2337,86}
+                                          androidx.appcompat.widget.AppCompatImageView{30d2a54 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{78cdfd V.ED..... ......ID 36,10-313,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{e0faf2 VFE...C.. ......ID 2337,0-2733,86}
+                                          androidx.appcompat.widget.AppCompatImageView{56cc543 G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{83c97c0 V.ED..... ......ID 36,10-360,75}
+                                        com.google.android.material.tabs.TabLayout$TabView{6894cf9 VFE...C.. ......ID 2733,0-3004,86}
+                                          androidx.appcompat.widget.AppCompatImageView{f7fd43e G.ED..... ......I. 0,0-0,0}
+                                          com.google.android.material.textview.MaterialTextView{20c729f V.ED..... ......ID 36,10-235,75}
+                              androidx.swiperefreshlayout.widget.CircleImageView{336fec G.ED..... ......ID 611,-122-733,0}
+                        com.google.android.material.bottomnavigation.BottomNavigationView{835cbf5 V.E...... ......ID 0,2748-1344,2919 #7f0a00b5 app:id/bottom_nav}
+                          com.google.android.material.bottomnavigation.BottomNavigationMenuView{6fe4c5 V.E...... .......D 0,0-1344,171}
+                            com.google.android.material.bottomnavigation.BottomNavigationItemView{cb69e1a VFE...C.. ..S...ID 0,0-336,171 #7f0a0216 app:id/navHomeStart}
+                              androidx.appcompat.widget.AppCompatImageView{96d4b V.ED..... ..S...ID 131,24-204,97 #7f0a0222 app:id/navigation_bar_item_icon_view}
+                              com.google.android.material.internal.BaselineLayout{6529328 V.E...... ..S..... 120,100-216,171 #7f0a0223 app:id/navigation_bar_item_labels_group}
+                                com.google.android.material.textview.MaterialTextView{2ef0841 I.ED..... ..S..... 0,0-96,51 #7f0a0225 app:id/navigation_bar_item_small_label_view}
+                                com.google.android.material.textview.MaterialTextView{79081e6 V.ED..... ..S..... 0,0-96,51 #7f0a0224 app:id/navigation_bar_item_large_label_view}
+                            com.google.android.material.bottomnavigation.BottomNavigationItemView{dff9327 VFE...C.. ......ID 336,0-672,171 #7f0a0213 app:id/navHomeManagement}
+                              androidx.appcompat.widget.AppCompatImageView{bd1b9d4 V.ED..... ......ID 131,24-204,97 #7f0a0222 app:id/navigation_bar_item_icon_view}
+                              com.google.android.material.internal.BaselineLayout{ce2e77d V.E...... ........ 105,100-230,171 #7f0a0223 app:id/navigation_bar_item_labels_group}
+                                com.google.android.material.textview.MaterialTextView{6d2d672 V.ED..... ........ 0,0-125,51 #7f0a0225 app:id/navigation_bar_item_small_label_view}
+                                com.google.android.material.textview.MaterialTextView{3483ac3 I.ED..... ......I. 0,0-125,51 #7f0a0224 app:id/navigation_bar_item_large_label_view}
+                            com.google.android.material.bottomnavigation.BottomNavigationItemView{d7a9f40 VFE...C.. ......ID 672,0-1008,171 #7f0a0215 app:id/navHomeReports}
+                              androidx.appcompat.widget.AppCompatImageView{53b7e79 V.ED..... ......ID 131,24-204,97 #7f0a0222 app:id/navigation_bar_item_icon_view}
+                              com.google.android.material.internal.BaselineLayout{573e7be V.E...... ........ 78,100-257,171 #7f0a0223 app:id/navigation_bar_item_labels_group}
+                                com.google.android.material.textview.MaterialTextView{de9c01f V.ED..... ........ 0,0-179,51 #7f0a0225 app:id/navigation_bar_item_small_label_view}
+                                com.google.android.material.textview.MaterialTextView{c0a6f6c I.ED..... ......I. 0,0-179,51 #7f0a0224 app:id/navigation_bar_item_large_label_view}
+                            com.google.android.material.bottomnavigation.BottomNavigationItemView{7ec8935 VFE...C.. ......ID 1008,0-1344,171 #7f0a0214 app:id/navHomeProfile}
+                              androidx.appcompat.widget.AppCompatImageView{582c1ca V.ED..... ......ID 131,24-204,97 #7f0a0222 app:id/navigation_bar_item_icon_view}
+                              com.google.android.material.internal.BaselineLayout{bf43f3b V.E...... ........ 120,100-215,171 #7f0a0223 app:id/navigation_bar_item_labels_group}
+                                com.google.android.material.textview.MaterialTextView{4e51658 V.ED..... ........ 0,0-95,51 #7f0a0225 app:id/navigation_bar_item_small_label_view}
+                                com.google.android.material.textview.MaterialTextView{26983b1 I.ED..... ........ 0,0-95,51 #7f0a0224 app:id/navigation_bar_item_large_label_view}
+        android.view.View{6fbbe32 V.ED..... ......ID 0,2919-1344,2992 #1020030 android:id/navigationBarBackground}
+    Looper (main, tid 2) {6c864}
+      Message 0: { when=+270ms what=1 target=android.os.CountDownTimer$1 }
+      Message 1: { when=+533ms what=1 target=android.os.CountDownTimer$1 }
+      (Total messages: 2, polling=false, quitting=false)
+    ResourcesManager:
+      total apks: 9
+      resources: 14
+      resource impls: 7
+    1 dumpables:
+    #0: AutofillManager
+        AutofillManager:
+          sessionId: 2147483647
+          state: UNKNOWN
+          context: wit.sire.mSeller.ui.MainActivity@454af6e
+          service client: android.view.autofill.AutofillManager$AutofillManagerClient@549facd
+          client: android.view.autofill.AutofillClientController@2786f82 (android.os.BinderProxy@fdeda40)
+          enabled: false
+          enabledAugmentedOnly: false
+          hasService: true
+          hasCallback: false
+          onInvisibleCalled false
+          last autofilled data: null
+          id of last fill UI shown: null
+          tracked views: null
+          fillable ids: null
+          entered ids: null
+          save trigger id: null
+          save on finish(): false
+          options: logLvl=0, compatMode=false, augmented=false, appDisabledExpiration=0
+          compat mode enabled:   fill dialog enabled: false
+          fill dialog enabled hints: [password, passwordAuto, creditCardNumber, creditCardSecurityCode, creditCardExpirationDate]
+        false
+          debug: false verbose: false
+        Autofill Compat Mode: false
+    Local FragmentActivity 454af6e State:
+      mCreated=true mResumed=false mStopped=true    Active Fragments:
+    NavHostFragment{fcd4693} (a7895814-74b1-4d66-93e6-7bc577da8c23 id=0x7f0a021e)
+        mFragmentId=#7f0a021e mContainerId=#7f0a021e mTag=null
+        mState=4 mWho=a7895814-74b1-4d66-93e6-7bc577da8c23 mBackStackNesting=0
+        mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+        mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+        mRetainInstance=false mUserVisibleHint=true
+        mFragmentManager=FragmentManager{e9a06d0 in HostCallbacks{a8876c9}}}
+        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+        mSavedViewState={2131362334=android.view.AbsSavedState$1@318b685}
+        mPopDirection=false
+        mContainer=androidx.fragment.app.FragmentContainerView{ae3e7f4 V.E...... .......D 0,0-1344,2919 #7f0a021e app:id/nav_host_fragment}
+        mView=androidx.fragment.app.FragmentContainerView{e6e4b1d V.E...... .......D 0,0-1344,2919 #7f0a021e app:id/nav_host_fragment}
+        Child FragmentManager{8c201ce in NavHostFragment{fcd4693}}}:
+          Active Fragments:
+          HomeFragment{e88bfb5} (eb3e1429-b842-4497-934d-d78782e4abd4 id=0x7f0a021e tag=d4ca39ff-03b2-4139-958d-df2b567139b4)
+              mFragmentId=#7f0a021e mContainerId=#7f0a021e mTag=d4ca39ff-03b2-4139-958d-df2b567139b4
+              mState=4 mWho=eb3e1429-b842-4497-934d-d78782e4abd4 mBackStackNesting=0
+              mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+              mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+              mRetainInstance=false mUserVisibleHint=true
+              mFragmentManager=FragmentManager{8c201ce in NavHostFragment{fcd4693}}}
+              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+              mParentFragment=NavHostFragment{fcd4693} (a7895814-74b1-4d66-93e6-7bc577da8c23 id=0x7f0a021e)
+              mSavedViewState={2131361973=com.google.android.material.navigation.NavigationBarView$SavedState@5a0f64a, 2131362177=android.view.AbsSavedState$1@318b685, 2131362323=android.view.AbsSavedState$1@318b685, 2131362324=android.view.AbsSavedState$1@318b685, 2131362325=android.view.AbsSavedState$1@318b685, 2131362326=android.view.AbsSavedState$1@318b685, 2131362338=android.view.AbsSavedState$1@318b685, 2131362339=android.view.AbsSavedState$1@318b685, 2131362340=android.view.AbsSavedState$1@318b685, 2131362341=android.view.AbsSavedState$1@318b685}
+              mPopDirection=false
+              mContainer=androidx.fragment.app.FragmentContainerView{e6e4b1d V.E...... .......D 0,0-1344,2919 #7f0a021e app:id/nav_host_fragment}
+              mView=start->end (pos:1.0 Dpos/Dt:0.0
+              Child FragmentManager{7cf99bb in HomeFragment{e88bfb5}}}:
+                Active Fragments:
+                NavHostFragment{c52291f} (c5f79e43-c965-44a9-b3f7-7ba715d6c72d id=0x7f0a0181 tag=bottomNavigation#3)
+                    mFragmentId=#7f0a0181 mContainerId=#7f0a0181 mTag=bottomNavigation#3
+                    mState=1 mWho=c5f79e43-c965-44a9-b3f7-7ba715d6c72d mBackStackNesting=0
+                    mAdded=false mRemoving=false mFromLayout=false mInLayout=false
+                    mHidden=false mDetached=true mMenuVisible=true mHasMenu=false
+                    mRetainInstance=false mUserVisibleHint=true
+                    mFragmentManager=FragmentManager{7cf99bb in HomeFragment{e88bfb5}}}
+                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                    mParentFragment=HomeFragment{e88bfb5} (eb3e1429-b842-4497-934d-d78782e4abd4 id=0x7f0a021e tag=d4ca39ff-03b2-4139-958d-df2b567139b4)
+                    mArguments=Bundle[{android-support-nav:fragment:graphId=2131755011}]
+                    mSavedViewState={2131362177=android.view.AbsSavedState$1@318b685}
+                    mPopDirection=true
+                    Child FragmentManager{5dd9ed8 in NavHostFragment{c52291f}}}:
+                      Active Fragments:
+                      HomeProfileFragment{8d2a231} (00e179a4-0eae-4641-acc8-5fad802d3cff id=0x7f0a0181 tag=3b8ab6cb-f43d-4f3c-88c7-f50bed15931b)
+                          mFragmentId=#7f0a0181 mContainerId=#7f0a0181 mTag=3b8ab6cb-f43d-4f3c-88c7-f50bed15931b
+                          mState=1 mWho=00e179a4-0eae-4641-acc8-5fad802d3cff mBackStackNesting=0
+                          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                          mRetainInstance=false mUserVisibleHint=true
+                          mFragmentManager=FragmentManager{5dd9ed8 in NavHostFragment{c52291f}}}
+                          mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                          mParentFragment=NavHostFragment{c52291f} (c5f79e43-c965-44a9-b3f7-7ba715d6c72d id=0x7f0a0181 tag=bottomNavigation#3)
+                          mSavedViewState={2131361947=android.view.AbsSavedState$1@318b685, 2131361948=android.view.AbsSavedState$1@318b685, 2131362319=android.view.AbsSavedState$1@318b685, 2131362427=android.view.AbsSavedState$1@318b685, 2131362428=android.view.AbsSavedState$1@318b685, 2131362436=android.view.AbsSavedState$1@318b685, 2131362449=androidx.recyclerview.widget.RecyclerView$SavedState@2002d16, 2131362450=androidx.recyclerview.widget.RecyclerView$SavedState@cd41697, 2131362451=android.view.AbsSavedState$1@318b685, 2131362452=androidx.recyclerview.widget.RecyclerView$SavedState@4f9d084, 2131362658=android.view.AbsSavedState$1@318b685, 2131362659=android.view.AbsSavedState$1@318b685, 2131362665=androidx.appcompat.widget.Toolbar$SavedState@5fe306d, 2131362668=android.view.AbsSavedState$1@318b685, 2131362675=android.view.AbsSavedState$1@318b685}
+                          mPopDirection=false
+                          Child FragmentManager{14a04a2 in HomeProfileFragment{8d2a231}}}:
+                            Back Stack Index: 0
+                            FragmentManager misc state:
+                              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                              mContainer=androidx.fragment.app.Fragment$5@1398533
+                              mParent=HomeProfileFragment{8d2a231} (00e179a4-0eae-4641-acc8-5fad802d3cff id=0x7f0a0181 tag=3b8ab6cb-f43d-4f3c-88c7-f50bed15931b)
+                              mCurState=1 mStateSaved=true mStopped=true mDestroyed=false
+                      Added Fragments:
+                        #0: HomeProfileFragment{8d2a231} (00e179a4-0eae-4641-acc8-5fad802d3cff id=0x7f0a0181 tag=3b8ab6cb-f43d-4f3c-88c7-f50bed15931b)
+                      Back Stack Index: 0
+                      FragmentManager misc state:
+                        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                        mContainer=androidx.fragment.app.Fragment$5@48570f0
+                        mParent=NavHostFragment{c52291f} (c5f79e43-c965-44a9-b3f7-7ba715d6c72d id=0x7f0a0181 tag=bottomNavigation#3)
+                        mCurState=1 mStateSaved=true mStopped=true mDestroyed=false
+                NavHostFragment{805b719} (94c285a6-0cb6-4937-9fd9-db2fc44faed0 id=0x7f0a0181 tag=bottomNavigation#2)
+                    mFragmentId=#7f0a0181 mContainerId=#7f0a0181 mTag=bottomNavigation#2
+                    mState=1 mWho=94c285a6-0cb6-4937-9fd9-db2fc44faed0 mBackStackNesting=0
+                    mAdded=false mRemoving=false mFromLayout=false mInLayout=false
+                    mHidden=false mDetached=true mMenuVisible=true mHasMenu=false
+                    mRetainInstance=false mUserVisibleHint=true
+                    mFragmentManager=FragmentManager{7cf99bb in HomeFragment{e88bfb5}}}
+                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                    mParentFragment=HomeFragment{e88bfb5} (eb3e1429-b842-4497-934d-d78782e4abd4 id=0x7f0a021e tag=d4ca39ff-03b2-4139-958d-df2b567139b4)
+                    mArguments=Bundle[{android-support-nav:fragment:graphId=2131755012}]
+                    mSavedViewState={2131362177=android.view.AbsSavedState$1@318b685}
+                    mPopDirection=true
+                    Child FragmentManager{eda6669 in NavHostFragment{805b719}}}:
+                      Active Fragments:
+                      HomeReportsFragment{c67c8ee} (3b06a4c2-b91a-46f7-bcff-d5536657bff1 id=0x7f0a0181 tag=111cdda3-85ff-42fc-a8da-edd7ee7a53db)
+                          mFragmentId=#7f0a0181 mContainerId=#7f0a0181 mTag=111cdda3-85ff-42fc-a8da-edd7ee7a53db
+                          mState=1 mWho=3b06a4c2-b91a-46f7-bcff-d5536657bff1 mBackStackNesting=0
+                          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                          mRetainInstance=false mUserVisibleHint=true
+                          mFragmentManager=FragmentManager{eda6669 in NavHostFragment{805b719}}}
+                          mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                          mParentFragment=NavHostFragment{805b719} (94c285a6-0cb6-4937-9fd9-db2fc44faed0 id=0x7f0a0181 tag=bottomNavigation#2)
+                          mSavedViewState=
+                                          {2131361948=android.view.AbsSavedState$1@318b685, 2131361971=HorizontalScrollView.SavedState{d7d418f scrollPosition=0}, 2131361994=androidx.recyclerview.widget.RecyclerView$SavedState@be8ac1c, 2131362110=android.view.AbsSavedState$1@318b685, 2131362519=androidx.recyclerview.widget.RecyclerView$SavedState@2a0025, 2131362658=android.view.AbsSavedState$1@318b685, 2131362659=android.view.AbsSavedState$1@318b685, 2131362665=androidx.appcompat.widget.Toolbar$SavedState@f8b85fa, 2131362667=android.view.AbsSavedState$1@318b685, 2131362668=android.view.AbsSavedState$1@318b685}
+                          mPopDirection=false
+                          Child FragmentManager{a9667ab in HomeReportsFragment{c67c8ee}}}:
+                            Back Stack Index: 0
+                            FragmentManager misc state:
+                              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                              mContainer=androidx.fragment.app.Fragment$5@ee26e08
+                              mParent=HomeReportsFragment{c67c8ee} (3b06a4c2-b91a-46f7-bcff-d5536657bff1 id=0x7f0a0181 tag=111cdda3-85ff-42fc-a8da-edd7ee7a53db)
+                              mCurState=1 mStateSaved=true mStopped=true mDestroyed=false
+                      Added Fragments:
+                        #0: HomeReportsFragment{c67c8ee} (3b06a4c2-b91a-46f7-bcff-d5536657bff1 id=0x7f0a0181 tag=111cdda3-85ff-42fc-a8da-edd7ee7a53db)
+                      Back Stack Index: 0
+                      FragmentManager misc state:
+                        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                        mContainer=androidx.fragment.app.Fragment$5@61f79a1
+                        mParent=NavHostFragment{805b719} (94c285a6-0cb6-4937-9fd9-db2fc44faed0 id=0x7f0a0181 tag=bottomNavigation#2)
+                        mCurState=1 mStateSaved=true mStopped=true mDestroyed=false
+                NavHostFragment{1f1bb21} (3284f05b-a689-4850-8db3-58f3f4423049 id=0x7f0a0181 tag=bottomNavigation#1)
+                    mFragmentId=#7f0a0181 mContainerId=#7f0a0181 mTag=bottomNavigation#1
+                    mState=1 mWho=3284f05b-a689-4850-8db3-58f3f4423049 mBackStackNesting=0
+                    mAdded=false mRemoving=false mFromLayout=false mInLayout=false
+                    mHidden=false mDetached=true mMenuVisible=true mHasMenu=false
+                    mRetainInstance=false mUserVisibleHint=true
+                    mFragmentManager=FragmentManager{7cf99bb in HomeFragment{e88bfb5}}}
+                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                    mParentFragment=HomeFragment{e88bfb5} (eb3e1429-b842-4497-934d-d78782e4abd4 id=0x7f0a021e tag=d4ca39ff-03b2-4139-958d-df2b567139b4)
+                    mArguments=Bundle[{android-support-nav:fragment:graphId=2131755010}]
+                    mSavedViewState={2131362177=android.view.AbsSavedState$1@318b685}
+                    mPopDirection=true
+                    Child FragmentManager{5fc07c6 in NavHostFragment{1f1bb21}}}:
+                      Active Fragments:
+                      HomeManagementFragment{fd1d387} (2008c8b0-6cda-4e65-922d-a14cc220868e id=0x7f0a0181 tag=4dea51f6-6f53-483f-a03e-5abeca24c547)
+                          mFragmentId=#7f0a0181 mContainerId=#7f0a0181 mTag=4dea51f6-6f53-483f-a03e-5abeca24c547
+                          mState=1 mWho=2008c8b0-6cda-4e65-922d-a14cc220868e mBackStackNesting=0
+                          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                          mRetainInstance=false mUserVisibleHint=true
+                          mFragmentManager=FragmentManager{5fc07c6 in NavHostFragment{1f1bb21}}}
+                          mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                          mParentFragment=NavHostFragment{1f1bb21} (3284f05b-a689-4850-8db3-58f3f4423049 id=0x7f0a0181 tag=bottomNavigation#1)
+                          mSavedViewState={13=androidx.recyclerview.widget.RecyclerView$SavedState@c3462b4, 2131361948=android.view.AbsSavedState$1@318b685, 2131362162=HorizontalScrollView.SavedState{3990edd scrollPosition=0}, 2131362665=androidx.appcompat.widget.Toolbar$SavedState@6a0da52, 2131362667=android.view.AbsSavedState$1@318b685, 2131362668=android.view.AbsSavedState$1@318b685, 2131362702=androidx.viewpager2.widget.ViewPager2$SavedState@26e2123}
+                          mPopDirection=false
+                          Child FragmentManager{b0ef620 in HomeManagementFragment{fd1d387}}}:
+                            Active Fragments:
+                            ReportsFragment{11cbbd9} (ee549743-0ae8-48f2-87d5-c0c2b2a3d13f tag=f0)
+                                mFragmentId=#0 mContainerId=#0 mTag=f0
+                                mState=1 mWho=ee549743-0ae8-48f2-87d5-c0c2b2a3d13f mBackStackNesting=0
+                                mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                                mHidden=false mDetached=false mMenuVisible=false mHasMenu=false
+                                mRetainInstance=false mUserVisibleHint=true
+                                mFragmentManager=FragmentManager{b0ef620 in HomeManagementFragment{fd1d387}}}
+                                mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                                mParentFragment=HomeManagementFragment{fd1d387} (2008c8b0-6cda-4e65-922d-a14cc220868e id=0x7f0a0181 tag=4dea51f6-6f53-483f-a03e-5abeca24c547)
+                                mSavedViewState={2131361971=HorizontalScrollView.SavedState{d4e499e scrollPosition=0}, 2131361994=androidx.recyclerview.widget.RecyclerView$SavedState@2f7ac7f, 2131362562=androidx.recyclerview.widget.RecyclerView$SavedState@33d544c}
+                                mPopDirection=false
+                                Child FragmentManager{f943c95 in ReportsFragment{11cbbd9}}}:
+                                  Back Stack Index: 0
+                                  FragmentManager misc state:
+                                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                                    mContainer=androidx.fragment.app.Fragment$5@cd161aa
+                                    mParent=ReportsFragment{11cbbd9} (ee549743-0ae8-48f2-87d5-c0c2b2a3d13f tag=f0)
+                                    mCurState=1 mStateSaved=true mStopped=true mDestroyed=false
+                            SellersFragment{464919b} (b7da8924-50f7-49fa-8eaf-3c87742a2230 tag=f1)
+                                mFragmentId=#0 mContainerId=#0 mTag=f1
+                                mState=1 mWho=b7da8924-50f7-49fa-8eaf-3c87742a2230 mBackStackNesting=0
+                                mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                                mHidden=false mDetached=false mMenuVisible=false mHasMenu=false
+                                mRetainInstance=false mUserVisibleHint=true
+                                mFragmentManager=FragmentManager{b0ef620 in HomeManagementFragment{fd1d387}}}
+                                mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                                mParentFragment=HomeManagementFragment{fd1d387} (2008c8b0-6cda-4e65-922d-a14cc220868e id=0x7f0a0181 tag=4dea51f6-6f53-483f-a03e-5abeca24c547)
+                                mSavedViewState={2131361926=android.view.AbsSavedState$1@318b685, 2131361927=android.view.AbsSavedState$1@318b685, 2131362110=android.view.AbsSavedState$1@318b685, 2131362225=androidx.recyclerview.widget.RecyclerView$SavedState@c116938, 2131362229=android.view.AbsSavedState$1@318b685, 2131362535=TextView.SavedState{ac90d11 start=0 end=0 text=}, 2131362536=TextInputLayout.SavedState{5bbee76 error=null hint=null helperText=null placeholderText=null}, 2131362646=com.google.android.material.internal.CheckableImageButton$SavedState@8f0ac77, 2131362647=com.google.android.material.internal.CheckableImageButton$SavedState@e0fe0e4, 2131362648=com.google.android.material.internal.CheckableImageButton$SavedState@7a0694d, 2131362652=android.view.AbsSavedState$1@318b685, 2131362653=android.view.AbsSavedState$1@318b685, 2131362654=android.view.AbsSavedState$1@318b685}
+                                mPopDirection=false
+                                Child FragmentManager{df07c02 in SellersFragment{464919b}}}:
+                                  Back Stack Index: 0
+                                  FragmentManager misc state:
+                                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                                    mContainer=androidx.fragment.app.Fragment$5@b99913
+                                    mParent=SellersFragment{464919b} (b7da8924-50f7-49fa-8eaf-3c87742a2230 tag=f1)
+                                    mCurState=1 mStateSaved=true mStopped=true mDestroyed=false
+                            SubAgentsFragment{35c2750} (7c74544d-32b2-43b0-853f-855749b972ac tag=f2)
+                                mFragmentId=#0 mContainerId=#0 mTag=f2
+                                mState=1 mWho=7c74544d-32b2-43b0-853f-855749b972ac mBackStackNesting=0
+                                mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                                mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                                mRetainInstance=false mUserVisibleHint=true
+                                mFragmentManager=FragmentManager{b0ef620 in HomeManagementFragment{fd1d387}}}
+                                mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                                mParentFragment=HomeManagementFragment{fd1d387} (2008c8b0-6cda-4e65-922d-a14cc220868e id=0x7f0a0181 tag=4dea51f6-6f53-483f-a03e-5abeca24c547)
+                                mSavedViewState={2131362110=android.view.AbsSavedState$1@318b685, 2131362225=androidx.recyclerview.widget.RecyclerView$SavedState@a174d49, 2131362229=android.view.AbsSavedState$1@318b685, 2131362535=TextView.SavedState{4ee564e start=0 end=0 text=}, 2131362536=TextInputLayout.SavedState{61ab36f error=null hint=null helperText=null placeholderText=null}, 2131362646=com.google.android.material.internal.CheckableImageButton$SavedState@2e4687c, 2131362647=com.google.android.material.internal.CheckableImageButton$SavedState@efe7505, 2131362648=com.google.android.material.internal.CheckableImageButton$SavedState@dd895a, 2131362652=android.view.AbsSavedState$1@318b685, 2131362653=android.view.AbsSavedState$1@318b685, 2131362654=android.view.AbsSavedState$1@318b685}
+                                mPopDirection=false
+                                Child FragmentManager{3c9178b in SubAgentsFragment{35c2750}}}:
+                                  Back Stack Index: 0
+                                  FragmentManager misc state:
+                                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                                    mContainer=androidx.fragment.app.Fragment$5@24d9068
+                                    mParent=SubAgentsFragment{35c2750} (7c74544d-32b2-43b0-853f-855749b972ac tag=f2)
+                                    mCurState=1 mStateSaved=true mStopped=true mDestroyed=false
+                            Added Fragments:
+                              #0: ReportsFragment{11cbbd9} (ee549743-0ae8-48f2-87d5-c0c2b2a3d13f tag=f0)
+                              #1: SellersFragment{464919b} (b7da8924-50f7-49fa-8eaf-3c87742a2230 tag=f1)
+                              #2: SubAgentsFragment{35c2750} (7c74544d-32b2-43b0-853f-855749b972ac tag=f2)
+                            Back Stack Index: 0
+                            FragmentManager misc state:
+                              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                              mContainer=androidx.fragment.app.Fragment$5@5765c81
+                              mParent=HomeManagementFragment{fd1d387} (2008c8b0-6cda-4e65-922d-a14cc220868e id=0x7f0a0181 tag=4dea51f6-6f53-483f-a03e-5abeca24c547)
+                              mCurState=1 mStateSaved=true mStopped=true mDestroyed=false
+                      Added Fragments:
+                        #0: HomeManagementFragment{fd1d387} (2008c8b0-6cda-4e65-922d-a14cc220868e id=0x7f0a0181 tag=4dea51f6-6f53-483f-a03e-5abeca24c547)
+                      Back Stack Index: 0
+                      FragmentManager misc state:
+                        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                        mContainer=androidx.fragment.app.Fragment$5@5ae126
+                        mParent=NavHostFragment{1f1bb21} (3284f05b-a689-4850-8db3-58f3f4423049 id=0x7f0a0181 tag=bottomNavigation#1)
+                        mCurState=1 mStateSaved=true mStopped=true mDestroyed=false
+                NavHostFragment{afa167} (c6727e4d-0146-4a18-b7e8-684718772d47 id=0x7f0a0181)
+                    mFragmentId=#7f0a0181 mContainerId=#7f0a0181 mTag=null
+                    mState=4 mWho=c6727e4d-0146-4a18-b7e8-684718772d47 mBackStackNesting=0
+                    mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                    mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                    mRetainInstance=false mUserVisibleHint=true
+                    mFragmentManager=FragmentManager{7cf99bb in HomeFragment{e88bfb5}}}
+                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                    mParentFragment=HomeFragment{e88bfb5} (eb3e1429-b842-4497-934d-d78782e4abd4 id=0x7f0a021e tag=d4ca39ff-03b2-4139-958d-df2b567139b4)
+                    mSavedViewState={2131362177=android.view.AbsSavedState$1@318b685}
+                    mPopDirection=false
+                    mContainer=androidx.fragment.app.FragmentContainerView{5f8052c V.E...... .......D 0,0-1344,2748 #7f0a0181 app:id/home_nav_host_fragment}
+                    mView=androidx.fragment.app.FragmentContainerView{f861f17 V.E...... ........ 0,0-1344,2748 #7f0a0181 app:id/home_nav_host_fragment}
+                    Child FragmentManager{a9f4b14 in NavHostFragment{afa167}}}:
+                      Back Stack Index: 0
+                      FragmentManager misc state:
+                        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                        mContainer=androidx.fragment.app.Fragment$5@42b3fbd
+                        mParent=NavHostFragment{afa167} (c6727e4d-0146-4a18-b7e8-684718772d47 id=0x7f0a0181)
+                        mCurState=4 mStateSaved=true mStopped=true mDestroyed=false
+                NavHostFragment{776eb46} (57cbaf29-a790-46e1-8f28-3d363f8ad44a id=0x7f0a0181 tag=bottomNavigation#0)
+                    mFragmentId=#7f0a0181 mContainerId=#7f0a0181 mTag=bottomNavigation#0
+                    mState=4 mWho=57cbaf29-a790-46e1-8f28-3d363f8ad44a mBackStackNesting=0
+                    mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                    mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                    mRetainInstance=false mUserVisibleHint=true
+                    mFragmentManager=FragmentManager{7cf99bb in HomeFragment{e88bfb5}}}
+                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                    mParentFragment=HomeFragment{e88bfb5} (eb3e1429-b842-4497-934d-d78782e4abd4 id=0x7f0a021e tag=d4ca39ff-03b2-4139-958d-df2b567139b4)
+                    mArguments=Bundle[{android-support-nav:fragment:graphId=2131755013}]
+                    mSavedViewState={2131362177=android.view.AbsSavedState$1@318b685}
+                    mPopDirection=true
+                    mContainer=androidx.fragment.app.FragmentContainerView{5f8052c V.E...... .......D 0,0-1344,2748 #7f0a0181 app:id/home_nav_host_fragment}
+                    mView=androidx.fragment.app.FragmentContainerView{c5e6f04 V.E...... .......D 0,0-1344,2748 #7f0a0181 app:id/home_nav_host_fragment}
+                    Child FragmentManager{d03e9b2 in NavHostFragment{776eb46}}}:
+                      Active Fragments:
+                      HomeStartFragment{d8aed03} (d10a799e-d963-4c4f-893b-2f5ee668ab96 id=0x7f0a0181 tag=40dca28f-51a7-4c0c-b176-94d002ffc785)
+                          mFragmentId=#7f0a0181 mContainerId=#7f0a0181 mTag=40dca28f-51a7-4c0c-b176-94d002ffc785
+                          mState=4 mWho=d10a799e-d963-4c4f-893b-2f5ee668ab96 mBackStackNesting=0
+                          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                          mRetainInstance=false mUserVisibleHint=true
+                          mFragmentManager=FragmentManager{d03e9b2 in NavHostFragment{776eb46}}}
+                          mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                          mParentFragment=NavHostFragment{776eb46} (57cbaf29-a790-46e1-8f28-3d363f8ad44a id=0x7f0a0181 tag=bottomNavigation#0)
+                          mSavedViewState={17=androidx.recyclerview.widget.RecyclerView$SavedState@bb00480, 2131361948=android.view.AbsSavedState$1@318b685, 2131361988=android.view.AbsSavedState$1@318b685, 2131362046=HorizontalScrollView.SavedState{6511ab9 scrollPosition=0}, 2131362162=HorizontalScrollView.SavedState{ac2eefe scrollPosition=0}, 2131362182=android.view.AbsSavedState$1@318b685, 2131362239=android.view.AbsSavedState$1@318b685, 2131362358=android.view.AbsSavedState$1@318b685, 2131362427=android.view.AbsSavedState$1@318b685, 2131362428=android.view.AbsSavedState$1@318b685, 2131362436=android.view.AbsSavedState$1@318b685, 2131362471=android.view.AbsSavedState$1@318b685, 2131362473=android.view.AbsSavedState$1@318b685, 2131362480=android.view.AbsSavedState$1@318b685, 2131362616=android.view.AbsSavedState$1@318b685, 2131362618=HorizontalScrollView.SavedState{45565f scrollPosition=0}, 2131362658=android.view.AbsSavedState$1@318b685, 2131362665=androidx.appcompat.widget.Toolbar$SavedState@a50e8ac, 2131362667=android.view.AbsSavedState$1@318b685, 2131362668=android.view.AbsSavedState$1@318b685, 2131362702=androidx.viewpager2.widget.ViewPager2$SavedState@c5fa975, 2131362713=android.view.AbsSavedState$1@318b685, 2131362714=android.view.AbsSavedState$1@318b685}
+                          mPopDirection=false
+                          mContainer=androidx.fragment.app.FragmentContainerView{c5e6f04 V.E...... .......D 0,0-1344,2748 #7f0a0181 app:id/home_nav_host_fragment}
+                          mView=androidx.swiperefreshlayout.widget.SwipeRefreshLayout{b20aced V.ED..... .......D 0,0-1344,2748 #7f0a0338 app:id/swipe_refresh_layout}
+                          Child FragmentManager{fdafd0a in HomeStartFragment{d8aed03}}}:
+                            Active Fragments:
+                            RechargeCategoryFragment{912f97b} (92778fea-1cb0-4d91-90a6-a3fcf8c58fda tag=f0)
+                                mFragmentId=#0 mContainerId=#0 mTag=f0
+                                mState=4 mWho=92778fea-1cb0-4d91-90a6-a3fcf8c58fda mBackStackNesting=0
+                                mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+                                mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+                                mRetainInstance=false mUserVisibleHint=true
+                                mFragmentManager=FragmentManager{fdafd0a in HomeStartFragment{d8aed03}}}
+                                mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                                mParentFragment=HomeStartFragment{d8aed03} (d10a799e-d963-4c4f-893b-2f5ee668ab96 id=0x7f0a0181 tag=40dca28f-51a7-4c0c-b176-94d002ffc785)
+                                mArguments=Bundle[{SubCategory=RechargeCategory(type=RECHARGE, subType=VOZ)}]
+                                mSavedViewState={2131361993=androidx.recyclerview.widget.RecyclerView$SavedState@539e398}
+                                mPopDirection=false
+                                mView=androidx.recyclerview.widget.RecyclerView{3449bda VFED..... .......D 0,0-1246,1954 #7f0a00c9 app:id/categoryRv}
+                                Child FragmentManager{c8e67f1 in RechargeCategoryFragment{912f97b}}}:
+                                  Back Stack Index: 0
+                                  FragmentManager misc state:
+                                    mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                                    mContainer=androidx.fragment.app.Fragment$5@1b3dfd6
+                                    mParent=RechargeCategoryFragment{912f97b} (92778fea-1cb0-4d91-90a6-a3fcf8c58fda tag=f0)
+                                    mCurState=4 mStateSaved=true mStopped=true mDestroyed=false
+                            Added Fragments:
+                              #0: RechargeCategoryFragment{912f97b} (92778fea-1cb0-4d91-90a6-a3fcf8c58fda tag=f0)
+                            Back Stack Index: 0
+                            FragmentManager misc state:
+                              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                              mContainer=androidx.fragment.app.Fragment$5@d4db257
+                              mParent=HomeStartFragment{d8aed03} (d10a799e-d963-4c4f-893b-2f5ee668ab96 id=0x7f0a0181 tag=40dca28f-51a7-4c0c-b176-94d002ffc785)
+                              mCurState=4 mStateSaved=true mStopped=true mDestroyed=false
+                      Added Fragments:
+                        #0: HomeStartFragment{d8aed03} (d10a799e-d963-4c4f-893b-2f5ee668ab96 id=0x7f0a0181 tag=40dca28f-51a7-4c0c-b176-94d002ffc785)
+                      Back Stack Index: 0
+                      FragmentManager misc state:
+                        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                        mContainer=androidx.fragment.app.Fragment$5@cb5a144
+                        mParent=NavHostFragment{776eb46} (57cbaf29-a790-46e1-8f28-3d363f8ad44a id=0x7f0a0181 tag=bottomNavigation#0)
+                        mCurState=4 mStateSaved=true mStopped=true mDestroyed=false
+                Added Fragments:
+                  #0: NavHostFragment{afa167} (c6727e4d-0146-4a18-b7e8-684718772d47 id=0x7f0a0181)
+                  #1: NavHostFragment{776eb46} (57cbaf29-a790-46e1-8f28-3d363f8ad44a id=0x7f0a0181 tag=bottomNavigation#0)
+                Back Stack Index: 3
+                FragmentManager misc state:
+                  mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+                  mContainer=androidx.fragment.app.Fragment$5@f10922d
+                  mParent=HomeFragment{e88bfb5} (eb3e1429-b842-4497-934d-d78782e4abd4 id=0x7f0a021e tag=d4ca39ff-03b2-4139-958d-df2b567139b4)
+                  mCurState=4 mStateSaved=true mStopped=true mDestroyed=false
+          Added Fragments:
+            #0: HomeFragment{e88bfb5} (eb3e1429-b842-4497-934d-d78782e4abd4 id=0x7f0a021e tag=d4ca39ff-03b2-4139-958d-df2b567139b4)
+          Back Stack Index: 0
+          FragmentManager misc state:
+            mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+            mContainer=androidx.fragment.app.Fragment$5@b0f4bc1
+            mParent=NavHostFragment{fcd4693} (a7895814-74b1-4d66-93e6-7bc577da8c23 id=0x7f0a021e)
+            mCurState=4 mStateSaved=true mStopped=true mDestroyed=false
+    Added Fragments:
+      #0: NavHostFragment{fcd4693} (a7895814-74b1-4d66-93e6-7bc577da8c23 id=0x7f0a021e)
+    Back Stack Index: 0
+    FragmentManager misc state:
+      mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+      mContainer=androidx.fragment.app.FragmentActivity$HostCallbacks@a8876c9
+      mCurState=4 mStateSaved=true mStopped=true mDestroyed=false
+
+  ACTIVITY wit.sire.mSeller.debug/wit.sire.vpp.MainActivity 4abc7b1 pid=32488 userId=0 uid=10122 displayId=0(type=INTERNAL)
+    Local Activity 66a6dba State:
+      mResumed=true mStopped=false mFinished=false
+      mIsInMultiWindowMode=false mIsInPictureInPictureMode=false
+      mChangingConfigurations=false
+      mCurrentConfig={1.0 310mcc270mnc [en_US] ldltr sw440dp w440dp h931dp 489dpi nrml long port finger qwerty/v/v -nav/h winConfig={ mBounds=Rect(0, 0 - 1344, 2992) mAppBounds=Rect(0, 0 - 1344, 2919) mMaxBounds=Rect(0, 0 - 1344, 2992) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} s.1 fontWeightAdjustment=0}
+      mLoadersStarted=true
+      Active Fragments in 90d8db0:
+        #0: ReportFragment{2112429 #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+          mFragmentId=#0 mContainerId=#0 mTag=androidx.lifecycle.LifecycleDispatcher.report_fragment_tag
+          mState=5 mIndex=0 mWho=android:fragment:0 mBackStackNesting=0
+          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+          mRetainInstance=false mRetaining=false mUserVisibleHint=true
+          mFragmentManager=FragmentManager{90d8db0 in HostCallbacks{b0713ae}}
+          mHost=android.app.Activity$HostCallbacks@b0713ae
+          Child FragmentManager{96954f in ReportFragment{2112429}}:
+            FragmentManager misc state:
+              mHost=android.app.Activity$HostCallbacks@b0713ae
+              mContainer=android.app.Fragment$1@bb5d4dc
+              mParent=ReportFragment{2112429 #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+              mCurState=5 mStateSaved=false mDestroyed=false
+      Added Fragments:
+        #0: ReportFragment{2112429 #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+      FragmentManager misc state:
+        mHost=android.app.Activity$HostCallbacks@b0713ae
+        mContainer=android.app.Activity$HostCallbacks@b0713ae
+        mCurState=5 mStateSaved=false mDestroyed=false
+    ViewRoot:
+      mAdded=true
+      mRemoved=false
+      mStopped=false
+      mPausedForTransition=false
+      mConsumeBatchedInputScheduled=false
+      mConsumeBatchedInputImmediatelyScheduled=false
+      mPendingInputEventCount=0
+      mProcessInputEventsScheduled=false
+      mTraversalScheduled=false
+      mReportNextDraw=false
+      mLastReportedMergedConfiguration={mGlobalConfig={1.0 310mcc270mnc [en_US] ldltr sw440dp w440dp h931dp 489dpi nrml long port finger qwerty/v/v -nav/h winConfig={ mBounds=Rect(0, 0 - 1344, 2992) mAppBounds=Rect(0, 0 - 1344, 2919) mMaxBounds=Rect(0, 0 - 1344, 2992) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} s.34 fontWeightAdjustment=0} mOverrideConfig={1.0 310mcc270mnc [en_US] ldltr sw440dp w440dp h931dp 489dpi nrml long port finger qwerty/v/v -nav/h winConfig={ mBounds=Rect(0, 0 - 1344, 2992) mAppBounds=Rect(0, 0 - 1344, 2919) mMaxBounds=Rect(0, 0 - 1344, 2992) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} s.1 fontWeightAdjustment=0}}
+      mLastConfigurationFromResources={1.0 310mcc270mnc [en_US] ldltr sw440dp w440dp h931dp 489dpi nrml long port finger qwerty/v/v -nav/h winConfig={ mBounds=Rect(0, 0 - 1344, 2992) mAppBounds=Rect(0, 0 - 1344, 2919) mMaxBounds=Rect(0, 0 - 1344, 2992) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} s.1 fontWeightAdjustment=0}
+      mIsAmbientMode=false
+      mUnbufferedInputSource=0
+      mAttachInfo=       AttachInfo:
+        mHasWindowFocus=true
+        mWindowVisibility=0
+        mInTouchMode=true
+        mUnbufferedDispatchRequested=false
+      android.view.ViewRootImpl$NativePreImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$ImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$NativePostImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$WindowInputEventReceiver
+       mInputChannel: d2d7eb3 wit.sire.mSeller.debug/wit.sire.vpp.MainActivity (client)
+       mSeqMap: {}
+       mReceiverPtr:
+        mInputConsumer:
+          mResampleTouch = true
+          mChannel = d2d7eb3 wit.sire.mSeller.debug/wit.sire.vpp.MainActivity (client)
+          mMsgDeferred: false
+          Batches:
+              <empty>
+          mSeqChains:
+              <empty>
+          mConsumeTimes:
+              <empty>
+
+        mBatchedInputEventPending: false
+        mOutboundQueue:
+          <empty>
+
+    Choreographer:
+      mFrameScheduled=false
+      mLastFrameTime=32063601 (62384 ms ago)
+    InsetsController:
+      InsetsState
+        mDisplayFrame=Rect(0, 0 - 1344, 2992)
+        mDisplayCutout=DisplayCutout{insets=Rect(0, 0 - 0, 0) waterfall=Insets{left=0, top=0, right=0, bottom=0} boundingRect={Bounds=[Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0)]} cutoutPathParserInfo={CutoutPathParserInfo{displayWidth=0 displayHeight=0 physicalDisplayWidth=0 physicalDisplayHeight=0 density={0.0} cutoutSpec={} rotation={0} scale={0.0} physicalPixelDisplaySizeRatio={0.0}}}}
+        mRoundedCorners=RoundedCorners{[RoundedCorner{position=TopLeft, radius=0, center=Point(0, 0)}, RoundedCorner{position=TopRight, radius=0, center=Point(0, 0)}, RoundedCorner{position=BottomRight, radius=0, center=Point(0, 0)}, RoundedCorner{position=BottomLeft, radius=0, center=Point(0, 0)}]}
+        mRoundedCornerFrame=Rect(0, 0 - 1344, 2992)
+        mPrivacyIndicatorBounds=PrivacyIndicatorBounds {static bounds=Rect(1051, 0 - 1301, 73) rotation=0}
+        mDisplayShape=DisplayShape{ spec=489068999 displayWidth=1344 displayHeight=2992 physicalPixelDisplaySizeRatio=1.0 rotation=0 offsetX=0 offsetY=0 scale=1.0}
+          InsetsSource id=f84d0001 type=navigationBars frame=[0,2919][1344,2992] visible=true flags=SUPPRESS_SCRIM insetsRoundedCornerFrame=false
+          InsetsSource id=f84d0004 type=systemGestures frame=[0,0][91,2992] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=f84d0005 type=mandatorySystemGestures frame=[0,2894][1344,2992] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=f84d0006 type=tappableElement frame=[0,0][0,0] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=f84d0024 type=systemGestures frame=[1253,0][1344,2992] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=3 type=ime frame=[0,0][0,0] visibleFrame=[0,2992][1344,2992] visible=false flags= insetsRoundedCornerFrame=false
+          InsetsSource id=5f370000 type=statusBars frame=[0,0][1344,73] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=5f370005 type=mandatorySystemGestures frame=[0,0][1344,73] visible=true flags= insetsRoundedCornerFrame=false
+          InsetsSource id=5f370006 type=tappableElement frame=[0,0][1344,73] visible=true flags= insetsRoundedCornerFrame=false
+    WindowOnBackDispatcher:
+        Top Callback: android.view.ViewRootImpl$$ExternalSyntheticLambda17@22b238d
+        Callbacks:
+          Callback: android.view.ViewRootImpl$$ExternalSyntheticLambda17@22b238d Priority=0
+    View Hierarchy:
+      DecorView@16ed9e5[MainActivity]
+        android.widget.LinearLayout{eb4bcba V.E...... ........ 0,0-1344,2919}
+          android.view.ViewStub{651376b G.E...... ......I. 0,0-0,0 #10201ca android:id/action_mode_bar_stub}
+          android.widget.FrameLayout{73962c8 V.E...... ........ 0,73-1344,2919}
+            androidx.appcompat.widget.FitWindowsLinearLayout{e382f61 V.E...... ........ 0,0-1344,2846 #7f0a003b app:id/action_bar_root}
+              androidx.appcompat.widget.ViewStubCompat{261ea86 G.E...... ......I. 0,0-0,0 #7f0a0068 app:id/action_mode_bar_stub}
+              androidx.appcompat.widget.ContentFrameLayout{2c9df47 V.E...... ........ 0,0-1344,2846 #1020002 android:id/content}
+                android.widget.FrameLayout{9e5e374 V.E...... ........ 0,0-1344,2846 #7f0a00fd app:id/container}
+                  androidx.fragment.app.FragmentContainerView{1e7609d V.E...... ........ 0,0-1344,2846 #7f0a039c app:id/vpp_nav_host_fragment}
+                    androidx.fragment.app.FragmentContainerView{5622912 V.E...... ........ 0,0-1344,2846 #7f0a039c app:id/vpp_nav_host_fragment}
+                      android.widget.FrameLayout{93b28e3 V.E...... ........ 0,0-1344,2846 #7f0a039b app:id/vpp_home}
+                        androidx.compose.ui.platform.ComposeView{737c2e0 V.E...... ........ 0,0-1344,2846 #7f0a00f4 app:id/composeContainer}
+                          androidx.compose.ui.platform.AndroidComposeView{43d835e VFED..... ........ 0,0-1344,2846}
+                            androidx.compose.material.ripple.RippleContainer{95e6999 V.E...... ......I. 0,0-0,0}
+                              androidx.compose.material.ripple.RippleHostView{6b5c45e V.ED..... ......I. 0,0-0,0}
+        android.view.View{bed703f V.ED..... ........ 0,2919-1344,2992 #1020030 android:id/navigationBarBackground}
+        android.view.View{c062d0c V.ED..... ........ 0,0-1344,73 #102002f android:id/statusBarBackground}
+    Looper (main, tid 2) {6c864}
+      Message 0: { when=+249ms what=1 target=android.os.CountDownTimer$1 }
+      Message 1: { when=+512ms what=1 target=android.os.CountDownTimer$1 }
+      (Total messages: 2, polling=false, quitting=false)
+    ResourcesManager:
+      total apks: 9
+      resources: 14
+      resource impls: 7
+    1 dumpables:
+    #0: AutofillManager
+        AutofillManager:
+          sessionId: 2147483647
+          state: UNKNOWN
+          context: wit.sire.vpp.MainActivity@66a6dba
+          service client: null
+          client: android.view.autofill.AutofillClientController@3a30655 (android.os.BinderProxy@e54b1ac)
+          enabled: false
+          enabledAugmentedOnly: false
+          hasService: true
+          hasCallback: false
+          onInvisibleCalled false
+          last autofilled data: null
+          id of last fill UI shown: null
+          tracked views: null
+          fillable ids: null
+          entered ids: null
+          save trigger id: null
+          save on finish(): false
+          options: logLvl=0, compatMode=false, augmented=false, appDisabledExpiration=0
+          compat mode enabled:   fill dialog enabled: false
+          fill dialog enabled hints: [password, passwordAuto, creditCardNumber, creditCardSecurityCode, creditCardExpirationDate]
+        false
+          debug: false verbose: false
+        Autofill Compat Mode: false
+    Local FragmentActivity 66a6dba State:
+      mCreated=true mResumed=true mStopped=false    Active Fragments:
+    NavHostFragment{315c86a} (f1157289-cef9-4f7b-bb6b-52567e84556a id=0x7f0a039c)
+        mFragmentId=#7f0a039c mContainerId=#7f0a039c mTag=null
+        mState=7 mWho=f1157289-cef9-4f7b-bb6b-52567e84556a mBackStackNesting=0
+        mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+        mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+        mRetainInstance=false mUserVisibleHint=true
+        mFragmentManager=FragmentManager{f52d15b in HostCallbacks{96f0df8}}}
+        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+        mPopDirection=false
+        mContainer=androidx.fragment.app.FragmentContainerView{1e7609d V.E...... ........ 0,0-1344,2846 #7f0a039c app:id/vpp_nav_host_fragment}
+        mView=androidx.fragment.app.FragmentContainerView{5622912 V.E...... ........ 0,0-1344,2846 #7f0a039c app:id/vpp_nav_host_fragment}
+        Child FragmentManager{5ab2d1 in NavHostFragment{315c86a}}}:
+          Active Fragments:
+          MapsFragment{16925d9} (6c73b2aa-52e4-4a78-82d9-f57dfeea037c id=0x7f0a039c tag=ecdb65e4-09ba-449d-8ce1-3007c3a578f2)
+              mFragmentId=#7f0a039c mContainerId=#7f0a039c mTag=ecdb65e4-09ba-449d-8ce1-3007c3a578f2
+              mState=1 mWho=6c73b2aa-52e4-4a78-82d9-f57dfeea037c mBackStackNesting=4
+              mAdded=false mRemoving=true mFromLayout=false mInLayout=false
+              mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+              mRetainInstance=false mUserVisibleHint=true
+              mFragmentManager=FragmentManager{5ab2d1 in NavHostFragment{315c86a}}}
+              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+              mParentFragment=NavHostFragment{315c86a} (f1157289-cef9-4f7b-bb6b-52567e84556a id=0x7f0a039c)
+              mSavedViewState={2131362246=android.view.AbsSavedState$1@318b685}
+              mSavedViewRegistryState=Bundle[{androidx.lifecycle.BundlableSavedStateRegistry.key=Bundle[{SaveableStateRegistry:2131362246=Bundle[{-1470660226=[{19=android.view.AbsSavedState$1@318b685, 20=android.view.AbsSavedState$1@318b685, 21=android.view.AbsSavedState$1@318b685, 22=android.view.AbsSavedState$1@318b685, 23=android.view.AbsSavedState$1@318b685, 24=android.view.AbsSavedState$1@318b685, 25=android.view.AbsSavedState$1@318b685}], -h56h64=[Hidden], 1gvl7m=[[0, 0]], 35e3ma=[Hidden], 4ws0v1=[MutableState(value=25VR+7GP, Luanda, Angola)@225866021, MutableState(value=[])@130023734, MutableState(value=[ViabilityServiceDto(technologies=[TechnologyDto(technology=FWA, qualityInfo=Indoor), TechnologyDto(technology=FTTH, qualityInfo=Excellent)], latitude=-8.83141, longitude=13.23696)])@49653171, MutableState(value=)@48441399, MutableState(value=true)@65200945, MutableState(value=true)@65593054]}]}]}]
+              mPopDirection=false
+              Child FragmentManager{28311a4 in MapsFragment{16925d9}}}:
+                Back Stack Index: 0
+                FragmentManager misc state:
+                  mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+                  mContainer=androidx.fragment.app.Fragment$5@a06ab0d
+                  mParent=MapsFragment{16925d9} (6c73b2aa-52e4-4a78-82d9-f57dfeea037c id=0x7f0a039c tag=ecdb65e4-09ba-449d-8ce1-3007c3a578f2)
+                  mCurState=1 mStateSaved=false mStopped=true mDestroyed=false
+          HomeFragment{882c820} (b96cc4e0-6bda-44ba-8455-a1385d21f432 id=0x7f0a039c tag=ab8b6c05-c5d7-4c2c-a939-c5803febe7cf)
+              mFragmentId=#7f0a039c mContainerId=#7f0a039c mTag=ab8b6c05-c5d7-4c2c-a939-c5803febe7cf
+              mState=1 mWho=b96cc4e0-6bda-44ba-8455-a1385d21f432 mBackStackNesting=2
+              mAdded=false mRemoving=true mFromLayout=false mInLayout=false
+              mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+              mRetainInstance=false mUserVisibleHint=true
+              mFragmentManager=FragmentManager{5ab2d1 in NavHostFragment{315c86a}}}
+              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+              mParentFragment=NavHostFragment{315c86a} (f1157289-cef9-4f7b-bb6b-52567e84556a id=0x7f0a039c)
+              mSavedViewState={2131362036=android.view.AbsSavedState$1@318b685, 2131362715=android.view.AbsSavedState$1@318b685}
+              mSavedViewRegistryState=Bundle[{androidx.lifecycle.BundlableSavedStateRegistry.key=Bundle[{SaveableStateRegistry:2131362036=Bundle[{-3oyzsp=[Closed], -s12gby=[Hidden]}]}]}]
+              mPopDirection=false
+              Child FragmentManager{602fac2 in HomeFragment{882c820}}}:
+                Back Stack Index: 0
+                FragmentManager misc state:
+                  mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+                  mContainer=androidx.fragment.app.Fragment$5@bb810d3
+                  mParent=HomeFragment{882c820} (b96cc4e0-6bda-44ba-8455-a1385d21f432 id=0x7f0a039c tag=ab8b6c05-c5d7-4c2c-a939-c5803febe7cf)
+                  mCurState=1 mStateSaved=false mStopped=true mDestroyed=false
+          AddressConfirmationFragment{d3e3c74} (259d8c9b-993f-413a-a34b-334c6b1bf1cc id=0x7f0a039c tag=2375eafc-7bbf-476e-bdc1-a125d7f8f2a7)
+              mFragmentId=#7f0a039c mContainerId=#7f0a039c mTag=2375eafc-7bbf-476e-bdc1-a125d7f8f2a7
+              mState=1 mWho=259d8c9b-993f-413a-a34b-334c6b1bf1cc mBackStackNesting=4
+              mAdded=false mRemoving=true mFromLayout=false mInLayout=false
+              mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+              mRetainInstance=false mUserVisibleHint=true
+              mFragmentManager=
+                               FragmentManager{5ab2d1 in NavHostFragment{315c86a}}}
+              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+              mParentFragment=NavHostFragment{315c86a} (f1157289-cef9-4f7b-bb6b-52567e84556a id=0x7f0a039c)
+              mSavedViewState={2131361929=android.view.AbsSavedState$1@318b685}
+              mSavedViewRegistryState=Bundle[{androidx.lifecycle.BundlableSavedStateRegistry.key=Bundle[{SaveableStateRegistry:2131361929=Bundle[{if0zb9=[0, 0], mbu0nb=[[0.0, false], [0.0, false], [0.0, false]], -s8u61i=[Hidden], -zcmtk7=[[0.0, false], [0.0, false]], 66fxf1=[0]}]}]}]
+              mPopDirection=false
+              Child FragmentManager{8b1a410 in AddressConfirmationFragment{d3e3c74}}}:
+                Back Stack Index: 0
+                FragmentManager misc state:
+                  mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+                  mContainer=androidx.fragment.app.Fragment$5@7ffeb09
+                  mParent=AddressConfirmationFragment{d3e3c74} (259d8c9b-993f-413a-a34b-334c6b1bf1cc id=0x7f0a039c tag=2375eafc-7bbf-476e-bdc1-a125d7f8f2a7)
+                  mCurState=1 mStateSaved=false mStopped=true mDestroyed=false
+          PackagesListFragment{37c2a98} (6f8917d8-34ac-40f8-8152-263ceb49c35a id=0x7f0a039c tag=5435c665-affb-4592-bdb5-7c2e4b561cdb)
+              mFragmentId=#7f0a039c mContainerId=#7f0a039c mTag=5435c665-affb-4592-bdb5-7c2e4b561cdb
+              mState=7 mWho=6f8917d8-34ac-40f8-8152-263ceb49c35a mBackStackNesting=2
+              mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+              mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+              mRetainInstance=false mUserVisibleHint=true
+              mFragmentManager=FragmentManager{5ab2d1 in NavHostFragment{315c86a}}}
+              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+              mParentFragment=NavHostFragment{315c86a} (f1157289-cef9-4f7b-bb6b-52567e84556a id=0x7f0a039c)
+              mArguments=Bundle[{isEdit=false, planCategory=NET TV}]
+              mPopDirection=false
+              mContainer=androidx.fragment.app.FragmentContainerView{5622912 V.E...... ........ 0,0-1344,2846 #7f0a039c app:id/vpp_nav_host_fragment}
+              mView=android.widget.FrameLayout{93b28e3 V.E...... ........ 0,0-1344,2846 #7f0a039b app:id/vpp_home}
+              Child FragmentManager{38a010e in PackagesListFragment{37c2a98}}}:
+                Back Stack Index: 0
+                FragmentManager misc state:
+                  mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+                  mContainer=androidx.fragment.app.Fragment$5@ce8e72f
+                  mParent=PackagesListFragment{37c2a98} (6f8917d8-34ac-40f8-8152-263ceb49c35a id=0x7f0a039c tag=5435c665-affb-4592-bdb5-7c2e4b561cdb)
+                  mCurState=7 mStateSaved=false mStopped=false mDestroyed=false
+          PlansListFragment{927fab1} (f65204a9-c063-4632-a940-7bd10a58b213 id=0x7f0a039c tag=b67f6e41-c9b2-4b7c-91ba-d0485eee702c)
+              mFragmentId=#7f0a039c mContainerId=#7f0a039c mTag=b67f6e41-c9b2-4b7c-91ba-d0485eee702c
+              mState=1 mWho=f65204a9-c063-4632-a940-7bd10a58b213 mBackStackNesting=4
+              mAdded=false mRemoving=true mFromLayout=false mInLayout=false
+              mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+              mRetainInstance=false mUserVisibleHint=true
+              mFragmentManager=FragmentManager{5ab2d1 in NavHostFragment{315c86a}}}
+              mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+              mParentFragment=NavHostFragment{315c86a} (f1157289-cef9-4f7b-bb6b-52567e84556a id=0x7f0a039c)
+              mArguments=Bundle[{}]
+              mSavedViewState={2131362036=android.view.AbsSavedState$1@318b685, 2131362715=android.view.AbsSavedState$1@318b685}
+              mSavedViewRegistryState=Bundle[{androidx.lifecycle.BundlableSavedStateRegistry.key=Bundle[{SaveableStateRegistry:2131362036=Bundle[{fi4azk=[Hidden], -c9o2vh=[[0, 0]]}]}]}]
+              mPopDirection=false
+              Child FragmentManager{2f4f13c in PlansListFragment{927fab1}}}:
+                Back Stack Index: 0
+                FragmentManager misc state:
+                  mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+                  mContainer=androidx.fragment.app.Fragment$5@4332ec5
+                  mParent=PlansListFragment{927fab1} (f65204a9-c063-4632-a940-7bd10a58b213 id=0x7f0a039c tag=b67f6e41-c9b2-4b7c-91ba-d0485eee702c)
+                  mCurState=1 mStateSaved=false mStopped=true mDestroyed=false
+          Added Fragments:
+            #0: PackagesListFragment{37c2a98} (6f8917d8-34ac-40f8-8152-263ceb49c35a id=0x7f0a039c tag=5435c665-affb-4592-bdb5-7c2e4b561cdb)
+          Back Stack:
+            #0: BackStackEntry{369201a #0 ecdb65e4-09ba-449d-8ce1-3007c3a578f2}
+              mName=ecdb65e4-09ba-449d-8ce1-3007c3a578f2 mIndex=0 mCommitted=true
+              Operations:
+                Op #0: UNSET_PRIMARY_NAV HomeFragment{882c820} (b96cc4e0-6bda-44ba-8455-a1385d21f432 id=0x7f0a039c tag=ab8b6c05-c5d7-4c2c-a939-c5803febe7cf)
+                Op #1: REMOVE HomeFragment{882c820} (b96cc4e0-6bda-44ba-8455-a1385d21f432 id=0x7f0a039c tag=ab8b6c05-c5d7-4c2c-a939-c5803febe7cf)
+                Op #2: ADD MapsFragment{16925d9} (6c73b2aa-52e4-4a78-82d9-f57dfeea037c id=0x7f0a039c tag=ecdb65e4-09ba-449d-8ce1-3007c3a578f2)
+                Op #3: UNSET_PRIMARY_NAV null
+                Op #4: SET_PRIMARY_NAV MapsFragment{16925d9} (6c73b2aa-52e4-4a78-82d9-f57dfeea037c id=0x7f0a039c tag=ecdb65e4-09ba-449d-8ce1-3007c3a578f2)
+            #1: BackStackEntry{9a6c74b #1 2375eafc-7bbf-476e-bdc1-a125d7f8f2a7}
+              mName=2375eafc-7bbf-476e-bdc1-a125d7f8f2a7 mIndex=1 mCommitted=true
+              Operations:
+                Op #0: UNSET_PRIMARY_NAV MapsFragment{16925d9} (6c73b2aa-52e4-4a78-82d9-f57dfeea037c id=0x7f0a039c tag=ecdb65e4-09ba-449d-8ce1-3007c3a578f2)
+                Op #1: REMOVE MapsFragment{16925d9} (6c73b2aa-52e4-4a78-82d9-f57dfeea037c id=0x7f0a039c tag=ecdb65e4-09ba-449d-8ce1-3007c3a578f2)
+                Op #2: ADD AddressConfirmationFragment{d3e3c74} (259d8c9b-993f-413a-a34b-334c6b1bf1cc id=0x7f0a039c tag=2375eafc-7bbf-476e-bdc1-a125d7f8f2a7)
+                Op #3: UNSET_PRIMARY_NAV null
+                Op #4: SET_PRIMARY_NAV AddressConfirmationFragment{d3e3c74} (259d8c9b-993f-413a-a34b-334c6b1bf1cc id=0x7f0a039c tag=2375eafc-7bbf-476e-bdc1-a125d7f8f2a7)
+            #2: BackStackEntry{bbde528 #2 b67f6e41-c9b2-4b7c-91ba-d0485eee702c}
+              mName=b67f6e41-c9b2-4b7c-91ba-d0485eee702c mIndex=2 mCommitted=true
+              Operations:
+                Op #0: UNSET_PRIMARY_NAV AddressConfirmationFragment{d3e3c74} (259d8c9b-993f-413a-a34b-334c6b1bf1cc id=0x7f0a039c tag=2375eafc-7bbf-476e-bdc1-a125d7f8f2a7)
+                Op #1: REMOVE AddressConfirmationFragment{d3e3c74} (259d8c9b-993f-413a-a34b-334c6b1bf1cc id=0x7f0a039c tag=2375eafc-7bbf-476e-bdc1-a125d7f8f2a7)
+                Op #2: ADD PlansListFragment{927fab1} (f65204a9-c063-4632-a940-7bd10a58b213 id=0x7f0a039c tag=b67f6e41-c9b2-4b7c-91ba-d0485eee702c)
+                Op #3: UNSET_PRIMARY_NAV null
+                Op #4: SET_PRIMARY_NAV PlansListFragment{927fab1} (f65204a9-c063-4632-a940-7bd10a58b213 id=0x7f0a039c tag=b67f6e41-c9b2-4b7c-91ba-d0485eee702c)
+            #3: BackStackEntry{9cf241 #3 5435c665-affb-4592-bdb5-7c2e4b561cdb}
+              mName=5435c665-affb-4592-bdb5-7c2e4b561cdb mIndex=3 mCommitted=true
+              Operations:
+                Op #0: UNSET_PRIMARY_NAV PlansListFragment{927fab1} (f65204a9-c063-4632-a940-7bd10a58b213 id=0x7f0a039c tag=b67f6e41-c9b2-4b7c-91ba-d0485eee702c)
+                Op #1: REMOVE PlansListFragment{927fab1} (f65204a9-c063-4632-a940-7bd10a58b213 id=0x7f0a039c tag=b67f6e41-c9b2-4b7c-91ba-d0485eee702c)
+                Op #2: ADD PackagesListFragment{37c2a98} (6f8917d8-34ac-40f8-8152-263ceb49c35a id=0x7f0a039c tag=5435c665-affb-4592-bdb5-7c2e4b561cdb)
+                Op #3: UNSET_PRIMARY_NAV null
+                Op #4: SET_PRIMARY_NAV PackagesListFragment{37c2a98} (6f8917d8-34ac-40f8-8152-263ceb49c35a id=0x7f0a039c tag=5435c665-affb-4592-bdb5-7c2e4b561cdb)
+          Back Stack Index: 4
+          FragmentManager misc state:
+            mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+            mContainer=androidx.fragment.app.Fragment$5@3e923e6
+            mParent=NavHostFragment{315c86a} (f1157289-cef9-4f7b-bb6b-52567e84556a id=0x7f0a039c)
+            mCurState=7 mStateSaved=false mStopped=false mDestroyed=false
+    zzd{d188d27} (a43d3613-243d-4f69-9c36-afb0f9ff2777 tag=SupportLifecycleFragmentImpl)
+        mFragmentId=#0 mContainerId=#0 mTag=SupportLifecycleFragmentImpl
+        mState=7 mWho=a43d3613-243d-4f69-9c36-afb0f9ff2777 mBackStackNesting=0
+        mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+        mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+        mRetainInstance=false mUserVisibleHint=true
+        mFragmentManager=FragmentManager{f52d15b in HostCallbacks{96f0df8}}}
+        mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+        mPopDirection=false
+        Child FragmentManager{1a02bd4 in zzd{d188d27}}}:
+          Back Stack Index: 0
+          FragmentManager misc state:
+            mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+            mContainer=androidx.fragment.app.Fragment$5@885717d
+            mParent=zzd{d188d27} (a43d3613-243d-4f69-9c36-afb0f9ff2777 tag=SupportLifecycleFragmentImpl)
+            mCurState=7 mStateSaved=false mStopped=false mDestroyed=false
+    Added Fragments:
+      #0: NavHostFragment{315c86a} (f1157289-cef9-4f7b-bb6b-52567e84556a id=0x7f0a039c)
+      #1: zzd{d188d27} (a43d3613-243d-4f69-9c36-afb0f9ff2777 tag=SupportLifecycleFragmentImpl)
+    Back Stack Index: 0
+    FragmentManager misc state:
+      mHost=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+      mContainer=androidx.fragment.app.FragmentActivity$HostCallbacks@96f0df8
+      mCurState=7 mStateSaved=false mStopped=false mDestroyed=false

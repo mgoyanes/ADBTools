@@ -49,7 +49,6 @@ dependencies {
         // create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
         local(providers.gradleProperty("androidStudioPath"))
 
-        instrumentationTools()
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)

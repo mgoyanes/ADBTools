@@ -65,8 +65,6 @@ class DumpsysParser {
         return BackStackData(appPkg, merged)
     }
 
-    fun parse(lines: List<String>): BackStackData = parseSingle(lines)
-
     private fun parseSingle(dumpsysOutput: String): BackStackData =
         parseSingle(dumpsysOutput.lines())
 
@@ -158,13 +156,13 @@ class DumpsysParser {
                 Section.BACKSTACK -> {
                     BACKSTACK_ENTRY_REGEX.find(line)?.let { match ->
                         currentBackStackEntry = BackStackEntry(match.groupValues[1].toInt())
-                        manager.backStack += currentBackStackEntry!!
+                        manager.backStack += currentBackStackEntry
                     }
                 }
                 Section.OPS -> {
                     BACKSTACK_ENTRY_REGEX.find(line)?.let { match ->
                         currentBackStackEntry = BackStackEntry(match.groupValues[1].toInt())
-                        manager.backStack += currentBackStackEntry!!
+                        manager.backStack += currentBackStackEntry
                         currentSection = Section.BACKSTACK
                     } ?: OP_REGEX.find(line)?.let { match ->
                         val op = parseOperation(match)
@@ -280,7 +278,20 @@ class DumpsysParser {
                     { manager.activeKeys.indexOf(it) }
                 ))
                 .flatMap { key ->
-                    manager.fragments[key]?.childManager?.let { buildFragmentList(it) } ?: emptyList()
+                    val fragment = manager.fragments[key] ?: return@flatMap emptyList()
+                    val innerFragments = fragment.childManager?.let { buildFragmentList(it) }.orEmpty()
+
+                    if (fragment.shouldKeepNavHostNode()) {
+                        listOf(
+                            FragmentData(
+                                fragment = fragment.name,
+                                fragmentIdentifier = fragment.who,
+                                innerFragments = innerFragments
+                            )
+                        )
+                    } else {
+                        innerFragments
+                    }
                 }
         }
 
@@ -297,6 +308,10 @@ class DumpsysParser {
             }
         }
     }
+
+    private fun Fragment.shouldKeepNavHostNode(): Boolean = isNavHost && bottomNavIndex != null && childManager?.activeKeys?.size.orZero() > 1
+
+    private fun Int?.orZero(): Int = this ?: 0
 
     private fun resolveStackOrder(manager: FragmentManager): List<String> = buildList {
         when {
@@ -346,7 +361,7 @@ class DumpsysParser {
     companion object {
         private val TASK_REGEX = Regex("""TASK\s+\d+:(\S+)""")
         private val ACTIVITY_REGEX = Regex("""^\s*ACTIVITY\s+(\S+)""")
-        private val FRAGMENT_HEADER_REGEX = Regex("""^\s*([A-Za-z0-9_.\$]+)\{([0-9a-f]+)\}(?:\s*\(([^)]+)\))?""")
+        private val FRAGMENT_HEADER_REGEX = Regex("""^\s*([A-Za-z0-9_.$]+)\{([0-9a-f]+)\}(?:\s*\(([^)]+)\))?""")
         private val ADDED_FRAGMENT_REGEX = Regex("""^\s*#\d+:\s*([A-Za-z0-9_.\$]+)\{([0-9a-f]+)\}(?:\s*\(([^)]+)\))?""")
         private val BACKSTACK_ENTRY_REGEX = Regex("""^\s*#(\d+):\s*BackStackEntry\{""")
         private val OP_REGEX = Regex("""^\s*Op #\d+:\s*([A-Z_]+)\s+(.*)$""")

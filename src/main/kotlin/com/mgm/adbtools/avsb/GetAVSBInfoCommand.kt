@@ -8,6 +8,7 @@ import com.mgm.adbtools.command.NoInputCommand
 import com.mgm.adbtools.executeShellCommandWithTimeout
 import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
+import java.util.Locale.getDefault
 import java.util.concurrent.TimeUnit
 
 class GetAVSBInfoCommand : NoInputCommand<String> {
@@ -20,7 +21,7 @@ class GetAVSBInfoCommand : NoInputCommand<String> {
         var result = ShellOutputReceiver()
 
         device.executeShellCommandWithTimeout("settings get secure com_vodafone_vtv_dms", result, COMMAND_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-        val market = DMSCommand.getDMSIndex(result.toString()).capitalize()
+        val market = DMSCommand.getDMSIndex(result.toString()).replaceFirstChar { if (it.isLowerCase()) it.titlecase(getDefault()) else it.toString() }
         result = ShellOutputReceiver()
 
         device.executeShellCommandWithTimeout("getprop ro.product.manufacturer", result, COMMAND_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)

@@ -7,17 +7,10 @@ import com.mgm.adbtools.getDefaultActivityForApplication
 import com.mgm.adbtools.isAppInstall
 import com.mgm.adbtools.startActivity
 
-class RestartAppCommand : Command<String, Unit> {
-    override fun execute(p: String, project: Project, device: IDevice) {
-        if (device.isAppInstall(p)) {
-            device.forceKillApp(p)
-            val activity = device.getDefaultActivityForApplication(p)
-            if (activity.isNotEmpty()) {
-                device.startActivity(activity)
-            } else {
-                throw Exception("No Default Activity Found")
-            }
-        } else
-            throw Exception("Application $p not installed")
+class RestartAppCommand : Command<String, List<String>> {
+    override fun execute(p: String, project: Project, device: IDevice): List<String> {
+        if (!device.isAppInstall(p)) throw Exception("Application $p not installed")
+        device.forceKillApp(p)
+        return device.getDefaultActivityForApplication(p).ifEmpty { throw Exception("No Launcher Activity Found") }
     }
 }
