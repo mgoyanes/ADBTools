@@ -140,11 +140,6 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         debugBridge = bridge
         updateDeviceList?.invoke(bridge?.devices?.toList() ?: listOf())
     }
-
-    override fun initializationError(exception: java.lang.Exception?) {
-        super.initializationError(exception)
-        exception?.message?.let { showError("ADB initialization error: $it") }
-    }
     //endregion
 
     //region IDeviceChangeListener
