@@ -278,7 +278,20 @@ class DumpsysParser {
                     { manager.activeKeys.indexOf(it) }
                 ))
                 .flatMap { key ->
-                    manager.fragments[key]?.childManager?.let { buildFragmentList(it) } ?: emptyList()
+                    val fragment = manager.fragments[key] ?: return@flatMap emptyList()
+                    val innerFragments = fragment.childManager?.let { buildFragmentList(it) }.orEmpty()
+
+                    if (fragment.shouldKeepNavHostNode()) {
+                        listOf(
+                            FragmentData(
+                                fragment = fragment.name,
+                                fragmentIdentifier = fragment.who,
+                                innerFragments = innerFragments
+                            )
+                        )
+                    } else {
+                        innerFragments
+                    }
                 }
         }
 
@@ -295,6 +308,10 @@ class DumpsysParser {
             }
         }
     }
+
+    private fun Fragment.shouldKeepNavHostNode(): Boolean = isNavHost && bottomNavIndex != null && childManager?.activeKeys?.size.orZero() > 1
+
+    private fun Int?.orZero(): Int = this ?: 0
 
     private fun resolveStackOrder(manager: FragmentManager): List<String> = buildList {
         when {
