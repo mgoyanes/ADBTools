@@ -2,6 +2,7 @@ package com.mgm.adbtools
 
 import com.android.ddmlib.IDevice
 import com.android.ddmlib.IShellOutputReceiver
+import com.mgm.adbtools.command.AirplaneModeState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import com.mgm.adbtools.command.DontKeepActivitiesState
@@ -114,6 +115,13 @@ fun IDevice.getNetworkState(network: Network): NetworkState {
     executeShellCommandWithTimeout("settings get global ${network.networkSettingIdentifier}", outputReceiver)
 
     return NetworkState.getState(outputReceiver.toString())
+}
+
+fun IDevice.getAirplaneModeState(): AirplaneModeState {
+    val outputReceiver = ShellOutputReceiver()
+    executeShellCommandWithTimeout("cmd connectivity airplane-mode", outputReceiver)
+
+    return AirplaneModeState.getState(outputReceiver.toString())
 }
 
 fun IDevice.getFirebaseDebugApp(): String {
