@@ -50,6 +50,7 @@ import com.mgm.adbtools.avsb.TalkbackToggleCommand
 import com.mgm.adbtools.command.RestartAppCommand
 import com.mgm.adbtools.command.RestartAppWithDebuggerCommand
 import com.mgm.adbtools.command.RevokePermissionCommand
+import com.mgm.adbtools.command.ToggleAirplaneModeCommand
 import com.mgm.adbtools.command.ToggleNetworkCommand
 import com.mgm.adbtools.command.TransitionAnimatorScaleCommand
 import com.mgm.adbtools.command.UninstallAppCommand
@@ -437,6 +438,13 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun toggleNetwork(device: IDevice, network: Network) {
         execute {
             val result = ToggleNetworkCommand().execute(network, project, device)
+            showSuccess(result)
+        }
+    }
+
+    override fun toggleAirplaneMode(device: IDevice) {
+        execute {
+            val result = ToggleAirplaneModeCommand().execute(project, device)
             showSuccess(result)
         }
     }

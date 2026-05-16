@@ -83,6 +83,7 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var networkRateLimitComboBox: JComboBox<String>
     private lateinit var wifiToggle: JButton
     private lateinit var mobileDataToggle: JButton
+    private lateinit var airplaneModeToggle: JButton
     private lateinit var inputOnDeviceTextField: JTextField
     private lateinit var openDeepLinkTextField: JTextField
     private lateinit var inputOnDeviceButton: JButton
@@ -396,6 +397,12 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
         mobileDataToggle.addActionListener {
             executeAction { device ->
                 adbController.toggleNetwork(device, Network.MOBILE)
+            }
+        }
+
+        airplaneModeToggle.addActionListener {
+            executeAction { device ->
+                adbController.toggleAirplaneMode(device)
             }
         }
 
