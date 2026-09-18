@@ -13,7 +13,7 @@ plugins {
 
 group = providers.gradleProperty("pluginGroup").get()
 version = providers.gradleProperty("pluginVersion").get()
-layout.buildDirectory = File("/Volumes/Goyanes/Development/Builds/${rootProject.name}/${project.name}")
+layout.buildDirectory = File("/Users/miguelgoyanes/Goyanes/Development/Builds/${rootProject.name}/${project.name}")
 
 // Set the JVM language level used to build the project.
 kotlin {
