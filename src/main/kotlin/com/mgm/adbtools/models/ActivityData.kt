@@ -1,4 +1,10 @@
 package com.mgm.adbtools.models
 
-data class ActivityData(val activity: String, val activityStackPosition: Int = -1, val isKilled: Boolean = false, val fragment: List<FragmentData> = emptyList())
+data class ActivityData(
+    val activity: String,
+    val activityStackPosition: Int = -1,
+    val isKilled: Boolean = false,
+    val fragment: List<FragmentData> = emptyList(),
+    val isCurrent: Boolean = true
+)
 class BackStackData(val appPackage: String, val activitiesList: List<ActivityData>)

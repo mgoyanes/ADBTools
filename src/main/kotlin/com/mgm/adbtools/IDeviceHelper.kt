@@ -35,7 +35,7 @@ fun IDevice.clearAppData(applicationID: String?) {
 fun IDevice.getDefaultActivityForApplication(packageName: String?): List<String> {
     val outputReceiver = ShellOutputReceiver()
     executeShellCommandWithTimeout(
-        "cmd package dump $packageName | grep -A1 'android.intent.category.LAUNCHER' | grep -o '$packageName/[^ ]*'",
+        "cmd package query-activities --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER | grep $packageName",
         outputReceiver
     )
     return outputReceiver.toString()
