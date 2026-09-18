@@ -286,7 +286,8 @@ class DumpsysParser {
                             FragmentData(
                                 fragment = fragment.name,
                                 fragmentIdentifier = fragment.who,
-                                innerFragments = innerFragments
+                                innerFragments = innerFragments,
+                                isAdded = key in manager.addedKeys
                             )
                         )
                     } else {
@@ -303,7 +304,8 @@ class DumpsysParser {
                 else -> FragmentData(
                     fragment = fragment.name,
                     fragmentIdentifier = fragment.who,
-                    innerFragments = fragment.childManager?.let { buildFragmentList(it) }?.toMutableList() ?: mutableListOf()
+                    innerFragments = fragment.childManager?.let { buildFragmentList(it) }?.toMutableList() ?: mutableListOf(),
+                    isAdded = key in manager.addedKeys
                 )
             }
         }

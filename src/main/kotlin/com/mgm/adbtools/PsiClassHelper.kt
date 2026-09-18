@@ -9,7 +9,8 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.PsiShortNamesCache
 
 fun PsiClass.openIn(project: Project) {
-    OpenFileDescriptor(project, this.containingFile.virtualFile, 1, 0).navigateInEditor(project, false)
+    val virtualFile = runReadActionBlocking { containingFile.virtualFile }
+    OpenFileDescriptor(project, virtualFile, 1, 0).navigateInEditor(project, false)
 }
 
 fun String.psiClassByNameFromCache(project: Project): PsiClass? {

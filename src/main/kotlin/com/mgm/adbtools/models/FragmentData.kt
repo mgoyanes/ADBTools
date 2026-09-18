@@ -5,5 +5,6 @@ import com.mgm.adbtools.EMPTY
 data class FragmentData(
     val fragment: String,
     val fragmentIdentifier: String = EMPTY,
-    var innerFragments: List<FragmentData> = emptyList()
+    var innerFragments: List<FragmentData> = emptyList(),
+    val isAdded: Boolean = true
 )

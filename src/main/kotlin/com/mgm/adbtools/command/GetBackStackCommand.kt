@@ -14,30 +14,43 @@ class GetBackStackCommand : Command<Any, List<BackStackData>> {
 
     companion object {
         const val HIST_PREFIX = "* Hist"
-        val extractAppRegex = Regex("(A=|I=|u0\\s)([a-zA-Z.\\d]+)")
-        val extractActivityRegex = Regex("(u0\\s[a-zA-Z.\\d]+/)([a-zA-Z.\\d]+)")
+        const val TASK_PREFIX = "* Task{"
+        val extractAppRegex = Regex("(A=|I=|u0\\s)([a-zA-Z0-9._]+)")
+        val extractActivityRegex = Regex("(u0\\s[a-zA-Z0-9._]+/)([a-zA-Z0-9._]+)")
+        val taskVisibleRegex = Regex("visible=(true|false)")
     }
 
     override fun execute(p: Any, project: Project, device: IDevice): List<BackStackData> {
         val shellOutputReceiver = ShellOutputReceiver()
-        device.executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY activities | grep Hist", shellOutputReceiver)
+        device.executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY activities | grep -E \"\\* Task\\{|Hist  #\"", shellOutputReceiver)
         return getCurrentRunningActivitiesAboveApi11(device, shellOutputReceiver.toString())
     }
 
+    /**
+     * The raw dump interleaves each Task's `visible=true|false` line with the Hist (activity)
+     * lines belonging to that same task, in top-to-bottom (most recent task first) order. Only
+     * the topmost Hist entry of a visible task is actually on screen right now - everything else
+     * (any task with visible=false, or a deeper Hist entry paused underneath the top one within a
+     * visible task) is sitting in the back stack.
+     */
     private fun getCurrentRunningActivitiesAboveApi11(device: IDevice, bulkActivitiesData: String): List<BackStackData> {
         lateinit var appPackage: String
         lateinit var activity: String
+        var taskVisible = false
+        var isTopOfTask = false
+        val entries = mutableListOf<Pair<String, ActivityData>>()
 
-        return bulkActivitiesData
-            .lines()
-            .filter { line -> line.trim().startsWith(HIST_PREFIX) }
-            .groupBy(
-                keySelector = { line ->
+        bulkActivitiesData.lines().forEach { rawLine ->
+            val line = rawLine.trim()
+
+            when {
+                line.startsWith(TASK_PREFIX) -> {
+                    taskVisible = taskVisibleRegex.find(line)?.groupValues?.get(1) == "true"
+                    isTopOfTask = true
+                }
+                line.startsWith(HIST_PREFIX) -> {
                     appPackage = extractAppRegex.find(line)?.groups?.lastOrNull()?.value ?: EMPTY
-                    appPackage
-                },
-                valueTransform = { bulkActivityData ->
-                    activity = extractActivityRegex.find(bulkActivityData)?.groups?.lastOrNull()?.value
+                    activity = extractActivityRegex.find(line)?.groups?.lastOrNull()?.value
                         ?.let { activityName ->
                             when {
                                 activityName.startsWith(ACTIVITY_PREFIX_DELIMITER) -> "$appPackage$activityName"
@@ -46,11 +59,21 @@ class GetBackStackCommand : Command<Any, List<BackStackData>> {
                         }
                         ?: EMPTY
 
-                    ActivityData(activity = activity, isKilled = isKilled(device, activity))
+                    if (appPackage.isNotBlank()) {
+                        entries += appPackage to ActivityData(
+                            activity = activity,
+                            isKilled = isKilled(device, activity),
+                            isCurrent = taskVisible && isTopOfTask
+                        )
+                    }
+                    isTopOfTask = false
                 }
-            )
-            .filter { entry -> entry.key.isNotBlank() }
-            .map { activityData -> BackStackData(activityData.key, activityData.value) }
+            }
+        }
+
+        return entries
+            .groupBy(keySelector = { it.first }, valueTransform = { it.second })
+            .map { (pkg, activities) -> BackStackData(pkg, activities) }
     }
 
     private fun isKilled(device: IDevice, activity: String?): Boolean {

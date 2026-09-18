@@ -3,11 +3,12 @@ package com.mgm.adbtools
 import ProcessCommand
 import com.android.ddmlib.AndroidDebugBridge
 import com.android.ddmlib.IDevice
+import com.intellij.icons.AllIcons
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.openapi.wm.ToolWindow
-import com.intellij.psi.PsiClass
+import com.intellij.ui.JBColor
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
 import com.intellij.util.ui.JBUI
@@ -60,6 +61,7 @@ import com.mgm.adbtools.models.BackStackData
 import com.mgm.adbtools.models.FragmentData
 import com.mgm.adbtools.notification.CommonNotifier
 import com.mgm.adbtools.premission.ListItem
+import java.awt.Font
 import java.awt.Window
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -156,75 +158,59 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     //endregion
 
     override fun currentBackStack(device: IDevice) {
-        val activitiesList = mutableListOf<String>()
         val activitiesClass: List<BackStackData> = GetBackStackCommand().execute(Any(), project, device)
 
-        activitiesClass.forEachIndexed { index, activityData ->
-            activitiesList.add("\t[$index]-${activityData.appPackage}")
+        val entries = activitiesClass.flatMap { backStackData ->
+            val headerEntry = FragmentPopupEntry(
+                display = backStackData.appPackage,
+                fragment = backStackData.appPackage,
+                isEffectivelyCurrent = false,
+                depth = 0,
+                kind = EntryKind.HEADER
+            )
 
-            activityData.activitiesList.forEachIndexed { activityIndex, activityData ->
-                activitiesList.add("\t\t\t\t[$activityIndex]-${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else EMPTY}")
+            val backStackTotal = backStackData.activitiesList.count { !it.isCurrent }
+            var backStackSeen = 0
+
+            val activityEntries = backStackData.activitiesList.map { activityData ->
+                val killedSuffix = if (activityData.isKilled) ACTIVITY_KILLED else EMPTY
+                val label = if (activityData.isCurrent) {
+                    "↳ Current: ${activityData.activity}$killedSuffix"
+                } else {
+                    backStackSeen++
+                    "↳ Back stack $backStackSeen/$backStackTotal: ${activityData.activity}$killedSuffix"
+                }
+
+                FragmentPopupEntry(label, activityData.activity, activityData.isCurrent, depth = 1)
             }
+
+            listOf(headerEntry) + activityEntries
         }
 
-        val list = JBList(activitiesList)
-        showClassPopup(
-            "Activities",
-            list,
-            activitiesList.map { it.trim().replace(ACTIVITY_KILLED, EMPTY).substringAfter(HYPHEN).psiClassByNameFromProject(project) }
-        )
-    }
-
-    private fun collectInnerFragments(
-        fragmentData: FragmentData,
-        indent: String,
-        onFragment: (displayText: String, fragment: String) -> Unit,
-    ) {
-        fragmentData.innerFragments.forEachIndexed { index, innerFragmentData ->
-            onFragment("$indent[$index]-${innerFragmentData.fragment}", innerFragmentData.fragment)
-            collectInnerFragments(innerFragmentData, "$indent$INDENT", onFragment)
-        }
+        showFragmentPopup(entries, title = "Activities")
     }
 
     override fun currentApplicationBackStack(device: IDevice) {
         val packageName = getPackageName(device)
         val applicationID = getApplicationID(device)
-        val displayList = mutableListOf<Pair<String, String>>() // displayText to actualClass
         val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(listOf(packageName, applicationID), device)
 
-        backStackData
+        val entries = backStackData
             .sortedByDescending { it.activityStackPosition }
-            .forEachIndexed { index, activityData ->
-                displayList.add("[$index]-${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else EMPTY}" to activityData.activity)
+            .flatMap { activityData ->
+                val activityLabel = "${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else EMPTY}"
+                val activityEntry = FragmentPopupEntry(
+                    display = activityLabel,
+                    fragment = activityData.activity,
+                    isEffectivelyCurrent = false,
+                    depth = 0,
+                    kind = EntryKind.HEADER
+                )
 
-                activityData.fragment.forEachIndexed { fragmentIndex, fragmentData ->
-                    displayList.add("$INDENT[$fragmentIndex]-${fragmentData.fragment}" to fragmentData.fragment)
-                    collectInnerFragments(fragmentData, "$INDENT$INDENT") { displayText, fragment ->
-                        displayList.add(displayText to fragment)
-                    }
-                }
+                listOf(activityEntry) + buildFragmentEntries(activityData.fragment, depth = 1)
             }
 
-        val list = JBList(displayList.map { it.first })
-        list.cellRenderer = ListCellRenderer { _, value, _, _, _ ->
-            val title = value.toString()
-            val margin = if (title.startsWith("[")) 10 else 20
-            val label = JBLabel(if (title.startsWith("[")) "$title [Activity]" else "$title [Fragment]")
-            label.border = JBUI.Borders.empty(5, margin, 5, 20)
-            label
-        }
-        PopupChooserBuilder(list).apply {
-            setTitle("Activities")
-            setItemChosenCallback(Runnable {
-                displayList.getOrNull(list.selectedIndex)?.second?.let { className ->
-                    if (className.contains(DOT))
-                        className.psiClassByNameFromProject(project)?.openIn(project)
-                    else
-                        className.psiClassByNameFromCache(project)?.openIn(project)
-                }
-            })
-            createPopup().showCenteredInCurrentWindow(project)
-        }
+        showFragmentPopup(entries, title = "Activities")
     }
 
     override fun currentActivity(device: IDevice) {
@@ -243,22 +229,7 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
             val fragmentsClass = GetFragmentsCommand().execute(applicationID, project, device)
 
             if (fragmentsClass.size > 1 || fragmentsClass.firstOrNull()?.innerFragments?.isNotEmpty() == true) {
-                val fragmentsList = mutableMapOf<String, Int>()
-
-                fragmentsClass.forEachIndexed { index, fragmentData ->
-                    fragmentsList["\t[$index]-${fragmentData.fragment}"] = index
-
-                    collectInnerFragments(fragmentData, INDENT) { displayText, _ ->
-                        fragmentsList[displayText] = fragmentsList.size
-                    }
-                }
-
-                val list = JBList(fragmentsList.keys.toList())
-                showClassPopup(
-                    "Fragments",
-                    list,
-                    fragmentsList.map { it.key.trim().substringAfter(HYPHEN).psiClassByNameFromCache(project) }
-                )
+                showFragmentPopup(buildFragmentEntries(fragmentsClass))
             } else {
                 fragmentsClass
                     .firstOrNull()
@@ -583,21 +554,76 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
         }
     }
 
-    private fun showClassPopup(
-        title: String,
-        list: JBList<String>,
-        classes: List<PsiClass?>
-    ) {
-        list.cellRenderer = ListCellRenderer { _, displayTitle, _, _, _ ->
-            val label = JBLabel(displayTitle)
-            label.border = JBUI.Borders.empty(5, 5, 5, 20)
-            label
+    private enum class EntryKind { HEADER, TRACKED }
+
+    private data class FragmentPopupEntry(
+        val display: String,
+        val fragment: String,
+        val isEffectivelyCurrent: Boolean,
+        val depth: Int,
+        val kind: EntryKind = EntryKind.TRACKED
+    )
+
+    private fun buildFragmentEntries(fragments: List<FragmentData>, depth: Int = 0, ancestorsAdded: Boolean = true): List<FragmentPopupEntry> {
+        val backStackTotal = fragments.count { !it.isAdded }
+        var backStackSeen = 0
+
+        return fragments.flatMap { fragmentData ->
+            val prefix = if (depth > 0) "↳ " else EMPTY
+            val isEffectivelyCurrent = fragmentData.isAdded && ancestorsAdded
+
+            val label = when {
+                isEffectivelyCurrent -> "$prefix Current: ${fragmentData.fragment}"
+                fragmentData.isAdded -> "$prefix Back stack (stale parent): ${fragmentData.fragment}"
+                else -> {
+                    backStackSeen++
+                    "$prefix Back stack $backStackSeen/$backStackTotal: ${fragmentData.fragment}"
+                }
+            }
+
+            listOf(FragmentPopupEntry(label, fragmentData.fragment, isEffectivelyCurrent, depth)) +
+                buildFragmentEntries(fragmentData.innerFragments, depth + 1, ancestorsAdded = isEffectivelyCurrent)
         }
+    }
+
+    private fun showFragmentPopup(entries: List<FragmentPopupEntry>, title: String = "Fragments") {
+        val list = JBList(entries.map { it.display })
+        list.cellRenderer = ListCellRenderer { _, _, index, _, _ ->
+            val entry = entries[index]
+            JBLabel(entry.display).apply {
+                border = JBUI.Borders.empty(5, 5 + entry.depth * 16, 5, 20)
+                when {
+                    entry.kind == EntryKind.HEADER -> {
+                        icon = AllIcons.Nodes.Class
+                        font = font.deriveFont(Font.BOLD)
+                    }
+                    entry.isEffectivelyCurrent -> {
+                        icon = AllIcons.Actions.Commit
+                        font = font.deriveFont(Font.BOLD)
+                    }
+                    else -> {
+                        icon = AllIcons.Vcs.History
+                        font = font.deriveFont(Font.ITALIC)
+                        foreground = JBColor.GRAY
+                    }
+                }
+            }
+        }
+
+        val selectedIndex = entries.indexOfLast { it.isEffectivelyCurrent }
+        if (selectedIndex >= 0) list.selectedIndex = selectedIndex
 
         PopupChooserBuilder(list).apply {
             setTitle(title)
             setItemChosenCallback(Runnable {
-                classes.getOrNull(list.selectedIndex)?.openIn(project)
+                entries.getOrNull(list.selectedIndex)?.let { entry ->
+                    val psiClass = if (entry.fragment.contains(DOT)) {
+                        entry.fragment.psiClassByNameFromProject(project)
+                    } else {
+                        entry.fragment.psiClassByNameFromCache(project)
+                    }
+                    psiClass?.openIn(project)
+                }
             })
             createPopup().showCenteredInCurrentWindow(project)
         }
