@@ -54,32 +54,44 @@ fun IDevice.areDontKeepActivitiesEnabled(): DontKeepActivitiesState {
     return DontKeepActivitiesState.getState(outputReceiver.toString())
 }
 
-fun IDevice.dumpUiHierarchy(): String {
-    val dumpPath = "/data/local/tmp/adbtools_window_dump.xml"
-    executeShellCommandWithTimeout("uiautomator dump $dumpPath", ShellOutputReceiver())
+private const val UI_DUMP_PATH = "/data/local/tmp/adbtools_window_dump.xml"
+
+fun IDevice.dumpUiHierarchy(precedingCommand: String? = null): String {
+    val dumpCommand = "uiautomator dump $UI_DUMP_PATH; cat $UI_DUMP_PATH"
+    val command = if (precedingCommand != null) "$precedingCommand; $dumpCommand" else dumpCommand
 
     val outputReceiver = ShellOutputReceiver()
-    executeShellCommandWithTimeout("cat $dumpPath", outputReceiver)
+    executeShellCommandWithTimeout(command, outputReceiver)
     return outputReceiver.toString()
-}
-
-fun IDevice.tap(x: Int, y: Int) {
-    executeShellCommandWithTimeout("input tap $x $y", ShellOutputReceiver())
 }
 
 fun IDevice.pressBack() {
     executeShellCommandWithTimeout("input keyevent 4", ShellOutputReceiver())
 }
 
-fun IDevice.scrollDown() {
-    val (width, height) = getScreenSize()
-    val x = width / 2
-    val fromY = (height * 0.85).toInt()
-    val toY = (height * 0.15).toInt()
-    executeShellCommandWithTimeout("input swipe $x $fromY $x $toY 300", ShellOutputReceiver())
+fun IDevice.tapThenPressBack(x: Int, y: Int, settleDelaySeconds: Double = 0.3) {
+    executeShellCommandWithTimeout("input tap $x $y; sleep $settleDelaySeconds; input keyevent 4", ShellOutputReceiver())
 }
 
-private fun IDevice.getScreenSize(): Pair<Int, Int> {
+fun IDevice.scrollToBottomBlindCommand(width: Int, height: Int): String {
+    val x = width / 2
+    val fromY = (height * 0.94).toInt()
+    val toY = (height * 0.05).toInt()
+    val fling = "input swipe $x $fromY $x $toY 80"
+    return "$fling; $fling; $fling; sleep 0.3"
+}
+
+fun IDevice.scrollUpCommand(width: Int, height: Int): String {
+    val x = width / 2
+    // The top ~25% of the screen is the fixed toolbar / "Use developer options" switch row,
+    // not part of the scrollable list. The touch-down point has to start below that or the
+    // gesture is captured by that non-scrolling header instead of scrolling the list.
+    val fromY = (height * 0.25).toInt()
+    val toY = (height * 0.90).toInt()
+    return "input swipe $x $fromY $x $toY 300"
+}
+
+fun IDevice.getScreenSize(): Pair<Int, Int> {
     val outputReceiver = ShellOutputReceiver()
     executeShellCommandWithTimeout("wm size", outputReceiver)
     val match = Regex("""(\d+)x(\d+)""").find(outputReceiver.toString())
