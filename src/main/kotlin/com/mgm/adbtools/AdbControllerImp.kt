@@ -29,6 +29,7 @@ import com.mgm.adbtools.avsb.GetAVSBInfoCommand
 import com.mgm.adbtools.avsb.InstallApkCommand
 import com.mgm.adbtools.avsb.OpenSettingsCommand
 import com.mgm.adbtools.command.EnableDisableDarkModeCommand
+import com.mgm.adbtools.command.EnableDisableDontKeepActivitiesCommand
 import com.mgm.adbtools.command.EnableDisableShowLayoutBoundsCommand
 import com.mgm.adbtools.command.EnableDisableShowTapsCommand
 import com.mgm.adbtools.command.FirebaseCommand
@@ -382,6 +383,19 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
             val result = EnableDisableShowTapsCommand().execute(Any(), project, device)
             showSuccess(result)
         }
+    }
+
+    override fun enableDisableDontKeepActivities(device: IDevice, onComplete: () -> Unit) {
+        object : Task.Backgroundable(project, "Toggling \"Don't keep activities\"", false) {
+            override fun run(indicator: ProgressIndicator) {
+                indicator.isIndeterminate = true
+                execute {
+                    val result = EnableDisableDontKeepActivitiesCommand().execute(device)
+                    showSuccess(result)
+                }
+                ApplicationManager.getApplication().invokeLater { onComplete() }
+            }
+        }.queue()
     }
 
     override fun enableDisableShowLayoutBounds(device: IDevice) {
