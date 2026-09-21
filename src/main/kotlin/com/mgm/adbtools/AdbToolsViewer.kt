@@ -25,6 +25,7 @@ import com.mgm.adbtools.command.DontKeepActivitiesState
 import com.mgm.adbtools.command.EnableDarkModeState
 import com.mgm.adbtools.command.FirebaseCommand
 import com.mgm.adbtools.command.GetApplicationPermission
+import com.mgm.adbtools.command.KeepScreenAwakeState
 import com.mgm.adbtools.command.Network
 import com.mgm.adbtools.command.NetworkRateLimitCommand
 import com.mgm.adbtools.command.ShowLayoutBoundsState
@@ -75,6 +76,7 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private lateinit var devices: List<IDevice>
     private lateinit var enableDisableDontKeepActivities: JCheckBox
     private lateinit var enableDisableShowTaps: JCheckBox
+    private lateinit var enableDisableKeepScreenAwake: JCheckBox
     private lateinit var enableDisableShowLayoutBounds: JCheckBox
     private lateinit var enableDisableDarkMode: JCheckBox
     private lateinit var windowAnimatorScaleComboBox: JComboBox<String>
@@ -127,6 +129,12 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
     private val showTapsActionListener: (ActionEvent) -> Unit = {
         executeAction { device ->
             adbController.enableDisableShowTaps(device)
+        }
+    }
+
+    private val keepScreenAwakeActionListener: (ActionEvent) -> Unit = {
+        executeAction { device ->
+            adbController.enableDisableKeepScreenAwake(device)
         }
     }
 
@@ -655,6 +663,10 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
             enableDisableShowTaps.removeActionListener(it)
         }
 
+        enableDisableKeepScreenAwake.actionListeners.forEach {
+            enableDisableKeepScreenAwake.removeActionListener(it)
+        }
+
         enableDisableShowLayoutBounds.actionListeners.forEach {
             enableDisableShowLayoutBounds.removeActionListener(it)
         }
@@ -690,6 +702,9 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
 
         enableDisableShowTaps.isSelected = selectedIDevice?.areShowTapsEnabled() == ShowTapsState.ENABLED
 
+        enableDisableKeepScreenAwake.isSelected =
+            selectedIDevice?.isKeepScreenAwakeEnabled() == KeepScreenAwakeState.ENABLED
+
         enableDisableShowLayoutBounds.isSelected =
             selectedIDevice?.areShowLayoutBoundsEnabled() == ShowLayoutBoundsState.ENABLED
 
@@ -719,6 +734,8 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
         enableDisableDontKeepActivities.addActionListener(dontKeepActivitiesActionListener)
 
         enableDisableShowTaps.addActionListener(showTapsActionListener)
+
+        enableDisableKeepScreenAwake.addActionListener(keepScreenAwakeActionListener)
 
         enableDisableShowLayoutBounds.addActionListener(showLayoutBoundsActionListener)
 

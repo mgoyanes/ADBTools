@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import com.mgm.adbtools.command.DontKeepActivitiesState
 import com.mgm.adbtools.command.EnableDarkModeState
+import com.mgm.adbtools.command.KeepScreenAwakeState
 import com.mgm.adbtools.command.Network
 import com.mgm.adbtools.command.NetworkState
 import com.mgm.adbtools.command.ShowLayoutBoundsState
@@ -103,6 +104,13 @@ fun IDevice.areShowTapsEnabled(): ShowTapsState {
     executeShellCommandWithTimeout("settings get system show_touches", outputReceiver)
 
     return ShowTapsState.getState(outputReceiver.toString())
+}
+
+fun IDevice.isKeepScreenAwakeEnabled(): KeepScreenAwakeState {
+    val outputReceiver = ShellOutputReceiver()
+    executeShellCommandWithTimeout("settings get global stay_on_while_plugged_in", outputReceiver)
+
+    return KeepScreenAwakeState.getState(outputReceiver.toString())
 }
 
 fun IDevice.areShowLayoutBoundsEnabled(): ShowLayoutBoundsState {

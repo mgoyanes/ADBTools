@@ -28,6 +28,7 @@ interface AdbController {
     fun grantPermission(device: IDevice, listItem: ListItem)
     fun connectDeviceOverIp(ip: String)
     fun enableDisableShowTaps(device: IDevice)
+    fun enableDisableKeepScreenAwake(device: IDevice)
     fun enableDisableDontKeepActivities(device: IDevice, onComplete: () -> Unit)
     fun enableDisableShowLayoutBounds(device: IDevice)
     fun enableDisableDarkMode(device: IDevice)

@@ -30,6 +30,7 @@ import com.mgm.adbtools.avsb.InstallApkCommand
 import com.mgm.adbtools.avsb.OpenSettingsCommand
 import com.mgm.adbtools.command.EnableDisableDarkModeCommand
 import com.mgm.adbtools.command.EnableDisableDontKeepActivitiesCommand
+import com.mgm.adbtools.command.EnableDisableKeepScreenAwakeCommand
 import com.mgm.adbtools.command.EnableDisableShowLayoutBoundsCommand
 import com.mgm.adbtools.command.EnableDisableShowTapsCommand
 import com.mgm.adbtools.command.FirebaseCommand
@@ -381,6 +382,13 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     override fun enableDisableShowTaps(device: IDevice) {
         execute {
             val result = EnableDisableShowTapsCommand().execute(Any(), project, device)
+            showSuccess(result)
+        }
+    }
+
+    override fun enableDisableKeepScreenAwake(device: IDevice) {
+        execute {
+            val result = EnableDisableKeepScreenAwakeCommand().execute(Any(), project, device)
             showSuccess(result)
         }
     }
