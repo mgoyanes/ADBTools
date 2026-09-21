@@ -54,6 +54,38 @@ fun IDevice.areDontKeepActivitiesEnabled(): DontKeepActivitiesState {
     return DontKeepActivitiesState.getState(outputReceiver.toString())
 }
 
+fun IDevice.dumpUiHierarchy(): String {
+    val dumpPath = "/data/local/tmp/adbtools_window_dump.xml"
+    executeShellCommandWithTimeout("uiautomator dump $dumpPath", ShellOutputReceiver())
+
+    val outputReceiver = ShellOutputReceiver()
+    executeShellCommandWithTimeout("cat $dumpPath", outputReceiver)
+    return outputReceiver.toString()
+}
+
+fun IDevice.tap(x: Int, y: Int) {
+    executeShellCommandWithTimeout("input tap $x $y", ShellOutputReceiver())
+}
+
+fun IDevice.pressBack() {
+    executeShellCommandWithTimeout("input keyevent 4", ShellOutputReceiver())
+}
+
+fun IDevice.scrollDown() {
+    val (width, height) = getScreenSize()
+    val x = width / 2
+    val fromY = (height * 0.85).toInt()
+    val toY = (height * 0.15).toInt()
+    executeShellCommandWithTimeout("input swipe $x $fromY $x $toY 300", ShellOutputReceiver())
+}
+
+private fun IDevice.getScreenSize(): Pair<Int, Int> {
+    val outputReceiver = ShellOutputReceiver()
+    executeShellCommandWithTimeout("wm size", outputReceiver)
+    val match = Regex("""(\d+)x(\d+)""").find(outputReceiver.toString())
+    return match?.destructured?.let { (width, height) -> width.toInt() to height.toInt() } ?: (1080 to 1920)
+}
+
 fun IDevice.areShowTapsEnabled(): ShowTapsState {
     val outputReceiver = ShellOutputReceiver()
     executeShellCommandWithTimeout("settings get system show_touches", outputReceiver)

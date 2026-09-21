@@ -130,6 +130,15 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
         }
     }
 
+    private val dontKeepActivitiesActionListener: (ActionEvent) -> Unit = {
+        executeAction { device ->
+            adbController.enableDisableDontKeepActivities(device) {
+                enableDisableDontKeepActivities.isSelected =
+                    device.areDontKeepActivitiesEnabled() == DontKeepActivitiesState.ENABLED
+            }
+        }
+    }
+
     private val showLayoutBoundsActionListener: (ActionEvent) -> Unit = {
         executeAction { device ->
             adbController.enableDisableShowLayoutBounds(device)
@@ -638,6 +647,10 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
     }
 
     private fun removeListeners() {
+        enableDisableDontKeepActivities.actionListeners.forEach {
+            enableDisableDontKeepActivities.removeActionListener(it)
+        }
+
         enableDisableShowTaps.actionListeners.forEach {
             enableDisableShowTaps.removeActionListener(it)
         }
@@ -703,6 +716,8 @@ class AdbToolsViewer(private val project: Project) : SimpleToolWindowPanel(true)
     }
 
     private fun setListeners() {
+        enableDisableDontKeepActivities.addActionListener(dontKeepActivitiesActionListener)
+
         enableDisableShowTaps.addActionListener(showTapsActionListener)
 
         enableDisableShowLayoutBounds.addActionListener(showLayoutBoundsActionListener)
