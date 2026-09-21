@@ -5,6 +5,9 @@ import com.android.ddmlib.AndroidDebugBridge
 import com.android.ddmlib.IDevice
 import com.intellij.icons.AllIcons
 import com.intellij.notification.NotificationType
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.progress.ProgressIndicator
+import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.openapi.wm.ToolWindow
@@ -158,59 +161,76 @@ class AdbControllerImp(private val project: Project, private var debugBridge: An
     //endregion
 
     override fun currentBackStack(device: IDevice) {
-        val activitiesClass: List<BackStackData> = GetBackStackCommand().execute(Any(), project, device)
+        object : Task.Backgroundable(project, "Fetching back stack", false) {
+            override fun run(indicator: ProgressIndicator) {
+                indicator.isIndeterminate = true
 
-        val entries = activitiesClass.flatMap { backStackData ->
-            val headerEntry = FragmentPopupEntry(
-                display = backStackData.appPackage,
-                fragment = backStackData.appPackage,
-                isEffectivelyCurrent = false,
-                depth = 0,
-                kind = EntryKind.HEADER
-            )
+                val activitiesClass: List<BackStackData> = GetBackStackCommand().execute(Any(), project, device)
 
-            val backStackTotal = backStackData.activitiesList.count { !it.isCurrent }
-            var backStackSeen = 0
+                val entries = activitiesClass.flatMap { backStackData ->
+                    val headerEntry = FragmentPopupEntry(
+                        display = backStackData.appPackage,
+                        fragment = backStackData.appPackage,
+                        isEffectivelyCurrent = false,
+                        depth = 0,
+                        kind = EntryKind.HEADER
+                    )
 
-            val activityEntries = backStackData.activitiesList.map { activityData ->
-                val killedSuffix = if (activityData.isKilled) ACTIVITY_KILLED else EMPTY
-                val label = if (activityData.isCurrent) {
-                    "↳ Current: ${activityData.activity}$killedSuffix"
-                } else {
-                    backStackSeen++
-                    "↳ Back stack $backStackSeen/$backStackTotal: ${activityData.activity}$killedSuffix"
+                    val backStackTotal = backStackData.activitiesList.count { !it.isCurrent }
+                    var backStackSeen = 0
+
+                    val activityEntries = backStackData.activitiesList.map { activityData ->
+                        val killedSuffix = if (activityData.isKilled) ACTIVITY_KILLED else EMPTY
+                        val label = if (activityData.isCurrent) {
+                            "↳ Current: ${activityData.activity}$killedSuffix"
+                        } else {
+                            backStackSeen++
+                            "↳ Back stack $backStackSeen/$backStackTotal: ${activityData.activity}$killedSuffix"
+                        }
+
+                        FragmentPopupEntry(label, activityData.activity, activityData.isCurrent, depth = 1)
+                    }
+
+                    listOf(headerEntry) + activityEntries
                 }
 
-                FragmentPopupEntry(label, activityData.activity, activityData.isCurrent, depth = 1)
+                ApplicationManager.getApplication().invokeLater {
+                    showFragmentPopup(entries, title = "Activities")
+                }
             }
-
-            listOf(headerEntry) + activityEntries
-        }
-
-        showFragmentPopup(entries, title = "Activities")
+        }.queue()
     }
 
     override fun currentApplicationBackStack(device: IDevice) {
         val packageName = getPackageName(device)
         val applicationID = getApplicationID(device)
-        val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(listOf(packageName, applicationID), device)
 
-        val entries = backStackData
-            .sortedByDescending { it.activityStackPosition }
-            .flatMap { activityData ->
-                val activityLabel = "${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else EMPTY}"
-                val activityEntry = FragmentPopupEntry(
-                    display = activityLabel,
-                    fragment = activityData.activity,
-                    isEffectivelyCurrent = false,
-                    depth = 0,
-                    kind = EntryKind.HEADER
-                )
+        object : Task.Backgroundable(project, "Fetching back stack", false) {
+            override fun run(indicator: ProgressIndicator) {
+                indicator.isIndeterminate = true
 
-                listOf(activityEntry) + buildFragmentEntries(activityData.fragment, depth = 1)
+                val backStackData: List<ActivityData> = GetApplicationBackStackCommand().execute(listOf(packageName, applicationID), device)
+
+                val entries = backStackData
+                    .sortedByDescending { it.activityStackPosition }
+                    .flatMap { activityData ->
+                        val activityLabel = "${activityData.activity}${if (activityData.isKilled) ACTIVITY_KILLED else EMPTY}"
+                        val activityEntry = FragmentPopupEntry(
+                            display = activityLabel,
+                            fragment = activityData.activity,
+                            isEffectivelyCurrent = false,
+                            depth = 0,
+                            kind = EntryKind.HEADER
+                        )
+
+                        listOf(activityEntry) + buildFragmentEntries(activityData.fragment, depth = 1)
+                    }
+
+                ApplicationManager.getApplication().invokeLater {
+                    showFragmentPopup(entries, title = "Activities")
+                }
             }
-
-        showFragmentPopup(entries, title = "Activities")
+        }.queue()
     }
 
     override fun currentActivity(device: IDevice) {

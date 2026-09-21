@@ -24,7 +24,7 @@ class GetApplicationIDCommand : Command<Any, String?> {
 
         val facet = getFacet(facets, project) ?: return null
 
-        return AndroidModel.get(facet)?.applicationId ?: return null
+        return AndroidModel.get(facet)?.applicationId
     }
 
     private fun getFacet(facets: List<AndroidFacet>, project: Project): AndroidFacet? {
@@ -35,37 +35,32 @@ class GetApplicationIDCommand : Command<Any, String?> {
                 }
                 .distinct()
 
-        val facet: AndroidFacet?
-        if (facetList.size > 1) {
-            facet = showDialogForFacets(project, facetList)
-            if (facet == null) {
-                return null
-            }
-        } else {
-            facet = facetList[0]
-        }
+        if (facetList.size <= 1) return facetList.firstOrNull()
 
-        return facet
+        // Multiple modules: reuse the previously chosen one for this project instead of asking
+        // again on every call - only prompt when there is no saved choice yet, or the saved
+        // module no longer exists among the current facets (e.g. renamed/removed).
+        val previousModuleName = getSavedModuleName(project)
+        val previousFacet = facetList.firstOrNull { it.module.name == previousModuleName }
+        if (previousFacet != null) return previousFacet
+
+        return showDialogForFacets(project, facetList)
     }
-
 
     private fun showDialogForFacets(project: Project, facets: List<AndroidFacet>): AndroidFacet? {
         val modules = facets.map { it.module }
-        val previousModuleName = getSavedModuleName(project)
-        val previousSelectedModule = modules.firstOrNull { it.name == previousModuleName }
 
-        val selectedModule = showDialog(project, modules, previousSelectedModule) ?: return null
+        val selectedModule = showDialog(project, modules) ?: return null
         saveModuleName(project, selectedModule.name)
         return facets[modules.indexOf(selectedModule)]
     }
 
-    private fun showDialog(project: Project, modules: List<Module>, previousSelectedModule: Module?): Module? {
+    private fun showDialog(project: Project, modules: List<Module>): Module? {
         with(ChooseModulesDialog(project, modules, "Choose Module", "")) {
             setSingleSelectionMode()
             getSizeForTableContainer(preferredFocusedComponent)?.let {
                 setSize(it.width, it.height)
             }
-            previousSelectedModule?.let { selectElements(listOf(it)) }
             return showAndGetResult().firstOrNull()
         }
     }

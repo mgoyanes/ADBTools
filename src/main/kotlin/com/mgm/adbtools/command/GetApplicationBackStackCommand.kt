@@ -29,10 +29,18 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
 
             val backStackData = parser.parse(shellOutputReceiver.toString())
 
+            // One extra round trip total (not one per activity): the same system-wide dump
+            // GetBackStackCommand uses, which already carries both the Hist stack position and
+            // process-liveness for every activity - see ActivitiesSnapshot.
+            val activitiesOutputReceiver = ShellOutputReceiver()
+            device.executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY activities", activitiesOutputReceiver)
+            val histEntries = ActivitiesSnapshot.parse(activitiesOutputReceiver.toString())
+
             return backStackData.activitiesList.mapIndexed { _, activityData ->
+                val match = findHistEntry(histEntries, identifier, activityData.activity)
                 activityData.copy(
-                    activityStackPosition = getStackPosition(device, identifier, activityData.activity),
-                    isKilled = isKilled(device, activityData.activity)
+                    activityStackPosition = match?.histPosition ?: -ONE,
+                    isKilled = match?.let { !it.hasLiveProcess } ?: true
                 )
             }
         }
@@ -40,33 +48,8 @@ class GetApplicationBackStackCommand : ListCommand<String, List<ActivityData>> {
         return emptyList()
     }
 
-    private fun getStackPosition(device: IDevice, identifier: String, activity: String): Int {
-        if (activity.isBlank()) return -ONE
-        val positionRegex = Regex(".*Hist.*#(\\d+).*")
-        val shellOutputReceiver = ShellOutputReceiver()
-
-        device.executeShellCommandWithTimeout(
-            "$DUMPSYS_ACTIVITY activities | grep -E \"Hist.*${identifier}\"",
-            shellOutputReceiver,
-        )
-
-        return shellOutputReceiver
-            .toString()
-            .lines()
-            .firstOrNull { value -> value.contains(activity) }
-            ?.let { position -> positionRegex.find(position)?.groups?.lastOrNull()?.value?.toIntOrNull() ?: -ONE }
-            ?: -ONE
-    }
-
-    private fun isKilled(device: IDevice, activity: String): Boolean {
-        if (activity.isBlank()) return true
-        val isKilledRegex = Regex(".*pid=(\\d+)")
-        val shellOutputReceiver = ShellOutputReceiver()
-
-        device.executeShellCommandWithTimeout("$DUMPSYS_ACTIVITY $activity | grep ACTIVITY", shellOutputReceiver)
-
-        return shellOutputReceiver
-            .toString()
-            .let { pidString -> isKilledRegex.find(pidString)?.groups?.lastOrNull()?.value == null }
+    private fun findHistEntry(histEntries: List<ActivityHistEntry>, identifier: String, activity: String): ActivityHistEntry? {
+        if (activity.isBlank()) return null
+        return histEntries.firstOrNull { entry -> entry.rawLine.contains(identifier) && entry.rawLine.contains(activity) }
     }
 }
